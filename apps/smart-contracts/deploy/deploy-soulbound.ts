@@ -14,6 +14,17 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   });
 
   deployments.log(`Contract ${name} deployed at ${deployment.address}`);
+
+  const soulbound = await hre.ethers.getContractAt(name, deployment.address);
+
+  const minterRole = await soulbound.MINTER();
+  await soulbound.grantRole(minterRole, deployer);
+  deployments.log(`MINTER role for contract ${name} granted to ${deployer}`);
+
+  const burnerRole = await soulbound.BURNER();
+  await soulbound.grantRole(burnerRole, deployer);
+  deployments.log(`BURNER role for contract ${name} granted to ${deployer}`);
+
 };
 
 func.tags = [name];
