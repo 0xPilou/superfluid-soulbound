@@ -1,40 +1,35 @@
-import myContractDeploymentLocalhost from "./deployments/localhost/MyContract.json";
-import myContractDeploymentRinkeby from "./deployments/rinkeby/MyContract.json";
-// import myContractDeploymentMainnet from './deployments/mainnet/MyContract.json';
+import MyNFTDeployment from "./deployments/goerli/MyNFT.json";
+import CashflowDeployment from "./deployments/optimismGoerli/Cashflow.json";
 
 export * from "./typechain";
 import * as _typechain from "./typechain";
-import { MyContract__factory } from "./typechain";
+import { chain } from "wagmi";
 
-export enum Chains {
-  LOCALHOST = 31337,
-  RINKEBY = 4,
-  MAINNET = 1,
-}
+import { MyNFT__factory, Cashflow__factory } from "./typechain";
 
 export const typechain = _typechain;
 
-export type AvailableContracts = MyContract__factory["contractName"];
+export type AvailableContracts =
+  | MyNFT__factory["contractName"]
+  | Cashflow__factory["contractName"];
 
 type AddressObj = Record<AvailableContracts, string>;
 
-const _myContract = new MyContract__factory();
+const _myNft = new MyNFT__factory();
+const _cashflow = new Cashflow__factory();
 
-export const Address: Record<any, AddressObj> = {
-  [Chains.RINKEBY]: {
-    [_myContract.contractName]: myContractDeploymentRinkeby.address,
+export const Address: Record<number, Partial<AddressObj>> = {
+  [chain.goerli.id]: {
+    [_myNft.contractName]: MyNFTDeployment.address,
   },
-  [Chains.LOCALHOST]: {
-    [_myContract.contractName]: myContractDeploymentLocalhost.address,
+  [chain.optimismGoerli.id]: {
+    [_cashflow.contractName]: CashflowDeployment.address,
   },
-  // [Chains.MAINNET]: {
-  //   [_myContract.contractName]: myContractDeploymentMainnet.address,
-  // },
 };
 
 export const getAddress = (
-  chain: Chains,
+  chain: number,
   contract: AvailableContracts
 ): string => {
-  return Address[chain][contract];
+  return (Address as any)[chain][contract];
 };
