@@ -6,7 +6,9 @@
     "dev": "hardhat node",
     "test": "hardhat test",
     "deploy": "hardhat --network localhost deploy",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "deploy:cashflow": "npx hardhat deploy --network optimismGoerli",
+    "deploy:nft": "npx hardhat deploy --network goerli"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.5",
@@ -23,6 +25,7 @@
     "chai": "^4.3.6",
     "chai-as-promised": "^7.1.1",
     "chalk": "^5.0.1",
+    "dotenv": "^16.0.2",
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.7.0",
     "hardhat": "^2.11.1",
@@ -40,6 +43,7 @@
     "@openzeppelin/contracts": "^4.5.0",
     "@openzeppelin/contracts-upgradeable": "^4.7.3",
     "@superfluid-finance/ethereum-contracts": "^1.4.0",
-    "@superfluid-finance/sdk-core": "^0.5.6"
+    "@superfluid-finance/sdk-core": "^0.5.6",
+    "graphql": "^16.6.0"
   }
 }
