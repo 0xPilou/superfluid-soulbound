@@ -1,9 +1,10 @@
-import { Framework, WrapperSuperToken } from '@superfluid-finance/sdk-core';
+import { WrapperSuperToken } from '@superfluid-finance/sdk-core';
 import { ethers } from 'ethers';
 import hre from 'hardhat';
+import CashflowDeployment from 'web3-config/deployments/optimismGoerli/Cashflow.json';
+
 // import CashflowDeployment from 'web3-config/deployments/optimismKovan/Cashflow.json';
 import { getFramework } from '../utils/sf-utils';
-import CashflowDeployment from 'web3-config/deployments/optimismGoerli/Cashflow.json';
 
 const daiABI = [
   'function mint(address to,uint256 amount) returns (bool)',

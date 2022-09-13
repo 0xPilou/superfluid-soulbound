@@ -1,7 +1,8 @@
-import { ethers } from "hardhat";
-import chai from "chai";
-import { Soulbound } from "../typechain";
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import chai from "chai";
+import { ethers } from "hardhat";
+
+import { Soulbound } from "../typechain";
 
 const { expect } = chai;
 
