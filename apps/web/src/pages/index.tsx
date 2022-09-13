@@ -4,16 +4,16 @@ import {
   useBalance,
   useNetwork,
   useSwitchNetwork,
-} from 'wagmi';
-import { useContractRead, useContractWrite } from 'wagmi-lfg';
-import { getAddress, MyNFT__factory } from 'web3-config';
-import ConnectButton from '../components/ConnectButton';
-import { request, gql } from 'graphql-request';
-import { useQuery } from '@tanstack/react-query';
-import { BigNumber, ethers } from 'ethers';
-import OptimismActions from '../components/OptimismActions';
-import GoerliActions from '../components/GoerliActions';
-import useIsMounted from '../hooks/useIsMounted';
+} from "wagmi";
+import { useContractRead, useContractWrite } from "wagmi-lfg";
+import { getAddress, MyNFT__factory } from "web3-config";
+import ConnectButton from "../components/ConnectButton";
+import { request, gql } from "graphql-request";
+import { useQuery } from "@tanstack/react-query";
+import { BigNumber, ethers } from "ethers";
+import OptimismActions from "../components/OptimismActions";
+import GoerliActions from "../components/GoerliActions";
+import useIsMounted from "../hooks/useIsMounted";
 
 export function calculateStream(flowRate) {
   const stream = ethers.utils.formatEther(
@@ -25,13 +25,15 @@ export function calculateStream(flowRate) {
 const Page = () => {
   const { address } = useAccount();
   const { chain: activeChain } = useNetwork();
-  const cashflowAddress = getAddress(chain.optimismGoerli.id, 'MyNFT');
+  // Why is it MyNFT ??
+  // const cashflowAddress = getAddress(chain.optimismGoerli.id, "MyNFT");
+  const cashflowAddress = "0xB47FbC1B7f8372825D742709087b909D36137FD2";
 
   const { data: streams = [], ...rest } = useQuery(
-    ['streams', address],
+    ["streams", address],
     async () => {
       const res = await request(
-        'https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-optimism-goerli',
+        "https://api.thegraph.com/subgraphs/name/superfluid-finance/protocol-v1-optimism-goerli",
         gql`
           query Streams($address: String!, $sender: String!) {
             streams(where: { receiver: $address, sender: $sender }) {
@@ -69,7 +71,7 @@ const Page = () => {
   }
 
   return (
-    <div style={{ display: 'grid', gap: 20 }}>
+    <div style={{ display: "grid", gap: 20 }}>
       <div>
         <ConnectButton />
 
