@@ -36,6 +36,10 @@
     "web3-config": "*"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "^4.5.0"
+    "@eth-optimism/contracts": "^0.5.34",
+    "@openzeppelin/contracts": "^4.5.0",
+    "@openzeppelin/contracts-upgradeable": "^4.7.3",
+    "@superfluid-finance/ethereum-contracts": "^1.4.0",
+    "@superfluid-finance/sdk-core": "^0.5.6"
   }
 }
