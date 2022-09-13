@@ -35,6 +35,10 @@ const config: HardhatUserConfig = {
         interval: 5000,
       },
     },
+    localhost: {
+      url: "http://127.0.0.1:8545",
+      saveDeployments: true,
+    },
     mainnet: {
       url: `https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_KEY}`,
       accounts: [`${PRIVATE_KEY}`],
@@ -43,9 +47,23 @@ const config: HardhatUserConfig = {
       url: `https://eth-rinkeby.alchemyapi.io/v2/${RINKEBY_ALCHEMY_KEY}`,
       accounts: [`${PRIVATE_KEY}`],
     },
-    localhost: {
-      url: "http://127.0.0.1:8545",
-      saveDeployments: true,
+    goerli: {
+      url: `https://goerli.infura.io/v3/${process.env.INFURA_ID}`,
+      accounts: [`${PRIVATE_KEY}`],
+    },
+    kovan: {
+      url: `https://kovan.infura.io/v3/${process.env.INFURA_ID}`,
+      accounts: [`${PRIVATE_KEY}`],
+    },
+    optimismGoerli: {
+      chainId: 420,
+      url: "https://goerli.optimism.io",
+      accounts: [`${PRIVATE_KEY}`],
+    },
+    optimismKovan: {
+      chainId: 69,
+      url: "https://kovan.optimism.io",
+      accounts: [`${PRIVATE_KEY}`],
     },
   },
   namedAccounts: {
