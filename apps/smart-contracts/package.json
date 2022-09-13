@@ -8,7 +8,8 @@
     "deploy": "hardhat --network localhost deploy",
     "lint": "eslint . --fix",
     "deploy:cashflow": "npx hardhat deploy --network optimismGoerli",
-    "deploy:nft": "npx hardhat deploy --network goerli"
+    "deploy:nft": "npx hardhat deploy --network goerli",
+    "approve": "npx hardhat run scripts/approve.ts --network optimismGoerli"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.5",
