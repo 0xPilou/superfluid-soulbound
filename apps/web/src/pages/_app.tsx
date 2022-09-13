@@ -1,22 +1,21 @@
-import "../styles/globals.scss";
+import type { AppProps } from 'next/app';
+import React from 'react';
+import Web3Provider from '../components/Web3Provider';
+import { NotificationsProvider } from 'reapop';
+import NotificationHandler from '../components/NotificationHandler';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import type { AppProps } from "next/app";
-import React from "react";
-import { Hydrate } from "react-query";
-import { QueryClient, QueryClientProvider } from "react-query";
-
-import WagmiProvider from "../components/Web3Provider";
-
-const queryClient = new QueryClient({});
+const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <WagmiProvider>
+      <NotificationsProvider>
+        <Web3Provider>
           <Component {...pageProps} />
-        </WagmiProvider>
-      </Hydrate>
+          <NotificationHandler />
+        </Web3Provider>
+      </NotificationsProvider>
     </QueryClientProvider>
   );
 }
