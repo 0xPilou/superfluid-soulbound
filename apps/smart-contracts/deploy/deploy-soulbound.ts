@@ -1,23 +1,22 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 
-import { CONTRACT_NAME } from "../deploy-constants";
+const name = "Soulbound";
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  const { deployments, getNamedAccounts } = hre;
+  const { deployments, getNamedAccounts, network } = hre;
   const { deployer } = await getNamedAccounts();
   const { deploy } = deployments;
 
-  const deployment = await deploy(CONTRACT_NAME, {
+  const deployment = await deploy(name, {
     from: deployer,
-    args: ["Hello World"],
+    args: [],
   });
 
-  deployments.log(
-    `Contract ${CONTRACT_NAME} deployed at ${deployment.address}`
-  );
+  deployments.log(`Contract ${name} deployed at ${deployment.address}`);
 };
 
-export default func;
+func.tags = [name];
+func.skip = async (env) => env.network.name !== "optimismGoerli";
 
-func.tags = [CONTRACT_NAME];
+export default func;
