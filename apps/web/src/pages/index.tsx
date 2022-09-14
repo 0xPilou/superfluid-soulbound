@@ -23,9 +23,9 @@ export function calculateStream(flowRate) {
 const Page = () => {
   const { address } = useAccount();
   const { chain: activeChain } = useNetwork();
-  // Why is it MyNFT ??
+
   // const cashflowAddress = getAddress(chain.optimismGoerli.id, "MyNFT");
-  const cashflowAddress = "0xB47FbC1B7f8372825D742709087b909D36137FD2";
+  const cashflowAddress = "0x8DDb847146D28fa4c7569074B21DbcE1555993B7";
 
   const { data: streams = [], ...rest } = useQuery(
     ["streams", address],
@@ -52,7 +52,7 @@ const Page = () => {
           }
         `,
         {
-          address: address.toLowerCase(),
+          address: address?.toLowerCase(),
           sender: cashflowAddress.toLowerCase(),
         }
       );

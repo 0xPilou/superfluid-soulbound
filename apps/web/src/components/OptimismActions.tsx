@@ -13,21 +13,16 @@ import Balance from "./Balance";
 const OptimismActions = () => {
   const { address } = useAccount();
 
-  const { data: daixBalance } = useBalance({
+  const { data: sbtxBalance } = useBalance({
     addressOrName: address,
     watch: true,
-    token: "0xaC7A5cf2E0A6DB31456572871Ee33eb6212014a9", //fDAIx
-  });
-
-  const { data: daiBalance } = useBalance({
-    addressOrName: address,
-    watch: true,
-    token: "0xd0de1486f69495d49c02d8f541b7dadf9cf5cd91", //fDAI
+    token: "0x1bB47077839eA70C6E8aFeEA9F63D9CA073B3a19", //SBTx
   });
 
   const { data: flow } = useContractRead(Cashflow__factory, "getFlow", {
-    args: [address],
-    // address: '0xBDEb8A291367a213f7BBE4b1F8B22631D704c2c3',
+    args: [
+      ethers.utils.getAddress("0x1F0Ec748dc3994629e32Eb1223a52D5aE8E8f90e"),
+    ],
   });
 
   const flowRate = flow && flow[1];
@@ -36,8 +31,8 @@ const OptimismActions = () => {
     addressOrName: "0xaC7A5cf2E0A6DB31456572871Ee33eb6212014a9",
     contractInterface: new Interface(["function downgrade(uint256 amount)"]),
     functionName: "downgrade",
-    args: [daixBalance?.value.sub(1)],
-    enabled: Boolean(daixBalance?.value),
+    args: [sbtxBalance?.value.sub(1)],
+    enabled: Boolean(sbtxBalance?.value),
   });
 
   const { data, isLoading, isSuccess, write, ...rest2 } =
@@ -45,15 +40,11 @@ const OptimismActions = () => {
 
   return (
     <div>
-      <div>{daixBalance?.formatted || null} fDAIx</div>
-      <div>{daiBalance?.formatted || null} fDAI</div>
+      <div>Balances : </div>
+      <div>{sbtxBalance?.formatted || null} SBTx</div>
 
       {flowRate && (
         <div>flowRate from chain: {ethers.utils.formatEther(flowRate)}</div>
-      )}
-
-      {daixBalance?.value && flowRate && (
-        <Balance balance={daixBalance?.value} flowRate={Number(flowRate)} />
       )}
 
       <button disabled={!write || isLoading} onClick={() => write()}>
