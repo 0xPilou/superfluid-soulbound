@@ -1,3 +1,10 @@
+import ConnectButton from "../components/ConnectButton";
+import OptimismActions from "../components/OptimismActions";
+import GoerliActions from "../components/GoerliActions";
+import useIsMounted from "../hooks/useIsMounted";
+import { BigNumber, ethers } from "ethers";
+import { request, gql } from "graphql-request";
+import { useQuery } from "@tanstack/react-query";
 import {
   chain,
   useAccount,
@@ -5,15 +12,6 @@ import {
   useNetwork,
   useSwitchNetwork,
 } from "wagmi";
-import { useContractRead, useContractWrite } from "wagmi-lfg";
-import { getAddress, MyNFT__factory } from "web3-config";
-import ConnectButton from "../components/ConnectButton";
-import { request, gql } from "graphql-request";
-import { useQuery } from "@tanstack/react-query";
-import { BigNumber, ethers } from "ethers";
-import OptimismActions from "../components/OptimismActions";
-import GoerliActions from "../components/GoerliActions";
-import useIsMounted from "../hooks/useIsMounted";
 
 export function calculateStream(flowRate) {
   const stream = ethers.utils.formatEther(
