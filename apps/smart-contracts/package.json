@@ -10,6 +10,7 @@
     "deploy:cashflow": "npx hardhat deploy --network optimismGoerli",
     "deploy:nft": "npx hardhat deploy --network goerli",
     "approve": "npx hardhat run scripts/approve.ts --network optimismGoerli",
+    "approveSBT": "npx hardhat run scripts/approveSBT.ts --network optimismGoerli",
     "createSBTx": "npx hardhat run scripts/createSBTx.ts --network optimismGoerli"
   },
   "devDependencies": {
