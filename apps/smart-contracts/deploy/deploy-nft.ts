@@ -1,8 +1,8 @@
-import { HardhatRuntimeEnvironment } from 'hardhat/types';
-import { DeployFunction } from 'hardhat-deploy/types';
-import CashflowDeployment from 'web3-config/deployments/optimismGoerli/Cashflow.json';
+import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { DeployFunction } from "hardhat-deploy/types";
+import CashflowDeployment from "web3-config/deployments/optimismGoerli/Cashflow.json";
 
-const name = 'MyNFT';
+const name = "MyNFT";
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts } = hre;
@@ -10,9 +10,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
   const cashflowOnOptimism = CashflowDeployment.address;
 
-  const erc20Symbol = 'TEST';
-  const erc20Name = 'test';
-  const domainManagerGoerli = '0x5086d1eEF304eb5284A0f6720f79403b4e9bE294';
+  const erc20Symbol = "NFT0";
+  const erc20Name = "NFT #0";
+  const domainManagerGoerli = "0x5086d1eEF304eb5284A0f6720f79403b4e9bE294";
 
   const deployment = await deploy(name, {
     from: deployer,
@@ -21,7 +21,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       erc20Symbol,
       domainManagerGoerli,
       cashflowOnOptimism,
-      '100000000',
+      "100000000",
     ],
   });
 
@@ -29,6 +29,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 };
 
 func.tags = [name];
-func.skip = async (env) => env.network.name !== 'goerli';
+func.skip = async (env) => env.network.name !== "goerli";
 
 export default func;

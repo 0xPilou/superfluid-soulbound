@@ -21,6 +21,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 };
 
 func.tags = [name];
-func.skip = async (env) => env.network.name !== 'optimismGoerli';
+// func.skip = async (env) => env.network.name !== 'optimismGoerli';
+func.skip = async (env) => true;
 
 export default func;
