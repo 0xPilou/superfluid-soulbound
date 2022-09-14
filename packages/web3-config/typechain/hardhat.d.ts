@@ -77,6 +77,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Ownable__factory>;
     getContractFactory(
+      name: "Proxy",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Proxy__factory>;
+    getContractFactory(
       name: "ERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC20__factory>;
@@ -176,6 +180,18 @@ declare module "hardhat/types/runtime" {
       name: "Soulbound",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Soulbound__factory>;
+    getContractFactory(
+      name: "SuperSoulbound",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SuperSoulbound__factory>;
+    getContractFactory(
+      name: "SuperTokenBase",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SuperTokenBase__factory>;
+    getContractFactory(
+      name: "UUPSProxy",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.UUPSProxy__factory>;
 
     getContractAt(
       name: "IL1CrossDomainMessenger",
@@ -257,6 +273,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Ownable>;
+    getContractAt(
+      name: "Proxy",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Proxy>;
     getContractAt(
       name: "ERC20",
       address: string,
@@ -382,6 +403,21 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Soulbound>;
+    getContractAt(
+      name: "SuperSoulbound",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SuperSoulbound>;
+    getContractAt(
+      name: "SuperTokenBase",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SuperTokenBase>;
+    getContractAt(
+      name: "UUPSProxy",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.UUPSProxy>;
 
     // default types
     getContractFactory(
