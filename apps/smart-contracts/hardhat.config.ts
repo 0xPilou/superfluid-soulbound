@@ -79,7 +79,23 @@ const config: HardhatUserConfig = {
     currency: "USD",
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY,
+    apiKey: {
+      mainnet: `${process.env.ETHERSCAN_API_KEY}`,
+      rinkeby: `${process.env.ETHERSCAN_API_KEY}`,
+      goerli: `${process.env.ETHERSCAN_API_KEY}`,
+      kovan: `${process.env.ETHERSCAN_API_KEY}`,
+      optimismGoerli: `${process.env.OPTIMISM_ETHERSCAN_API_KEY}`,
+    },
+    customChains: [
+      {
+        network: "optimismGoerli",
+        chainId: 420,
+        urls: {
+          apiURL: "https://api-goerli-optimism.etherscan.io/api",
+          browserURL: "https://goerli-optimism.etherscan.io/",
+        },
+      },
+    ],
   },
   typechain: {
     outDir: "../../packages/web3-config/typechain",
