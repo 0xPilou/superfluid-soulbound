@@ -16,7 +16,7 @@ const OptimismActions = () => {
   const { data: sbtxBalance } = useBalance({
     addressOrName: address,
     watch: true,
-    token: "0x1bB47077839eA70C6E8aFeEA9F63D9CA073B3a19", //SBTx
+    token: "0xCa25549ca1eB0c10DdAf81877B359CF4959f615E", //SBTx
   });
 
   const { data: flow } = useContractRead(Cashflow__factory, "getFlow", {

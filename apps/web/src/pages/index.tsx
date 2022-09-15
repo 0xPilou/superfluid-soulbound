@@ -14,9 +14,7 @@ import {
 } from "wagmi";
 
 export function calculateStream(flowRate) {
-  const stream = ethers.utils.formatEther(
-    BigNumber.from(flowRate * (86400 * 30))
-  );
+  const stream = flowRate * (86400 * 30);
   return stream;
 }
 
@@ -25,7 +23,7 @@ const Page = () => {
   const { chain: activeChain } = useNetwork();
 
   // const cashflowAddress = getAddress(chain.optimismGoerli.id, "MyNFT");
-  const cashflowAddress = "0x8DDb847146D28fa4c7569074B21DbcE1555993B7";
+  const cashflowAddress = "0xeaD7472314DB5968A7a7DC0174A0c1466E05E404";
 
   const { data: streams = [], ...rest } = useQuery(
     ["streams", address],
