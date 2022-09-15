@@ -1,6 +1,5 @@
 import { ethers } from "ethers";
 import hre from "hardhat";
-
 import SoulboundDeployment from "web3-config/deployments/optimismGoerli/Soulbound.json";
 
 const stfAddress = "0x9aCc39d15e3f168c111a1D4F80271a9E526c9a9F";
@@ -13,9 +12,9 @@ const main = async () => {
 
   const [deployer] = await hre.ethers.getSigners();
 
-  let STF = new ethers.Contract(stfAddress, stfABI, provider);
+  const STF = new ethers.Contract(stfAddress, stfABI, provider);
 
-  let stf = await STF.deployed();
+  const stf = await STF.deployed();
 
   const soulboundAddress = SoulboundDeployment.address;
 
