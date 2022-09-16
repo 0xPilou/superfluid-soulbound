@@ -8,18 +8,19 @@ contract SuperSoulbound is SuperTokenBase, AccessControl {
   bytes32 public constant MINTER = keccak256("MINTER");
   bytes32 public constant BURNER = keccak256("BURNER");
 
+  address public store;
+
   error NOT_MINTER();
   error NOT_BURNER();
   error NOT_TRANSFERABLE();
 
-  constructor() {   
+  constructor(address _store) {
+    store = _store;
     _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
+    _grantRole(MINTER, msg.sender);
+    _grantRole(BURNER, _store);
   }
 
-  /// @notice Initializer, used AFTER factory upgrade
-  /// @param name Name of Super Token
-  /// @param symbol Symbol of Super Token
-  /// @param factory Super token factory for initialization
   function initialize(
     string memory name,
     string memory symbol,
@@ -28,23 +29,28 @@ contract SuperSoulbound is SuperTokenBase, AccessControl {
     _initialize(name, symbol, factory);
   }
 
-  /// @notice Mints tokens, only the owner may do this
-  /// @param receiver Receiver of minted tokens
-  /// @param amount Amount to mint
   function mint(
-    address receiver,
-    uint256 amount,
-    bytes memory userData
+    address _receiver,
+    uint256 _amount,
+    bytes memory _userData
   ) external onlyRole(MINTER) {
-    _mint(receiver, amount, userData);
+    _mint(_receiver, _amount, _userData);
   }
 
-  /// @notice Burns from message sender
-  /// @param amount Amount to burn
-  function burn(uint256 amount, bytes memory userData)
-    external
-    onlyRole(BURNER)
-  {
-    _burn(msg.sender, amount, userData);
+  function burn(
+    address _from,
+    uint256 _amount,
+    bytes memory _userData
+  ) external onlyRole(BURNER) {
+    _burn(_from, _amount, _userData);
+  }
+
+  function approveStore(uint256 _amount) external {
+    _approve(msg.sender, store, _amount);
+  }
+
+  function setStore(address _store) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    require(_store != address(0), "zero-address");
+    store = _store;
   }
 }
