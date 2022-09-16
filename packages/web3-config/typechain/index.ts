@@ -41,11 +41,13 @@ export type { ISuperTokenFactory } from "./ISuperTokenFactory";
 export type { ERC20WithTokenInfo } from "./ERC20WithTokenInfo";
 export type { TokenInfo } from "./TokenInfo";
 export type { Cashflow } from "./Cashflow";
+export type { ISuperSoulbound } from "./ISuperSoulbound";
 export type { MyNFT } from "./MyNFT";
 export type { Soulbound } from "./Soulbound";
 export type { SuperSoulbound } from "./SuperSoulbound";
 export type { SuperTokenBase } from "./SuperTokenBase";
 export type { UUPSProxy } from "./UUPSProxy";
+export type { UtilityStore } from "./UtilityStore";
 
 export { IL1CrossDomainMessenger__factory } from "./factories/IL1CrossDomainMessenger__factory";
 export { L1CrossDomainMessenger__factory } from "./factories/L1CrossDomainMessenger__factory";
@@ -87,8 +89,10 @@ export { ISuperTokenFactory__factory } from "./factories/ISuperTokenFactory__fac
 export { ERC20WithTokenInfo__factory } from "./factories/ERC20WithTokenInfo__factory";
 export { TokenInfo__factory } from "./factories/TokenInfo__factory";
 export { Cashflow__factory } from "./factories/Cashflow__factory";
+export { ISuperSoulbound__factory } from "./factories/ISuperSoulbound__factory";
 export { MyNFT__factory } from "./factories/MyNFT__factory";
 export { Soulbound__factory } from "./factories/Soulbound__factory";
 export { SuperSoulbound__factory } from "./factories/SuperSoulbound__factory";
 export { SuperTokenBase__factory } from "./factories/SuperTokenBase__factory";
 export { UUPSProxy__factory } from "./factories/UUPSProxy__factory";
+export { UtilityStore__factory } from "./factories/UtilityStore__factory";
