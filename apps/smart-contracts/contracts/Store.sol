@@ -4,7 +4,7 @@ pragma solidity ^0.8.14;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/ISuperSoulbound.sol";
 
-contract UtilityStore is Ownable {
+contract Store is Ownable {
   // Token address used for payment
   address public token;
 

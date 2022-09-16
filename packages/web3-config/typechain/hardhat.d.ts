@@ -185,6 +185,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Soulbound__factory>;
     getContractFactory(
+      name: "Store",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Store__factory>;
+    getContractFactory(
       name: "SuperSoulbound",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SuperSoulbound__factory>;
@@ -416,6 +420,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Soulbound>;
+    getContractAt(
+      name: "Store",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Store>;
     getContractAt(
       name: "SuperSoulbound",
       address: string,
