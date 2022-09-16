@@ -200,10 +200,6 @@ declare module "hardhat/types/runtime" {
       name: "UUPSProxy",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.UUPSProxy__factory>;
-    getContractFactory(
-      name: "UtilityStore",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.UtilityStore__factory>;
 
     getContractAt(
       name: "IL1CrossDomainMessenger",
@@ -440,11 +436,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.UUPSProxy>;
-    getContractAt(
-      name: "UtilityStore",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.UtilityStore>;
 
     // default types
     getContractFactory(

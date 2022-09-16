@@ -48,7 +48,6 @@ export type { Store } from "./Store";
 export type { SuperSoulbound } from "./SuperSoulbound";
 export type { SuperTokenBase } from "./SuperTokenBase";
 export type { UUPSProxy } from "./UUPSProxy";
-export type { UtilityStore } from "./UtilityStore";
 
 export { IL1CrossDomainMessenger__factory } from "./factories/IL1CrossDomainMessenger__factory";
 export { L1CrossDomainMessenger__factory } from "./factories/L1CrossDomainMessenger__factory";
@@ -97,4 +96,3 @@ export { Store__factory } from "./factories/Store__factory";
 export { SuperSoulbound__factory } from "./factories/SuperSoulbound__factory";
 export { SuperTokenBase__factory } from "./factories/SuperTokenBase__factory";
 export { UUPSProxy__factory } from "./factories/UUPSProxy__factory";
-export { UtilityStore__factory } from "./factories/UtilityStore__factory";
