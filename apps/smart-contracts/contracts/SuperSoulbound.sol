@@ -10,10 +10,6 @@ contract SuperSoulbound is SuperTokenBase, AccessControl {
 
   address public store;
 
-  error NOT_MINTER();
-  error NOT_BURNER();
-  error NOT_TRANSFERABLE();
-
   constructor(address _store) {
     store = _store;
     _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
