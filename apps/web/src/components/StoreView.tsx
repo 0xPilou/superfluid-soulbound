@@ -10,21 +10,27 @@ const StoreView = () => {
   });
 
   let itemIds = [];
-  for (let i = 0; i < nbItems!.toNumber(); i++) {
-    itemIds.push(i);
+  if (nbItems) {
+    for (let i = 0; i < nbItems!.toNumber(); i++) {
+      itemIds.push(i);
+    }
   }
 
   return (
     <>
-      <h1>Store</h1>
-      <div>
-        <span>Items in Store : {nbItems!.toNumber()}</span>
-        <div style={{ display: "flex" }}>
-          {itemIds.map((item) => (
-            <ItemView id={item} />
-          ))}
-        </div>
-      </div>
+      {nbItems && (
+        <>
+          <h1>Store</h1>
+          <div>
+            <span>Items in Store : {nbItems!.toNumber()}</span>
+            <div style={{ display: "flex" }}>
+              {itemIds.map((item) => (
+                <ItemView id={item} />
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 };

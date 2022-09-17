@@ -10,8 +10,8 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
   const cashflowOnOptimism = CashflowDeployment.address;
 
-  const erc20Symbol = "NFT0";
-  const erc20Name = "NFT #0";
+  const erc20Symbol = "NFT";
+  const erc20Name = "NFT";
   const domainManagerGoerli = "0x5086d1eEF304eb5284A0f6720f79403b4e9bE294";
 
   const deployment = await deploy(name, {
@@ -21,7 +21,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       erc20Symbol,
       domainManagerGoerli,
       cashflowOnOptimism,
-      hre.ethers.utils.parseEther("0.1"),
+      hre.ethers.utils.parseEther("100"),
     ],
   });
 

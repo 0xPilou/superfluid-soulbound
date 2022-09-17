@@ -40,7 +40,7 @@ const main = async () => {
       "   Item Price    : ",
       ethers.utils.formatEther(prices[i].toString())
     );
-    console.log(" Item Quantity : ", quantities[i]);
+    console.log("   Item Quantity : ", quantities[i]);
   }
 
   return;
