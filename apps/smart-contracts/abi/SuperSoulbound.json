@@ -17,21 +17,6 @@
   },
   {
     "inputs": [],
-    "name": "NOT_BURNER",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NOT_MINTER",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "NOT_TRANSFERABLE",
-    "type": "error"
-  },
-  {
-    "inputs": [],
     "name": "ZeroAddress",
     "type": "error"
   },

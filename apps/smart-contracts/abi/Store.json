@@ -1,5 +1,15 @@
 [
   {
+    "inputs": [],
+    "name": "IncorrectItem",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "OutOfStock",
+    "type": "error"
+  },
+  {
     "anonymous": false,
     "inputs": [
       {
@@ -72,11 +82,6 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_itemId",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
         "name": "_quantity",
         "type": "uint256"
       },
@@ -109,6 +114,19 @@
       {
         "internalType": "uint256",
         "name": "price",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "nbItems",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
         "type": "uint256"
       }
     ],
@@ -188,6 +206,29 @@
       }
     ],
     "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_itemId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_quantity",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_price",
+        "type": "uint256"
+      }
+    ],
+    "name": "updateItem",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
