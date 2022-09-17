@@ -16,26 +16,38 @@ const main = async () => {
   );
   const store = await Store.deployed();
 
-  let tx = await store
-    .connect(deployer)
-    .setToken(SuperSoulboundDeployment.address);
-  await tx.wait();
+  if ((await store.token()) != SuperSoulboundDeployment.address) {
+    const tx = await store
+      .connect(deployer)
+      .setToken(SuperSoulboundDeployment.address);
+    await tx.wait();
+  }
 
-  const itemId = 0;
-  const quantity = 100;
-  const price = ethers.utils.parseEther("0.1");
+  let itemIds = [0, 1, 2];
+  let quantities = [100, 50, 10];
+  let prices = [
+    ethers.utils.parseEther("0.01"),
+    ethers.utils.parseEther("0.1"),
+    ethers.utils.parseEther("1"),
+  ];
 
-  tx = await store.connect(deployer).addItem(itemId, quantity, price);
-  await tx.wait();
+  itemIds.forEach(async (item) => {
+    let tx = await store
+      .connect(deployer)
+      .addItem(item, quantities[item], prices[item]);
+    await tx.wait();
 
-  console.log("Item Added : ");
-  console.log("-------------------------------------------");
-  console.log(":::Item Id       : ", itemId);
-  console.log(
-    ":::Item Price    : ",
-    ethers.utils.formatEther(price.toString())
-  );
-  console.log(":::Item Quantity : ", quantity);
+    console.log("-------------------------------------------");
+    console.log("Item Added : ");
+    console.log("-------------------------------------------");
+    console.log(":::Item Id       : ", item);
+    console.log(
+      ":::Item Price    : ",
+      ethers.utils.formatEther(prices[item].toString())
+    );
+    console.log(":::Item Quantity : ", quantities[item]);
+  });
+
   return;
 };
 
