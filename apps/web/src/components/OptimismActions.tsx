@@ -1,5 +1,4 @@
-import { BigNumber, ethers } from "ethers";
-import { Interface } from "ethers/lib/utils";
+import { ethers } from "ethers";
 import {
   chain,
   useAccount,
@@ -29,7 +28,7 @@ const OptimismActions = () => {
     addressOrName: getAddress(chain.optimismGoerli.id, "Store"),
     contractInterface: getAbi(chain.optimismGoerli.id, "Store"),
     functionName: "redeem",
-    args: ["0", "1"],
+    args: ["2", "1"],
   });
 
   const {
