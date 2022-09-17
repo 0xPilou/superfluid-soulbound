@@ -15,14 +15,14 @@ bytes32 constant CFA_ID = keccak256(
   "org.superfluid-finance.agreements.ConstantFlowAgreement.v1"
 );
 
-/// @dev Thrown when the receiver is the zero adress.
-error InvalidReceiver();
-
 /// @dev Thrown when receiver is also a super app.
 error ReceiverIsSuperApp();
 
 /// @dev Thrown when the callback caller is not the host.
 error Unauthorized();
+
+/// @dev Thrown when the receiver is the zero adress.
+error InvalidReceiver();
 
 /// @dev Thrown when the token being streamed to this contract is invalid
 error InvalidToken();

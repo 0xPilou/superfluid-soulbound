@@ -5,10 +5,10 @@ import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol"
 import { SuperTokenBase } from "./SuperToken/SuperTokenBase.sol";
 
 contract SuperSoulbound is SuperTokenBase, AccessControl {
+  address public store;
+
   bytes32 public constant MINTER = keccak256("MINTER");
   bytes32 public constant BURNER = keccak256("BURNER");
-
-  address public store;
 
   constructor(address _store) {
     store = _store;
@@ -44,5 +44,6 @@ contract SuperSoulbound is SuperTokenBase, AccessControl {
   function setStore(address _store) external onlyRole(DEFAULT_ADMIN_ROLE) {
     require(_store != address(0), "zero-address");
     store = _store;
+    _grantRole(BURNER, _store);
   }
 }
