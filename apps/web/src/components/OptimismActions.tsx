@@ -1,14 +1,14 @@
 import { BigNumber, ethers } from "ethers";
 import { Interface } from "ethers/lib/utils";
 import {
+  chain,
   useAccount,
   useBalance,
   useContractWrite,
   usePrepareContractWrite,
 } from "wagmi";
 import { useContractRead } from "wagmi-lfg";
-import { Cashflow__factory } from "web3-config";
-import Balance from "./Balance";
+import { Cashflow__factory, getAddress, getAbi } from "web3-config";
 
 const OptimismActions = () => {
   const { address } = useAccount();
@@ -16,27 +16,28 @@ const OptimismActions = () => {
   const { data: sbtxBalance } = useBalance({
     addressOrName: address,
     watch: true,
-    token: "0xCa25549ca1eB0c10DdAf81877B359CF4959f615E", //SBTx
+    token: getAddress(chain.optimismGoerli.id, "SuperSoulbound"),
   });
 
   const { data: flow } = useContractRead(Cashflow__factory, "getFlow", {
-    args: [
-      ethers.utils.getAddress("0x1F0Ec748dc3994629e32Eb1223a52D5aE8E8f90e"),
-    ],
+    args: [address],
   });
 
   const flowRate = flow && flow[1];
 
-  const { config, ...rest } = usePrepareContractWrite({
-    addressOrName: "0xaC7A5cf2E0A6DB31456572871Ee33eb6212014a9",
-    contractInterface: new Interface(["function downgrade(uint256 amount)"]),
-    functionName: "downgrade",
-    args: [sbtxBalance?.value.sub(1)],
-    enabled: Boolean(sbtxBalance?.value),
+  const { config: redeemConfig } = usePrepareContractWrite({
+    addressOrName: getAddress(chain.optimismGoerli.id, "Store"),
+    contractInterface: getAbi(chain.optimismGoerli.id, "Store"),
+    functionName: "redeem",
+    args: ["0", "1"],
   });
 
-  const { data, isLoading, isSuccess, write, ...rest2 } =
-    useContractWrite(config);
+  const {
+    data: dataRedeem,
+    isLoading: isLoadingRedeem,
+    isSuccess: isSuccessRedeem,
+    write: redeem,
+  } = useContractWrite(redeemConfig);
 
   return (
     <div>
@@ -47,8 +48,8 @@ const OptimismActions = () => {
         <div>flowRate from chain: {ethers.utils.formatEther(flowRate)}</div>
       )}
 
-      <button disabled={!write || isLoading} onClick={() => write()}>
-        convert to DAI
+      <button disabled={!redeem || isLoadingRedeem} onClick={() => redeem()}>
+        Redeem
       </button>
     </div>
   );
