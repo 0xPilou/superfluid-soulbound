@@ -1,11 +1,5 @@
 import { ethers } from "ethers";
-import {
-  chain,
-  useAccount,
-  useBalance,
-  useContractWrite,
-  usePrepareContractWrite,
-} from "wagmi";
+import { chain, useAccount, useBalance } from "wagmi";
 import { useContractRead } from "wagmi-lfg";
 import { Cashflow__factory, getAddress, getAbi } from "web3-config";
 
@@ -24,32 +18,14 @@ const OptimismActions = () => {
 
   const flowRate = flow && flow[1];
 
-  const { config: redeemConfig } = usePrepareContractWrite({
-    addressOrName: getAddress(chain.optimismGoerli.id, "Store"),
-    contractInterface: getAbi(chain.optimismGoerli.id, "Store"),
-    functionName: "redeem",
-    args: ["2", "1"],
-  });
-
-  const {
-    data: dataRedeem,
-    isLoading: isLoadingRedeem,
-    isSuccess: isSuccessRedeem,
-    write: redeem,
-  } = useContractWrite(redeemConfig);
-
   return (
     <div>
-      <div>Balances : </div>
+      <h1>Balance : </h1>
       <div>{sbtxBalance?.formatted || null} SBTx</div>
 
       {flowRate && (
-        <div>flowRate from chain: {ethers.utils.formatEther(flowRate)}</div>
+        <div>Flow rate from chain: {ethers.utils.formatEther(flowRate)}</div>
       )}
-
-      <button disabled={!redeem || isLoadingRedeem} onClick={() => redeem()}>
-        Redeem
-      </button>
     </div>
   );
 };

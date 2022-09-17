@@ -14,6 +14,7 @@ import {
 } from "wagmi";
 
 import { getAddress } from "web3-config";
+import StoreView from "../components/StoreView";
 
 export function calculateStream(flowRate) {
   const stream = flowRate * (86400 * 30);
@@ -87,6 +88,7 @@ const Page = () => {
         {isOptimism && streams[0]?.currentFlowRate && (
           <div>
             <OptimismActions />
+            <StoreView />
           </div>
         )}
         {isGoerli && <GoerliActions />}
