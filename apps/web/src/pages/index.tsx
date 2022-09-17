@@ -26,10 +26,6 @@ const Page = () => {
 
   const cashflowAddress = getAddress(chain.optimismGoerli.id, "Cashflow");
 
-  console.log(cashflowAddress);
-
-  // const cashflowAddress = "0xcB3D76B2eC8A0a7c1EB8a778a862c763E939E92C";
-
   const { data: streams = [], ...rest } = useQuery(
     ["streams", address],
     async () => {
@@ -100,7 +96,7 @@ const Page = () => {
             <div>
               <div>Flow raw: {stream.currentFlowRate} </div>
               <div>
-                FLowrate: {ethers.utils.formatEther(stream.currentFlowRate)} /s
+                Flowrate: {ethers.utils.formatEther(stream.currentFlowRate)} /s
               </div>
               <div>{calculateStream(stream.currentFlowRate)} /month</div>
             </div>
