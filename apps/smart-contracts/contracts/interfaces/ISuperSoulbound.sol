@@ -19,7 +19,5 @@ interface ISuperSoulbound {
     bytes memory userData
   ) external;
 
-  function approveStore(uint256 _amount) external;
-
   function setStore(address _store) external;
 }

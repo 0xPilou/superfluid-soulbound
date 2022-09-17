@@ -15,8 +15,8 @@ contract Store is Ownable {
 
   mapping(uint256 => Item) public items;
 
-  event Redeemed(address buyer, uint256 itemId, uint256 quantity);
   event UpdatedInventory(uint256 itemId, uint256 quantity, uint256 price);
+  event Redeemed(address buyer, uint256 itemId, uint256 quantity);
 
   function redeem(uint256 _itemId, uint256 _quantity) external {
     Item storage item = items[_itemId];

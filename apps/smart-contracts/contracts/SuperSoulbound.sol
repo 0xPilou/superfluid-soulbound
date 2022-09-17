@@ -45,10 +45,6 @@ contract SuperSoulbound is SuperTokenBase, AccessControl {
     _burn(_from, _amount, _userData);
   }
 
-  function approveStore(uint256 _amount) external {
-    _approve(msg.sender, store, _amount);
-  }
-
   function setStore(address _store) external onlyRole(DEFAULT_ADMIN_ROLE) {
     require(_store != address(0), "zero-address");
     store = _store;
