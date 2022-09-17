@@ -21,7 +21,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       erc20Symbol,
       domainManagerGoerli,
       cashflowOnOptimism,
-      "100000000",
+      hre.ethers.utils.parseEther("0.1"),
     ],
   });
 
