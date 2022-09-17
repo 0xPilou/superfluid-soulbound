@@ -24,7 +24,7 @@ contract Store is Ownable {
     require(item.quantity >= _quantity, "Out Of Stock");
     // require(balanceOf(user) >= item.price * item.quantity, "Insufficient Funds");
 
-    ISuperSoulbound(token).burn(msg.sender, item.quantity * item.price, "0x");
+    ISuperSoulbound(token).burn(msg.sender, _quantity * item.price, "0x");
     item.quantity -= _quantity;
     emit Redeemed(msg.sender, _itemId, _quantity);
   }
