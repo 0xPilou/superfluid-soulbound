@@ -57,7 +57,7 @@ const config: HardhatUserConfig = {
     },
     optimismGoerli: {
       chainId: 420,
-      url: "https://goerli.optimism.io",
+      url: `https://opt-goerli.g.alchemy.com/v2/${process.env.OPTIMISM_GOERLI_ALCHEMY_KEY}`,
       accounts: [`${PRIVATE_KEY}`],
     },
     optimismKovan: {
