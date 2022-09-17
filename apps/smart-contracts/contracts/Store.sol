@@ -8,10 +8,14 @@ contract Store is Ownable {
   // Token address used for payment
   address public token;
 
+  uint256 public nbItems = 0;
+
   struct Item {
     uint256 quantity;
     uint256 price;
   }
+  error OutOfStock();
+  error IncorrectItem();
 
   mapping(uint256 => Item) public items;
 
@@ -21,19 +25,32 @@ contract Store is Ownable {
   function redeem(uint256 _itemId, uint256 _quantity) external {
     Item storage item = items[_itemId];
 
-    require(item.quantity >= _quantity, "Out Of Stock");
-    // require(balanceOf(user) >= item.price * item.quantity, "Insufficient Funds");
+    if (item.quantity < _quantity) revert OutOfStock();
 
     ISuperSoulbound(token).burn(msg.sender, _quantity * item.price, "0x");
     item.quantity -= _quantity;
     emit Redeemed(msg.sender, _itemId, _quantity);
   }
 
-  function addItem(
+  function addItem(uint256 _quantity, uint256 _price) external onlyOwner {
+    Item memory item;
+    item.quantity = _quantity;
+    item.price = _price;
+
+    items[nbItems] = item;
+
+    emit UpdatedInventory(nbItems, _quantity, _price);
+
+    nbItems++;
+  }
+
+  function updateItem(
     uint256 _itemId,
     uint256 _quantity,
     uint256 _price
   ) external onlyOwner {
+    if (_itemId >= nbItems) revert IncorrectItem();
+
     Item memory item;
     item.quantity = _quantity;
     item.price = _price;

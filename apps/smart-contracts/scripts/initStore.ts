@@ -4,15 +4,12 @@ import StoreDeployment from "web3-config/deployments/optimismGoerli/Store.json";
 import SuperSoulboundDeployment from "web3-config/deployments/optimismGoerli/SuperSoulbound.json";
 
 const main = async () => {
-  const url = "https://goerli.optimism.io";
-  const provider = new ethers.providers.JsonRpcProvider(url);
-
   const [deployer] = await hre.ethers.getSigners();
 
   const Store = new ethers.Contract(
     StoreDeployment.address,
     StoreDeployment.abi,
-    provider
+    deployer
   );
   const store = await Store.deployed();
 
@@ -31,22 +28,20 @@ const main = async () => {
     ethers.utils.parseEther("1"),
   ];
 
-  itemIds.forEach(async (item) => {
-    let tx = await store
-      .connect(deployer)
-      .addItem(item, quantities[item], prices[item]);
+  for (let i = 0; i < itemIds.length; i++) {
+    let tx = await store.connect(deployer).addItem(quantities[i], prices[i]);
     await tx.wait();
 
     console.log("-------------------------------------------");
     console.log("Item Added : ");
     console.log("-------------------------------------------");
-    console.log(":::Item Id       : ", item);
+    console.log("   Item Id       : ", itemIds[i]);
     console.log(
-      ":::Item Price    : ",
-      ethers.utils.formatEther(prices[item].toString())
+      "   Item Price    : ",
+      ethers.utils.formatEther(prices[i].toString())
     );
-    console.log(":::Item Quantity : ", quantities[item]);
-  });
+    console.log(" Item Quantity : ", quantities[i]);
+  }
 
   return;
 };
