@@ -20,16 +20,11 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface ISuperSoulboundInterface extends utils.Interface {
   contractName: "ISuperSoulbound";
   functions: {
-    "approveStore(uint256)": FunctionFragment;
     "burn(address,uint256,bytes)": FunctionFragment;
     "mint(address,uint256,bytes)": FunctionFragment;
     "setStore(address)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "approveStore",
-    values: [BigNumberish]
-  ): string;
   encodeFunctionData(
     functionFragment: "burn",
     values: [string, BigNumberish, BytesLike]
@@ -40,10 +35,6 @@ export interface ISuperSoulboundInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "setStore", values: [string]): string;
 
-  decodeFunctionResult(
-    functionFragment: "approveStore",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setStore", data: BytesLike): Result;
@@ -79,16 +70,6 @@ export interface ISuperSoulbound extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    approveStore(
-      _amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "approveStore(uint256)"(
-      _amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     burn(
       _from: string,
       amount: BigNumberish,
@@ -127,16 +108,6 @@ export interface ISuperSoulbound extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
-
-  approveStore(
-    _amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "approveStore(uint256)"(
-    _amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   burn(
     _from: string,
@@ -177,16 +148,6 @@ export interface ISuperSoulbound extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    approveStore(
-      _amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "approveStore(uint256)"(
-      _amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     burn(
       _from: string,
       amount: BigNumberish,
@@ -226,16 +187,6 @@ export interface ISuperSoulbound extends BaseContract {
   filters: {};
 
   estimateGas: {
-    approveStore(
-      _amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "approveStore(uint256)"(
-      _amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     burn(
       _from: string,
       amount: BigNumberish,
@@ -276,16 +227,6 @@ export interface ISuperSoulbound extends BaseContract {
   };
 
   populateTransaction: {
-    approveStore(
-      _amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "approveStore(uint256)"(
-      _amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     burn(
       _from: string,
       amount: BigNumberish,

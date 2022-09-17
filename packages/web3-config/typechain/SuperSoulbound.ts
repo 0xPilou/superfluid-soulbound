@@ -23,7 +23,6 @@ export interface SuperSoulboundInterface extends utils.Interface {
     "BURNER()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "MINTER()": FunctionFragment;
-    "approveStore(uint256)": FunctionFragment;
     "burn(address,uint256,bytes)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
@@ -44,10 +43,6 @@ export interface SuperSoulboundInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "MINTER", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "approveStore",
-    values: [BigNumberish]
-  ): string;
   encodeFunctionData(
     functionFragment: "burn",
     values: [string, BigNumberish, BytesLike]
@@ -97,10 +92,6 @@ export interface SuperSoulboundInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "MINTER", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "approveStore",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
@@ -198,16 +189,6 @@ export interface SuperSoulbound extends BaseContract {
     MINTER(overrides?: CallOverrides): Promise<[string]>;
 
     "MINTER()"(overrides?: CallOverrides): Promise<[string]>;
-
-    approveStore(
-      _amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "approveStore(uint256)"(
-      _amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
 
     burn(
       _from: string,
@@ -353,16 +334,6 @@ export interface SuperSoulbound extends BaseContract {
 
   "MINTER()"(overrides?: CallOverrides): Promise<string>;
 
-  approveStore(
-    _amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "approveStore(uint256)"(
-    _amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   burn(
     _from: string,
     _amount: BigNumberish,
@@ -506,16 +477,6 @@ export interface SuperSoulbound extends BaseContract {
     MINTER(overrides?: CallOverrides): Promise<string>;
 
     "MINTER()"(overrides?: CallOverrides): Promise<string>;
-
-    approveStore(
-      _amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "approveStore(uint256)"(
-      _amount: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     burn(
       _from: string,
@@ -694,16 +655,6 @@ export interface SuperSoulbound extends BaseContract {
 
     "MINTER()"(overrides?: CallOverrides): Promise<BigNumber>;
 
-    approveStore(
-      _amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "approveStore(uint256)"(
-      _amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     burn(
       _from: string,
       _amount: BigNumberish,
@@ -855,16 +806,6 @@ export interface SuperSoulbound extends BaseContract {
     MINTER(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "MINTER()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    approveStore(
-      _amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "approveStore(uint256)"(
-      _amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
 
     burn(
       _from: string,

@@ -46,3 +46,18 @@ export const getAddress = (
 ): string => {
   return (Address as any)[chain][contract];
 };
+
+export const Abi = {
+  [chain.goerli.id]: {
+    [_myNft.contractName]: MyNFTDeployment.abi,
+  },
+  [chain.optimismGoerli.id]: {
+    [_cashflow.contractName]: CashflowDeployment.abi,
+    [_superSoulbound.contractName]: SuperSoulboundDeployment.abi,
+    [_store.contractName]: StoreDeployment.abi,
+  },
+};
+
+export const getAbi = (chain: number, contract: AvailableContracts) => {
+  return (Abi as any)[chain][contract];
+};

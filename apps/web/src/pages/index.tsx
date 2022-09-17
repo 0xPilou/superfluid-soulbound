@@ -13,6 +13,8 @@ import {
   useSwitchNetwork,
 } from "wagmi";
 
+import { getAddress } from "web3-config";
+
 export function calculateStream(flowRate) {
   const stream = flowRate * (86400 * 30);
   return stream;
@@ -22,8 +24,11 @@ const Page = () => {
   const { address } = useAccount();
   const { chain: activeChain } = useNetwork();
 
-  // const cashflowAddress = getAddress(chain.optimismGoerli.id, "MyNFT");
-  const cashflowAddress = "0xeaD7472314DB5968A7a7DC0174A0c1466E05E404";
+  const cashflowAddress = getAddress(chain.optimismGoerli.id, "Cashflow");
+
+  console.log(cashflowAddress);
+
+  // const cashflowAddress = "0xcB3D76B2eC8A0a7c1EB8a778a862c763E939E92C";
 
   const { data: streams = [], ...rest } = useQuery(
     ["streams", address],
