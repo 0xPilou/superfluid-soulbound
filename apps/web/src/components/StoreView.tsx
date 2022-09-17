@@ -9,15 +9,20 @@ const StoreView = () => {
     functionName: "nbItems",
   });
 
+  let itemIds = [];
+  for (let i = 0; i < nbItems!.toNumber(); i++) {
+    itemIds.push(i);
+  }
+
   return (
     <>
       <h1>Store</h1>
       <div>
         <span>Items in Store : {nbItems!.toNumber()}</span>
         <div style={{ display: "flex" }}>
-          <ItemView id={0} />
-          <ItemView id={1} />
-          <ItemView id={2} />
+          {itemIds.map((item) => (
+            <ItemView id={item} />
+          ))}
         </div>
       </div>
     </>

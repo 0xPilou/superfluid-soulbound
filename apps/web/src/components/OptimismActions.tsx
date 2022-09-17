@@ -6,8 +6,14 @@ import { Cashflow__factory, getAddress, getAbi } from "web3-config";
 const OptimismActions = () => {
   const { address } = useAccount();
 
-  const { data: sbtxBalance } = useBalance({
+  const { data: sbtxUserBalance } = useBalance({
     addressOrName: address,
+    watch: true,
+    token: getAddress(chain.optimismGoerli.id, "SuperSoulbound"),
+  });
+
+  const { data: sbtxContractBalance } = useBalance({
+    addressOrName: getAddress(chain.optimismGoerli.id, "Cashflow"),
     watch: true,
     token: getAddress(chain.optimismGoerli.id, "SuperSoulbound"),
   });
@@ -20,11 +26,26 @@ const OptimismActions = () => {
 
   return (
     <div>
-      <h1>Balance : </h1>
-      <div>{sbtxBalance?.formatted || null} SBTx</div>
+      <h1>Balances : </h1>
+      <div style={{ display: "flex" }}>
+        <div
+          style={{ marginLeft: "5%", marginRight: "5%", marginBottom: "5%" }}
+        >
+          <h2>Cashflow Contract : </h2>
+          <p>{sbtxContractBalance?.formatted || null} SBTx</p>
+        </div>
+        <div
+          style={{ marginLeft: "5%", marginRight: "5%", marginBottom: "5%" }}
+        >
+          <h2>User : </h2>
+          <div>{sbtxUserBalance?.formatted || null} SBTx</div>
+        </div>
+      </div>
 
       {flowRate && (
-        <div>Flow rate from chain: {ethers.utils.formatEther(flowRate)}</div>
+        <div>
+          Flow rate from chain: {ethers.utils.formatEther(flowRate)} SBTx/s
+        </div>
       )}
     </div>
   );
