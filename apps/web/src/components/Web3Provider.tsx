@@ -1,29 +1,27 @@
-import '@rainbow-me/rainbowkit/styles.css';
+import "@rainbow-me/rainbowkit/styles.css";
 
 import {
   darkTheme,
   getDefaultWallets,
   RainbowKitProvider,
-} from '@rainbow-me/rainbowkit';
-import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { alchemyProvider } from 'wagmi/providers/alchemy';
-import { infuraProvider } from 'wagmi/providers/infura';
-import { publicProvider } from 'wagmi/providers/public';
-import { config } from '../config/config';
-import { LFGProvider } from 'wagmi-lfg';
-import useNotice from '../hooks/useNotice';
-import { AvailableContracts, getAddress } from 'web3-config';
-import { Status } from 'reapop';
+} from "@rainbow-me/rainbowkit";
+import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { alchemyProvider } from "wagmi/providers/alchemy";
+import { publicProvider } from "wagmi/providers/public";
+import { config } from "../config/config";
+import { LFGProvider } from "wagmi-lfg";
+import useNotice from "../hooks/useNotice";
+import { AvailableContracts, getAddress } from "web3-config";
+import { Status } from "reapop";
 
 const { chains, provider } = configureChains(config.defaultChains, [
   alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_KEY }),
-  // infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_KEY }),
   publicProvider(),
 ]);
 
 const { connectors } = getDefaultWallets({
   chains,
-  appName: 'WIP',
+  appName: "WIP",
 });
 
 const wagmiClient = createClient({

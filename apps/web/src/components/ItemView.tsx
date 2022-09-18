@@ -1,34 +1,35 @@
 import { ethers } from "ethers";
-import {
-  chain,
-  useContractWrite,
-  useContractRead,
-  usePrepareContractWrite,
-} from "wagmi";
+import { chain, useContractWrite, useContractRead } from "wagmi";
 import { getAddress, getAbi } from "web3-config";
 
-const StoreView = (props) => {
+type StoreProps = {
+  id: number;
+};
+
+const StoreView = (props: StoreProps) => {
   const { data: itemDetails } = useContractRead({
     addressOrName: getAddress(chain.optimismGoerli.id, "Store"),
     contractInterface: getAbi(chain.optimismGoerli.id, "Store"),
     functionName: "items",
     args: [props.id],
-    watch: true,
+    // watch: true,
   });
 
-  const { config: redeemConfig } = usePrepareContractWrite({
+  const { write: redeem } = useContractWrite({
+    mode: "recklesslyUnprepared",
     addressOrName: getAddress(chain.optimismGoerli.id, "Store"),
     contractInterface: getAbi(chain.optimismGoerli.id, "Store"),
     functionName: "redeem",
-    args: [props.id, 1],
-  });
-
-  const { isLoading: isLoadingRedeem, write: redeem } = useContractWrite({
-    ...redeemConfig,
   });
 
   return (
-    <div style={{ marginLeft: "5%", marginRight: "5%", marginBottom: "3%" }}>
+    <div
+      style={{
+        marginLeft: "5%",
+        marginRight: "5%",
+        marginBottom: "3%",
+      }}
+    >
       <h2>Item {props.id}</h2>
       {itemDetails && (
         <>

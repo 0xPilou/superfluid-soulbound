@@ -1,11 +1,6 @@
 import { ethers } from "ethers";
-import { SetStateAction, useState } from "react";
-import {
-  chain,
-  useContractRead,
-  usePrepareContractWrite,
-  useContractWrite,
-} from "wagmi";
+import { useState } from "react";
+import { chain, useContractRead, useContractWrite } from "wagmi";
 import { getAddress, getAbi } from "web3-config";
 import ItemView from "./ItemView";
 
@@ -26,15 +21,11 @@ const StoreView = () => {
     functionName: "nbItems",
   });
 
-  const { config: addItemConfig } = usePrepareContractWrite({
+  const { write: addItem } = useContractWrite({
+    mode: "recklesslyUnprepared",
     addressOrName: getAddress(chain.optimismGoerli.id, "Store"),
     contractInterface: getAbi(chain.optimismGoerli.id, "Store"),
     functionName: "addItem",
-    args: [1, 1],
-  });
-
-  const { isLoading: isLoadingAddItem, write: addItem } = useContractWrite({
-    ...addItemConfig,
   });
 
   let itemIds = [];
@@ -47,13 +38,13 @@ const StoreView = () => {
   return (
     <>
       {nbItems && (
-        <>
+        <div style={{ marginBottom: "5%" }}>
           <h1>Store 🛒</h1>
           <div>
             <h3>Items in Store : {nbItems!.toNumber()}</h3>
             <div style={{ display: "flex" }}>
-              {itemIds.map((item) => (
-                <ItemView id={item} />
+              {itemIds.map((key, item) => (
+                <ItemView key={key} id={item} />
               ))}
             </div>
           </div>
@@ -61,26 +52,13 @@ const StoreView = () => {
             <h3>Store Admin Function :</h3>
             <div>
               <label>Quantity :</label>
-              <input
-                type="number"
-                id="quantity"
-                name="quantity"
-                value={quantity}
-                onChange={handleChangeQuantity}
-              />
+              <input value={quantity} onChange={handleChangeQuantity} />
             </div>
             <div>
               <label>Price :</label>
-              <input
-                type="number"
-                id="price"
-                name="price"
-                value={price}
-                onChange={handleChangePrice}
-              />
+              <input value={price} onChange={handleChangePrice} />
             </div>
             <button
-              type="submit"
               onClick={() => {
                 addItem({
                   recklesslySetUnpreparedArgs: [
@@ -93,7 +71,7 @@ const StoreView = () => {
               Add Item
             </button>
           </div>
-        </>
+        </div>
       )}
     </>
   );
