@@ -2,6 +2,7 @@
 pragma solidity ^0.8.14;
 
 import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+import { ISuperToken } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperToken.sol";
 import { SuperTokenBase } from "./SuperToken/SuperTokenBase.sol";
 
 contract SuperSoulbound is SuperTokenBase, AccessControl {
@@ -45,5 +46,13 @@ contract SuperSoulbound is SuperTokenBase, AccessControl {
     require(_store != address(0), "zero-address");
     store = _store;
     _grantRole(BURNER, _store);
+  }
+
+  function balanceOf(address _account) external view returns (uint256) {
+    return ISuperToken(address(this)).balanceOf(_account);
+  }
+
+  function totalSupply() external view returns (uint256) {
+    return ISuperToken(address(this)).totalSupply();
   }
 }
