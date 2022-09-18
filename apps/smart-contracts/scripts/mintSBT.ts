@@ -17,17 +17,11 @@ const main = async () => {
 
   await sbt
     .connect(deployer)
-    .mint(deployer.address, ethers.utils.parseEther("100000"), "0x");
+    .mint(CashflowDeployment.address, ethers.utils.parseEther("100000"), "0x");
 
-  const createFlowOperation = sf.cfaV1.createFlow({
-    receiver: CashflowDeployment.address,
-    superToken: SuperSoulboundDeployment.address,
-    flowRate: ethers.utils.parseEther("0.1").toString(),
-  });
-  const txn = await createFlowOperation.exec(deployer);
-  const res = await txn.wait();
-
-  console.log("Flow Created : ", res);
+  console.log(
+    `Minted 1.000.000 SBTx to Cashflow contract at ${CashflowDeployment.address}`
+  );
   return;
 };
 
