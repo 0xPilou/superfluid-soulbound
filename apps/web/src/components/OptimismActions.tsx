@@ -26,16 +26,16 @@ const OptimismActions = () => {
 
   return (
     <div>
-      <h1>Balances : </h1>
+      <h1>Balances 💰 </h1>
       <div style={{ display: "flex" }}>
         <div
-          style={{ marginLeft: "5%", marginRight: "5%", marginBottom: "5%" }}
+          style={{ marginLeft: "5%", marginRight: "5%", marginBottom: "3%" }}
         >
           <h2>Cashflow Contract : </h2>
           <p>{sbtxContractBalance?.formatted || null} SBTx</p>
         </div>
         <div
-          style={{ marginLeft: "5%", marginRight: "5%", marginBottom: "5%" }}
+          style={{ marginLeft: "5%", marginRight: "5%", marginBottom: "3%" }}
         >
           <h2>User : </h2>
           <div>{sbtxUserBalance?.formatted || null} SBTx</div>

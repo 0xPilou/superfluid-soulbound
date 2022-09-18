@@ -28,7 +28,7 @@ const StoreView = (props) => {
   });
 
   return (
-    <div style={{ marginLeft: "5%", marginRight: "5%", marginBottom: "5%" }}>
+    <div style={{ marginLeft: "5%", marginRight: "5%", marginBottom: "3%" }}>
       <h2>Item {props.id}</h2>
       {itemDetails && (
         <>

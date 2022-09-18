@@ -88,9 +88,9 @@ const Page = () => {
         {isOptimism && streams[0]?.currentFlowRate && (
           <div>
             <OptimismActions />
-            <StoreView />
           </div>
         )}
+        <StoreView />
         {isGoerli && <GoerliActions />}
         <div style={{ marginTop: 100 }}>
           <div>The Graph:</div>
