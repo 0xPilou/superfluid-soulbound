@@ -47,12 +47,4 @@ contract SuperSoulbound is SuperTokenBase, AccessControl {
     store = _store;
     _grantRole(BURNER, _store);
   }
-
-  function balanceOf(address _account) external view returns (uint256) {
-    return ISuperToken(address(this)).balanceOf(_account);
-  }
-
-  function totalSupply() external view returns (uint256) {
-    return ISuperToken(address(this)).totalSupply();
-  }
 }
