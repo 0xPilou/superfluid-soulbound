@@ -23,7 +23,6 @@ export interface SuperSoulboundInterface extends utils.Interface {
     "BURNER()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "MINTER()": FunctionFragment;
-    "balanceOf(address)": FunctionFragment;
     "burn(address,uint256,bytes)": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
@@ -36,7 +35,6 @@ export interface SuperSoulboundInterface extends utils.Interface {
     "setStore(address)": FunctionFragment;
     "store()": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
-    "totalSupply()": FunctionFragment;
   };
 
   encodeFunctionData(functionFragment: "BURNER", values?: undefined): string;
@@ -45,7 +43,6 @@ export interface SuperSoulboundInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "MINTER", values?: undefined): string;
-  encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(
     functionFragment: "burn",
     values: [string, BigNumberish, BytesLike]
@@ -88,10 +85,6 @@ export interface SuperSoulboundInterface extends utils.Interface {
     functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
-  encodeFunctionData(
-    functionFragment: "totalSupply",
-    values?: undefined
-  ): string;
 
   decodeFunctionResult(functionFragment: "BURNER", data: BytesLike): Result;
   decodeFunctionResult(
@@ -99,7 +92,6 @@ export interface SuperSoulboundInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "MINTER", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
@@ -122,10 +114,6 @@ export interface SuperSoulboundInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "store", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "totalSupply",
     data: BytesLike
   ): Result;
 
@@ -201,16 +189,6 @@ export interface SuperSoulbound extends BaseContract {
     MINTER(overrides?: CallOverrides): Promise<[string]>;
 
     "MINTER()"(overrides?: CallOverrides): Promise<[string]>;
-
-    balanceOf(
-      _account: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    "balanceOf(address)"(
-      _account: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
 
     burn(
       _from: string,
@@ -342,10 +320,6 @@ export interface SuperSoulbound extends BaseContract {
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
-
-    totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    "totalSupply()"(overrides?: CallOverrides): Promise<[BigNumber]>;
   };
 
   BURNER(overrides?: CallOverrides): Promise<string>;
@@ -359,13 +333,6 @@ export interface SuperSoulbound extends BaseContract {
   MINTER(overrides?: CallOverrides): Promise<string>;
 
   "MINTER()"(overrides?: CallOverrides): Promise<string>;
-
-  balanceOf(_account: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-  "balanceOf(address)"(
-    _account: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
 
   burn(
     _from: string,
@@ -498,10 +465,6 @@ export interface SuperSoulbound extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
-
-  "totalSupply()"(overrides?: CallOverrides): Promise<BigNumber>;
-
   callStatic: {
     BURNER(overrides?: CallOverrides): Promise<string>;
 
@@ -514,13 +477,6 @@ export interface SuperSoulbound extends BaseContract {
     MINTER(overrides?: CallOverrides): Promise<string>;
 
     "MINTER()"(overrides?: CallOverrides): Promise<string>;
-
-    balanceOf(_account: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    "balanceOf(address)"(
-      _account: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     burn(
       _from: string,
@@ -649,10 +605,6 @@ export interface SuperSoulbound extends BaseContract {
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "totalSupply()"(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   filters: {
@@ -702,13 +654,6 @@ export interface SuperSoulbound extends BaseContract {
     MINTER(overrides?: CallOverrides): Promise<BigNumber>;
 
     "MINTER()"(overrides?: CallOverrides): Promise<BigNumber>;
-
-    balanceOf(_account: string, overrides?: CallOverrides): Promise<BigNumber>;
-
-    "balanceOf(address)"(
-      _account: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     burn(
       _from: string,
@@ -843,10 +788,6 @@ export interface SuperSoulbound extends BaseContract {
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "totalSupply()"(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -865,16 +806,6 @@ export interface SuperSoulbound extends BaseContract {
     MINTER(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "MINTER()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    balanceOf(
-      _account: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "balanceOf(address)"(
-      _account: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
 
     burn(
       _from: string,
@@ -1009,9 +940,5 @@ export interface SuperSoulbound extends BaseContract {
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "totalSupply()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }
