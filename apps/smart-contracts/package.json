@@ -9,7 +9,7 @@
     "lint": "eslint . --fix",
     "deploy:optimismGoerli": "npx hardhat deploy --network optimismGoerli",
     "deploy:goerli": "npx hardhat deploy --network goerli",
-    "approveSBT": "npx hardhat run scripts/approveSBT.ts --network optimismGoerli",
+    "mintSBT": "npx hardhat run scripts/mintSBT.ts --network optimismGoerli",
     "initStore": "npx hardhat run scripts/initStore.ts --network optimismGoerli"
   },
   "devDependencies": {
