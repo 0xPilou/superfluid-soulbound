@@ -11,6 +11,8 @@ contract SuperSoulbound is SuperTokenBase, AccessControl {
   bytes32 public constant BURNER = keccak256("BURNER");
   bytes32 public constant MINTER = keccak256("MINTER");
 
+  error NOT_TRANSFERABLE();
+
   constructor(address _store) {
     store = _store;
     _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
@@ -46,5 +48,17 @@ contract SuperSoulbound is SuperTokenBase, AccessControl {
     require(_store != address(0), "zero-address");
     store = _store;
     _grantRole(BURNER, _store);
+  }
+
+  function transfer(address _to, uint256 _amount) public returns (bool) {
+    revert NOT_TRANSFERABLE();
+  }
+
+  function transferFrom(
+    address _from,
+    address _to,
+    uint256 _amount
+  ) public returns (bool) {
+    revert NOT_TRANSFERABLE();
   }
 }
