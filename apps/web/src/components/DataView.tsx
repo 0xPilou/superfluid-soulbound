@@ -58,6 +58,7 @@ const DataView = () => {
     <div style={{ marginBottom: "5%" }}>
       <h1>Data 💾</h1>
       <h2>Subgraph Data :</h2>
+      {streams.length === 0 && <h4>No Streams Found in the Subgraph</h4>}
       {streams?.map((stream) => (
         <div>
           <div>
