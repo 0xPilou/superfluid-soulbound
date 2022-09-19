@@ -7,10 +7,10 @@
     "test": "hardhat test",
     "deploy": "hardhat --network localhost deploy",
     "lint": "eslint . --fix",
-    "deploy:optimismGoerli": "npx hardhat deploy --network optimismGoerli",
-    "deploy:goerli": "npx hardhat deploy --network goerli",
     "mintSBT": "npx hardhat run scripts/mintSBT.ts --network optimismGoerli",
-    "initStore": "npx hardhat run scripts/initStore.ts --network optimismGoerli"
+    "initStore": "npx hardhat run scripts/initStore.ts --network optimismGoerli",
+    "deployAll": "npx hardhat deploy --network optimismGoerli && npx hardhat deploy --network goerli",
+    "initAll": "npx hardhat run scripts/mintSBT.ts --network optimismGoerli && npx hardhat run scripts/initStore.ts --network optimismGoerli"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.5",
