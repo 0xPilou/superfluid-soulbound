@@ -8,8 +8,8 @@ import { SuperTokenBase } from "./SuperToken/SuperTokenBase.sol";
 contract SuperSoulbound is SuperTokenBase, AccessControl {
   address public store;
 
-  bytes32 public constant MINTER = keccak256("MINTER");
   bytes32 public constant BURNER = keccak256("BURNER");
+  bytes32 public constant MINTER = keccak256("MINTER");
 
   constructor(address _store) {
     store = _store;

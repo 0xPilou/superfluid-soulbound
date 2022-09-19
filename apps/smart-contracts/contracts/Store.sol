@@ -14,8 +14,8 @@ contract Store is Ownable {
     uint256 quantity;
     uint256 price;
   }
-  error IncorrectItem();
   error OutOfStock();
+  error IncorrectItem();
 
   mapping(uint256 => Item) public items;
 
