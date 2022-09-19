@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import { Framework } from "@superfluid-finance/sdk-core";
+import SuperSoulboundDeployment from "web3-config/deployments/optimismGoerli/SuperSoulbound.json";
 
 const goerliOptimismResolver = "0x21d4E9fbB9DB742E6ef4f29d189a7C18B0b59136";
 
@@ -18,8 +19,8 @@ const main = async () => {
 
   const createFlowOperation = sf.cfaV1.createFlow({
     receiver: "0x18CCC193FeBDAf93A2C5e24E306E72a77012C429",
-    superToken: "0xC591aA96E79a0c980F74482Da3479b4e207Bb768",
-    flowRate: ethers.utils.parseEther("1").toString(),
+    superToken: SuperSoulboundDeployment.address,
+    flowRate: ethers.utils.parseEther("0.1").toString(),
   });
   const txn = await createFlowOperation.exec(signer);
   const res = await txn.wait();
