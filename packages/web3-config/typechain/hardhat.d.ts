@@ -81,6 +81,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Proxy__factory>;
     getContractFactory(
+      name: "Initializable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Initializable__factory>;
+    getContractFactory(
       name: "IERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
@@ -112,6 +116,10 @@ declare module "hardhat/types/runtime" {
       name: "IERC165",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165__factory>;
+    getContractFactory(
+      name: "IERC1820Registry",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC1820Registry__factory>;
     getContractFactory(
       name: "SuperAppBase",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -161,6 +169,18 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.TokenInfo__factory>;
     getContractFactory(
+      name: "EventsEmitter",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.EventsEmitter__factory>;
+    getContractFactory(
+      name: "SuperfluidToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SuperfluidToken__factory>;
+    getContractFactory(
+      name: "UUPSProxiable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.UUPSProxiable__factory>;
+    getContractFactory(
       name: "Cashflow",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Cashflow__factory>;
@@ -180,6 +200,10 @@ declare module "hardhat/types/runtime" {
       name: "SuperSoulbound",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SuperSoulbound__factory>;
+    getContractFactory(
+      name: "SuperSoulboundV1",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SuperSoulboundV1__factory>;
     getContractFactory(
       name: "SuperTokenBase",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -275,6 +299,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.Proxy>;
     getContractAt(
+      name: "Initializable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Initializable>;
+    getContractAt(
       name: "IERC20",
       address: string,
       signer?: ethers.Signer
@@ -314,6 +343,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165>;
+    getContractAt(
+      name: "IERC1820Registry",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC1820Registry>;
     getContractAt(
       name: "SuperAppBase",
       address: string,
@@ -375,6 +409,21 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.TokenInfo>;
     getContractAt(
+      name: "EventsEmitter",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.EventsEmitter>;
+    getContractAt(
+      name: "SuperfluidToken",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SuperfluidToken>;
+    getContractAt(
+      name: "UUPSProxiable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.UUPSProxiable>;
+    getContractAt(
       name: "Cashflow",
       address: string,
       signer?: ethers.Signer
@@ -399,6 +448,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.SuperSoulbound>;
+    getContractAt(
+      name: "SuperSoulboundV1",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SuperSoulboundV1>;
     getContractAt(
       name: "SuperTokenBase",
       address: string,

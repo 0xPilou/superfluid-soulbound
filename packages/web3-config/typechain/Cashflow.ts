@@ -31,7 +31,6 @@ export interface CashflowInterface extends utils.Interface {
     "flowRates(uint256)": FunctionFragment;
     "getFlow(address)": FunctionFragment;
     "issueNFT(address,int96,uint256)": FunctionFragment;
-    "test()": FunctionFragment;
     "updateHolder(address,address,uint256)": FunctionFragment;
   };
 
@@ -73,7 +72,6 @@ export interface CashflowInterface extends utils.Interface {
     functionFragment: "issueNFT",
     values: [string, BigNumberish, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "test", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "updateHolder",
     values: [string, string, BigNumberish]
@@ -108,7 +106,6 @@ export interface CashflowInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "flowRates", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getFlow", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "issueNFT", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "test", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "updateHolder",
     data: BytesLike
@@ -329,14 +326,6 @@ export interface Cashflow extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    test(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "test()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     updateHolder(
       oldReceiver: string,
       newReceiver: string,
@@ -530,14 +519,6 @@ export interface Cashflow extends BaseContract {
     receiver: string,
     flowRate: BigNumberish,
     tokenId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  test(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "test()"(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -740,10 +721,6 @@ export interface Cashflow extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    test(overrides?: CallOverrides): Promise<void>;
-
-    "test()"(overrides?: CallOverrides): Promise<void>;
-
     updateHolder(
       oldReceiver: string,
       newReceiver: string,
@@ -922,14 +899,6 @@ export interface Cashflow extends BaseContract {
       receiver: string,
       flowRate: BigNumberish,
       tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    test(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "test()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1112,14 +1081,6 @@ export interface Cashflow extends BaseContract {
       receiver: string,
       flowRate: BigNumberish,
       tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    test(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "test()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
