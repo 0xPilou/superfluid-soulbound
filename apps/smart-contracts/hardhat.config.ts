@@ -110,13 +110,13 @@ const config: HardhatUserConfig = {
     target: "ethers-v5",
     alwaysGenerateOverloads: true,
   },
-  abiExporter: {
-    path: "./abi",
-    clear: true,
-    flat: true,
-    spacing: 2,
-    runOnCompile: true,
-  },
+  // abiExporter: {
+  //   path: "./abi",
+  //   clear: true,
+  //   flat: true,
+  //   spacing: 2,
+  //   runOnCompile: true,
+  // },
   contractSizer: {
     alphaSort: true,
     runOnCompile: true,
