@@ -119,7 +119,7 @@ const config: HardhatUserConfig = {
   // },
   contractSizer: {
     alphaSort: true,
-    runOnCompile: true,
+    runOnCompile: false,
     strict: true,
   },
 };
