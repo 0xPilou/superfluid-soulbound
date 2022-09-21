@@ -7,7 +7,7 @@ import { ISuperAgreement } from "@superfluid-finance/ethereum-contracts/contract
 import { ISuperfluidGovernance } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluidGovernance.sol";
 import { ISuperfluidToken, SuperfluidErrors } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluidToken.sol";
 
-/* Superfluid Interfaces */
+/* Superfluid Libs */
 import { EventsEmitter } from "@superfluid-finance/ethereum-contracts/contracts/libs/EventsEmitter.sol";
 import { FixedSizeData } from "@superfluid-finance/ethereum-contracts/contracts/libs/FixedSizeData.sol";
 
@@ -15,9 +15,9 @@ import { FixedSizeData } from "@superfluid-finance/ethereum-contracts/contracts/
 import { SafeCast } from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 
 /**
- * @title Superfluid's Soulbound Token implementation
+ * @title Superfluid compatible Soulbound Token implementation
  *
- * @author Anotherblock
+ * @author 0xPilou
  */
 abstract contract SuperfluidSoulbound is ISuperfluidToken {
   bytes32 private constant _REWARD_ADDRESS_CONFIG_KEY =

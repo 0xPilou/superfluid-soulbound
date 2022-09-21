@@ -1,25 +1,31 @@
 // SPDX-License-Identifier: AGPLv3
 pragma solidity 0.8.16;
 
+/* Superfluid Interfaces */
+import { ISuperfluid, ISuperfluidGovernance, ISuperToken, ISuperAgreement, IERC20, IERC777, TokenInfo } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
+import { SuperfluidErrors } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/Definitions.sol";
+
+/* Superfluid Contracts */
 import { UUPSProxiable } from "@superfluid-finance/ethereum-contracts/contracts/upgradability/UUPSProxiable.sol";
 
-import { ISuperfluid, ISuperfluidGovernance, ISuperToken, ISuperAgreement, IERC20, IERC777, TokenInfo } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
-import { ISuperfluidToken, SuperfluidSoulbound } from "./SuperfluidSoulbound.sol";
-
+/* Superfluid Libs */
 import { ERC777Helper } from "@superfluid-finance/ethereum-contracts/contracts/libs/ERC777Helper.sol";
 
+/* Openzeppelin Contracts */
 import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import { SafeMath } from "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import { SafeCast } from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import { IERC777Recipient } from "@openzeppelin/contracts/token/ERC777/IERC777Recipient.sol";
 import { IERC777Sender } from "@openzeppelin/contracts/token/ERC777/IERC777Sender.sol";
 import { Address } from "@openzeppelin/contracts/utils/Address.sol";
-import { SuperfluidErrors } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/Definitions.sol";
+
+/* Custom Imports */
+import { ISuperfluidToken, SuperfluidSoulbound } from "./SuperfluidSoulbound.sol";
 
 /**
- * @title Superfluid's super soulbound token implementation
+ * @title Superfluid compatible super soulbound token implementation
  *
- * @author Anotherblock
+ * @author 0xPilou
  */
 contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
   using SafeMath for uint256;
@@ -66,23 +72,14 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
   uint256 private _reserve30;
   uint256 internal _reserve31;
 
-  constructor(ISuperfluid host)
-    SuperfluidSoulbound(host)
-  // solhint-disable-next-line no-empty-blocks
-  {
-
-  }
+  constructor(address host) SuperfluidSoulbound(ISuperfluid(host)) {}
 
   function initialize(
     IERC20 underlyingToken,
     uint8 underlyingDecimals,
     string calldata n,
     string calldata s
-  )
-    external
-    override
-    initializer // OpenZeppelin Initializable
-  {
+  ) external override initializer {
     _underlyingToken = underlyingToken;
     _underlyingDecimals = underlyingDecimals;
 
