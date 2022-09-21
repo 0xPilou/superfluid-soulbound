@@ -4,10 +4,7 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type {
-  ISuperSoulbound,
-  ISuperSoulboundInterface,
-} from "../ISuperSoulbound";
+import type { IABToken, IABTokenInterface } from "../IABToken";
 
 const _abi = [
   {
@@ -19,13 +16,8 @@ const _abi = [
       },
       {
         internalType: "uint256",
-        name: "amount",
+        name: "_amount",
         type: "uint256",
-      },
-      {
-        internalType: "bytes",
-        name: "userData",
-        type: "bytes",
       },
     ],
     name: "burn",
@@ -37,18 +29,13 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "receiver",
+        name: "_receiver",
         type: "address",
       },
       {
         internalType: "uint256",
-        name: "amount",
+        name: "_amount",
         type: "uint256",
-      },
-      {
-        internalType: "bytes",
-        name: "userData",
-        type: "bytes",
       },
     ],
     name: "mint",
@@ -71,15 +58,15 @@ const _abi = [
   },
 ];
 
-export class ISuperSoulbound__factory {
+export class IABToken__factory {
   static readonly abi = _abi;
-  static createInterface(): ISuperSoulboundInterface {
-    return new utils.Interface(_abi) as ISuperSoulboundInterface;
+  static createInterface(): IABTokenInterface {
+    return new utils.Interface(_abi) as IABTokenInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): ISuperSoulbound {
-    return new Contract(address, _abi, signerOrProvider) as ISuperSoulbound;
+  ): IABToken {
+    return new Contract(address, _abi, signerOrProvider) as IABToken;
   }
 }

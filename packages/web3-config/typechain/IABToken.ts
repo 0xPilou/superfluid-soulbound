@@ -17,21 +17,21 @@ import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export interface ISuperSoulboundInterface extends utils.Interface {
-  contractName: "ISuperSoulbound";
+export interface IABTokenInterface extends utils.Interface {
+  contractName: "IABToken";
   functions: {
-    "burn(address,uint256,bytes)": FunctionFragment;
-    "mint(address,uint256,bytes)": FunctionFragment;
+    "burn(address,uint256)": FunctionFragment;
+    "mint(address,uint256)": FunctionFragment;
     "setStore(address)": FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: "burn",
-    values: [string, BigNumberish, BytesLike]
+    values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "mint",
-    values: [string, BigNumberish, BytesLike]
+    values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "setStore", values: [string]): string;
 
@@ -42,13 +42,13 @@ export interface ISuperSoulboundInterface extends utils.Interface {
   events: {};
 }
 
-export interface ISuperSoulbound extends BaseContract {
-  contractName: "ISuperSoulbound";
+export interface IABToken extends BaseContract {
+  contractName: "IABToken";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: ISuperSoulboundInterface;
+  interface: IABTokenInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -72,29 +72,25 @@ export interface ISuperSoulbound extends BaseContract {
   functions: {
     burn(
       _from: string,
-      amount: BigNumberish,
-      userData: BytesLike,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "burn(address,uint256,bytes)"(
+    "burn(address,uint256)"(
       _from: string,
-      amount: BigNumberish,
-      userData: BytesLike,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     mint(
-      receiver: string,
-      amount: BigNumberish,
-      userData: BytesLike,
+      _receiver: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "mint(address,uint256,bytes)"(
-      receiver: string,
-      amount: BigNumberish,
-      userData: BytesLike,
+    "mint(address,uint256)"(
+      _receiver: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -111,29 +107,25 @@ export interface ISuperSoulbound extends BaseContract {
 
   burn(
     _from: string,
-    amount: BigNumberish,
-    userData: BytesLike,
+    _amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "burn(address,uint256,bytes)"(
+  "burn(address,uint256)"(
     _from: string,
-    amount: BigNumberish,
-    userData: BytesLike,
+    _amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   mint(
-    receiver: string,
-    amount: BigNumberish,
-    userData: BytesLike,
+    _receiver: string,
+    _amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "mint(address,uint256,bytes)"(
-    receiver: string,
-    amount: BigNumberish,
-    userData: BytesLike,
+  "mint(address,uint256)"(
+    _receiver: string,
+    _amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -150,29 +142,25 @@ export interface ISuperSoulbound extends BaseContract {
   callStatic: {
     burn(
       _from: string,
-      amount: BigNumberish,
-      userData: BytesLike,
+      _amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "burn(address,uint256,bytes)"(
+    "burn(address,uint256)"(
       _from: string,
-      amount: BigNumberish,
-      userData: BytesLike,
+      _amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
     mint(
-      receiver: string,
-      amount: BigNumberish,
-      userData: BytesLike,
+      _receiver: string,
+      _amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "mint(address,uint256,bytes)"(
-      receiver: string,
-      amount: BigNumberish,
-      userData: BytesLike,
+    "mint(address,uint256)"(
+      _receiver: string,
+      _amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -189,29 +177,25 @@ export interface ISuperSoulbound extends BaseContract {
   estimateGas: {
     burn(
       _from: string,
-      amount: BigNumberish,
-      userData: BytesLike,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "burn(address,uint256,bytes)"(
+    "burn(address,uint256)"(
       _from: string,
-      amount: BigNumberish,
-      userData: BytesLike,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     mint(
-      receiver: string,
-      amount: BigNumberish,
-      userData: BytesLike,
+      _receiver: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "mint(address,uint256,bytes)"(
-      receiver: string,
-      amount: BigNumberish,
-      userData: BytesLike,
+    "mint(address,uint256)"(
+      _receiver: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -229,29 +213,25 @@ export interface ISuperSoulbound extends BaseContract {
   populateTransaction: {
     burn(
       _from: string,
-      amount: BigNumberish,
-      userData: BytesLike,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "burn(address,uint256,bytes)"(
+    "burn(address,uint256)"(
       _from: string,
-      amount: BigNumberish,
-      userData: BytesLike,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     mint(
-      receiver: string,
-      amount: BigNumberish,
-      userData: BytesLike,
+      _receiver: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "mint(address,uint256,bytes)"(
-      receiver: string,
-      amount: BigNumberish,
-      userData: BytesLike,
+    "mint(address,uint256)"(
+      _receiver: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
