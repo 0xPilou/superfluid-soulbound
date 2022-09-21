@@ -1,7 +1,5 @@
-import { ethers } from "ethers";
 import { chain, useAccount, useBalance } from "wagmi";
-import { useContractRead } from "wagmi-lfg";
-import { Cashflow__factory, getAddress, getAbi } from "web3-config";
+import { getAddress } from "web3-config";
 
 const BalanceView = () => {
   const { address } = useAccount();
@@ -9,13 +7,13 @@ const BalanceView = () => {
   const { data: sbtxUserBalance } = useBalance({
     addressOrName: address,
     watch: true,
-    token: getAddress(chain.optimismGoerli.id, "SuperSoulbound"),
+    token: getAddress(chain.optimismGoerli.id, "ABToken"),
   });
 
   const { data: sbtxContractBalance } = useBalance({
     addressOrName: getAddress(chain.optimismGoerli.id, "Cashflow"),
     watch: true,
-    token: getAddress(chain.optimismGoerli.id, "SuperSoulbound"),
+    token: getAddress(chain.optimismGoerli.id, "ABToken"),
   });
 
   return (
@@ -24,11 +22,11 @@ const BalanceView = () => {
       <div style={{ display: "flex" }}>
         <div style={{ marginLeft: "5%", marginRight: "5%" }}>
           <h2>Cashflow Contract : </h2>
-          <p>{sbtxContractBalance?.formatted || null} SBTx</p>
+          <p>{sbtxContractBalance?.formatted || null} ABT</p>
         </div>
         <div style={{ marginLeft: "5%", marginRight: "5%" }}>
           <h2>User : </h2>
-          <div>{sbtxUserBalance?.formatted || null} SBTx</div>
+          <div>{sbtxUserBalance?.formatted || null} ABT</div>
         </div>
       </div>
     </div>

@@ -35,7 +35,7 @@ const StoreView = (props: StoreProps) => {
         <>
           <h3>
             Price : {ethers.utils.formatEther(itemDetails!.price!.toString())}{" "}
-            SBTx
+            ABT
           </h3>
           <h3>Quantity : {itemDetails!.quantity.toNumber()} units</h3>
           <div>

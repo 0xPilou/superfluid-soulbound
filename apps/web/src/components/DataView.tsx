@@ -62,25 +62,25 @@ const DataView = () => {
       {streams?.map((stream) => (
         <div>
           <div>
-            {ethers.utils.formatEther(stream.currentFlowRate)} SBTx / second
+            {ethers.utils.formatEther(stream.currentFlowRate)} ABT / second
           </div>
           <div>
-            {+ethers.utils.formatEther(stream.currentFlowRate) * 86400} SBTx /
+            {+ethers.utils.formatEther(stream.currentFlowRate) * 86400} ABT /
             day
           </div>
           <div>
             {+ethers.utils.formatEther(stream.currentFlowRate) * (86400 * 30)}{" "}
-            SBTx / month
+            ABT / month
           </div>
         </div>
       ))}
       {flowRate && (
         <>
           <h2> On-Chain Data</h2>
-          <div>{ethers.utils.formatEther(flowRate)} SBTx / second</div>
-          <div>{+ethers.utils.formatEther(flowRate) * 86400} SBTx / day</div>
+          <div>{ethers.utils.formatEther(flowRate)} ABT / second</div>
+          <div>{+ethers.utils.formatEther(flowRate) * 86400} ABT / day</div>
           <div>
-            {+ethers.utils.formatEther(flowRate) * (86400 * 30)} SBTx / month
+            {+ethers.utils.formatEther(flowRate) * (86400 * 30)} ABT / month
           </div>
         </>
       )}
