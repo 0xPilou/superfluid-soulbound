@@ -2,7 +2,7 @@
 pragma solidity ^0.8.16;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./interfaces/ISuperSoulbound.sol";
+import "./interfaces/IABToken.sol";
 
 contract Store is Ownable {
   uint256 public nbItems = 0;
@@ -27,7 +27,7 @@ contract Store is Ownable {
 
     if (item.quantity < _quantity) revert OutOfStock();
 
-    ISuperSoulbound(token).burn(msg.sender, _quantity * item.price, "0x");
+    IABToken(token).burn(msg.sender, _quantity * item.price);
     item.quantity -= _quantity;
     emit Redeemed(msg.sender, _itemId, _quantity);
   }
