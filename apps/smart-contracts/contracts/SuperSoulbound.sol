@@ -34,6 +34,11 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
   using ERC777Helper for ERC777Helper.Operators;
   using SafeERC20 for IERC20;
 
+  error NOT_TRANSFERABLE();
+  error NOT_APPROVABLE();
+  error NOT_BURNABLE();
+  error NOT_MINTABLE();
+
   uint8 private constant _STANDARD_DECIMALS = 18;
 
   /* WARNING: NEVER RE-ORDER VARIABLES! Including the base contracts.
@@ -439,7 +444,7 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
     override
     returns (bool)
   {
-    return _transferFrom(msg.sender, msg.sender, recipient, amount);
+    revert NOT_TRANSFERABLE();
   }
 
   function allowance(address account, address spender)
@@ -448,7 +453,7 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
     override
     returns (uint256)
   {
-    return _allowances[account][spender];
+    return 0;
   }
 
   function approve(address spender, uint256 amount)
@@ -456,8 +461,7 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
     override
     returns (bool)
   {
-    _approve(msg.sender, spender, amount);
-    return true;
+    revert NOT_APPROVABLE();
   }
 
   function transferFrom(
@@ -465,7 +469,7 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
     address recipient,
     uint256 amount
   ) public override returns (bool) {
-    return _transferFrom(msg.sender, holder, recipient, amount);
+    revert NOT_TRANSFERABLE();
   }
 
   function increaseAllowance(address spender, uint256 addedValue)
@@ -473,12 +477,7 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
     override
     returns (bool)
   {
-    _approve(
-      msg.sender,
-      spender,
-      _allowances[msg.sender][spender] + addedValue
-    );
-    return true;
+    revert NOT_APPROVABLE();
   }
 
   function decreaseAllowance(address spender, uint256 subtractedValue)
@@ -486,15 +485,7 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
     override
     returns (bool)
   {
-    _approve(
-      msg.sender,
-      spender,
-      _allowances[msg.sender][spender].sub(
-        subtractedValue,
-        "SuperToken: decreased allowance below zero"
-      )
-    );
-    return true;
+    revert NOT_APPROVABLE();
   }
 
   /**************************************************************************
@@ -510,11 +501,11 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
     uint256 amount,
     bytes calldata data
   ) external override {
-    _send(msg.sender, msg.sender, recipient, amount, data, "", true);
+    revert NOT_TRANSFERABLE();
   }
 
   function burn(uint256 amount, bytes calldata data) external override {
-    _downgrade(msg.sender, msg.sender, amount, data, "");
+    revert NOT_BURNABLE();
   }
 
   function isOperatorFor(address operator, address tokenHolder)
@@ -554,10 +545,7 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
     bytes calldata data,
     bytes calldata operatorData
   ) external override {
-    address operator = msg.sender;
-    if (!_operators.isOperatorFor(operator, sender))
-      revert SUPER_TOKEN_CALLER_IS_NOT_OPERATOR_FOR_HOLDER();
-    _send(operator, sender, recipient, amount, data, operatorData, true);
+    revert NOT_TRANSFERABLE();
   }
 
   function operatorBurn(
@@ -566,14 +554,7 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
     bytes calldata data,
     bytes calldata operatorData
   ) external override {
-    address operator = msg.sender;
-    if (!_operators.isOperatorFor(operator, account))
-      revert SUPER_TOKEN_CALLER_IS_NOT_OPERATOR_FOR_HOLDER();
-    _downgrade(operator, account, amount, data, operatorData);
-  }
-
-  function _setupDefaultOperators(address[] memory operators) internal {
-    _operators.setupDefaultOperators(operators);
+    revert NOT_BURNABLE();
   }
 
   /**************************************************************************
@@ -585,14 +566,7 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
     uint256 amount,
     bytes memory userData
   ) external override onlySelf {
-    _mint(
-      msg.sender,
-      account,
-      amount,
-      false, /* requireReceptionAck */
-      userData,
-      new bytes(0)
-    );
+    revert NOT_MINTABLE();
   }
 
   function selfBurn(
@@ -600,7 +574,7 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
     uint256 amount,
     bytes memory userData
   ) external override onlySelf {
-    _burn(msg.sender, account, amount, userData, new bytes(0));
+    revert NOT_BURNABLE();
   }
 
   function selfApproveFor(
@@ -608,7 +582,7 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
     address spender,
     uint256 amount
   ) external override onlySelf {
-    _approve(account, spender, amount);
+    revert NOT_APPROVABLE();
   }
 
   function selfTransferFrom(
@@ -617,7 +591,7 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
     address recipient,
     uint256 amount
   ) external override onlySelf {
-    _transferFrom(spender, holder, recipient, amount);
+    revert NOT_TRANSFERABLE();
   }
 
   /**************************************************************************
@@ -625,7 +599,7 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
    *************************************************************************/
 
   function transferAll(address recipient) external override {
-    _transferFrom(msg.sender, msg.sender, recipient, balanceOf(msg.sender));
+    revert NOT_TRANSFERABLE();
   }
 
   /**************************************************************************
@@ -754,7 +728,7 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
     address spender,
     uint256 amount
   ) external override onlyHost {
-    _approve(account, spender, amount);
+    revert NOT_APPROVABLE();
   }
 
   function operationTransferFrom(
@@ -763,7 +737,7 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
     address recipient,
     uint256 amount
   ) external override onlyHost {
-    _transferFrom(account, spender, recipient, amount);
+    revert NOT_TRANSFERABLE();
   }
 
   function operationUpgrade(address account, uint256 amount)
