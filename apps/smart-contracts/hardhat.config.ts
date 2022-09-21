@@ -25,7 +25,15 @@ const RINKEBY_ALCHEMY_KEY = process.env.RINKEBY_ALCHEMY_KEY;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 const config: HardhatUserConfig = {
-  solidity: "0.8.16",
+  solidity: {
+    version: "0.8.16",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 10,
+      },
+    },
+  },
   defaultNetwork: "hardhat",
 
   networks: {
