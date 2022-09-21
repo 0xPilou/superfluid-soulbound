@@ -17,14 +17,17 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export interface SuperSoulboundInterface extends utils.Interface {
-  contractName: "SuperSoulbound";
+export interface SuperSoulboundV2Interface extends utils.Interface {
+  contractName: "SuperSoulboundV2";
   functions: {
+    "BURNER()": FunctionFragment;
+    "DEFAULT_ADMIN_ROLE()": FunctionFragment;
+    "MINTER()": FunctionFragment;
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "authorizeOperator(address)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "burn(uint256,bytes)": FunctionFragment;
+    "burn(address,uint256,bytes)": FunctionFragment;
     "castrate()": FunctionFragment;
     "createAgreement(bytes32,bytes32[])": FunctionFragment;
     "decimals()": FunctionFragment;
@@ -36,8 +39,11 @@ export interface SuperSoulboundInterface extends utils.Interface {
     "getAgreementStateSlot(address,address,uint256,uint256)": FunctionFragment;
     "getCodeAddress()": FunctionFragment;
     "getHost()": FunctionFragment;
+    "getRoleAdmin(bytes32)": FunctionFragment;
     "getUnderlyingToken()": FunctionFragment;
+    "grantRole(bytes32,address)": FunctionFragment;
     "granularity()": FunctionFragment;
+    "hasRole(bytes32,address)": FunctionFragment;
     "increaseAllowance(address,uint256)": FunctionFragment;
     "initialize(address,uint8,string,string)": FunctionFragment;
     "isAccountCritical(address,uint256)": FunctionFragment;
@@ -46,6 +52,7 @@ export interface SuperSoulboundInterface extends utils.Interface {
     "isAccountSolventNow(address)": FunctionFragment;
     "isOperatorFor(address,address)": FunctionFragment;
     "makeLiquidationPayoutsV2(bytes32,bytes,address,bool,address,uint256,int256)": FunctionFragment;
+    "mint(address,uint256,bytes)": FunctionFragment;
     "name()": FunctionFragment;
     "operationApprove(address,address,uint256)": FunctionFragment;
     "operationDowngrade(address,uint256)": FunctionFragment;
@@ -56,13 +63,18 @@ export interface SuperSoulboundInterface extends utils.Interface {
     "proxiableUUID()": FunctionFragment;
     "realtimeBalanceOf(address,uint256)": FunctionFragment;
     "realtimeBalanceOfNow(address)": FunctionFragment;
+    "renounceRole(bytes32,address)": FunctionFragment;
     "revokeOperator(address)": FunctionFragment;
+    "revokeRole(bytes32,address)": FunctionFragment;
     "selfApproveFor(address,address,uint256)": FunctionFragment;
     "selfBurn(address,uint256,bytes)": FunctionFragment;
     "selfMint(address,uint256,bytes)": FunctionFragment;
     "selfTransferFrom(address,address,address,uint256)": FunctionFragment;
     "send(address,uint256,bytes)": FunctionFragment;
+    "setStore(address)": FunctionFragment;
     "settleBalance(address,int256)": FunctionFragment;
+    "store()": FunctionFragment;
+    "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "terminateAgreement(bytes32,uint256)": FunctionFragment;
     "totalSupply()": FunctionFragment;
@@ -76,6 +88,12 @@ export interface SuperSoulboundInterface extends utils.Interface {
     "upgradeTo(address,uint256,bytes)": FunctionFragment;
   };
 
+  encodeFunctionData(functionFragment: "BURNER", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "DEFAULT_ADMIN_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "MINTER", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "allowance",
     values: [string, string]
@@ -91,7 +109,7 @@ export interface SuperSoulboundInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(
     functionFragment: "burn",
-    values: [BigNumberish, BytesLike]
+    values: [string, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "castrate", values?: undefined): string;
   encodeFunctionData(
@@ -129,12 +147,24 @@ export interface SuperSoulboundInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "getHost", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "getRoleAdmin",
+    values: [BytesLike]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getUnderlyingToken",
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "grantRole",
+    values: [BytesLike, string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "granularity",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "hasRole",
+    values: [BytesLike, string]
   ): string;
   encodeFunctionData(
     functionFragment: "increaseAllowance",
@@ -176,6 +206,10 @@ export interface SuperSoulboundInterface extends utils.Interface {
       BigNumberish
     ]
   ): string;
+  encodeFunctionData(
+    functionFragment: "mint",
+    values: [string, BigNumberish, BytesLike]
+  ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "operationApprove",
@@ -214,8 +248,16 @@ export interface SuperSoulboundInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
+    functionFragment: "renounceRole",
+    values: [BytesLike, string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "revokeOperator",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "revokeRole",
+    values: [BytesLike, string]
   ): string;
   encodeFunctionData(
     functionFragment: "selfApproveFor",
@@ -237,9 +279,15 @@ export interface SuperSoulboundInterface extends utils.Interface {
     functionFragment: "send",
     values: [string, BigNumberish, BytesLike]
   ): string;
+  encodeFunctionData(functionFragment: "setStore", values: [string]): string;
   encodeFunctionData(
     functionFragment: "settleBalance",
     values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(functionFragment: "store", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "supportsInterface",
+    values: [BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
@@ -277,6 +325,12 @@ export interface SuperSoulboundInterface extends utils.Interface {
     values: [string, BigNumberish, BytesLike]
   ): string;
 
+  decodeFunctionResult(functionFragment: "BURNER", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "DEFAULT_ADMIN_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "MINTER", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(
@@ -318,13 +372,19 @@ export interface SuperSoulboundInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "getHost", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "getRoleAdmin",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getUnderlyingToken",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "granularity",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "increaseAllowance",
     data: BytesLike
@@ -354,6 +414,7 @@ export interface SuperSoulboundInterface extends utils.Interface {
     functionFragment: "makeLiquidationPayoutsV2",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "operationApprove",
@@ -392,9 +453,14 @@ export interface SuperSoulboundInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "renounceRole",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "revokeOperator",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "selfApproveFor",
     data: BytesLike
@@ -406,8 +472,14 @@ export interface SuperSoulboundInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "send", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setStore", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "settleBalance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "store", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
@@ -456,6 +528,9 @@ export interface SuperSoulboundInterface extends utils.Interface {
     "Initialized(uint8)": EventFragment;
     "Minted(address,address,uint256,bytes,bytes)": EventFragment;
     "RevokedOperator(address,address)": EventFragment;
+    "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
+    "RoleGranted(bytes32,address,address)": EventFragment;
+    "RoleRevoked(bytes32,address,address)": EventFragment;
     "Sent(address,address,address,uint256,bytes,bytes)": EventFragment;
     "TokenDowngraded(address,uint256)": EventFragment;
     "TokenUpgraded(address,uint256)": EventFragment;
@@ -477,6 +552,9 @@ export interface SuperSoulboundInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Minted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RevokedOperator"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Sent"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TokenDowngraded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TokenUpgraded"): EventFragment;
@@ -628,6 +706,28 @@ export type RevokedOperatorEvent = TypedEvent<
 
 export type RevokedOperatorEventFilter = TypedEventFilter<RevokedOperatorEvent>;
 
+export type RoleAdminChangedEvent = TypedEvent<
+  [string, string, string],
+  { role: string; previousAdminRole: string; newAdminRole: string }
+>;
+
+export type RoleAdminChangedEventFilter =
+  TypedEventFilter<RoleAdminChangedEvent>;
+
+export type RoleGrantedEvent = TypedEvent<
+  [string, string, string],
+  { role: string; account: string; sender: string }
+>;
+
+export type RoleGrantedEventFilter = TypedEventFilter<RoleGrantedEvent>;
+
+export type RoleRevokedEvent = TypedEvent<
+  [string, string, string],
+  { role: string; account: string; sender: string }
+>;
+
+export type RoleRevokedEventFilter = TypedEventFilter<RoleRevokedEvent>;
+
 export type SentEvent = TypedEvent<
   [string, string, string, BigNumber, string, string],
   {
@@ -663,13 +763,13 @@ export type TransferEvent = TypedEvent<
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
-export interface SuperSoulbound extends BaseContract {
-  contractName: "SuperSoulbound";
+export interface SuperSoulboundV2 extends BaseContract {
+  contractName: "SuperSoulboundV2";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: SuperSoulboundInterface;
+  interface: SuperSoulboundV2Interface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -691,6 +791,18 @@ export interface SuperSoulbound extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    BURNER(overrides?: CallOverrides): Promise<[string]>;
+
+    "BURNER()"(overrides?: CallOverrides): Promise<[string]>;
+
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
+
+    "DEFAULT_ADMIN_ROLE()"(overrides?: CallOverrides): Promise<[string]>;
+
+    MINTER(overrides?: CallOverrides): Promise<[string]>;
+
+    "MINTER()"(overrides?: CallOverrides): Promise<[string]>;
+
     allowance(
       account: string,
       spender: string,
@@ -716,12 +828,12 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<ContractTransaction>;
 
     authorizeOperator(
-      operator: string,
+      _operator: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     "authorizeOperator(address)"(
-      operator: string,
+      _operator: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -735,9 +847,10 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber] & { balance: BigNumber }>;
 
-    burn(
-      amount: BigNumberish,
-      data: BytesLike,
+    "burn(address,uint256,bytes)"(
+      _from: string,
+      _amount: BigNumberish,
+      _userData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -851,13 +964,44 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string] & { host: string }>;
 
+    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<[string]>;
+
+    "getRoleAdmin(bytes32)"(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
     getUnderlyingToken(overrides?: CallOverrides): Promise<[string]>;
 
     "getUnderlyingToken()"(overrides?: CallOverrides): Promise<[string]>;
 
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "grantRole(bytes32,address)"(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     granularity(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     "granularity()"(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    "hasRole(bytes32,address)"(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     increaseAllowance(
       spender: string,
@@ -872,18 +1016,18 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<ContractTransaction>;
 
     initialize(
-      underlyingToken: string,
-      underlyingDecimals: BigNumberish,
-      n: string,
-      s: string,
+      _underlyingToken: string,
+      _underlyingDecimals: BigNumberish,
+      _name: string,
+      _symbol: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     "initialize(address,uint8,string,string)"(
-      underlyingToken: string,
-      underlyingDecimals: BigNumberish,
-      n: string,
-      s: string,
+      _underlyingToken: string,
+      _underlyingDecimals: BigNumberish,
+      _name: string,
+      _symbol: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -932,14 +1076,14 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<[boolean] & { isSolvent: boolean }>;
 
     isOperatorFor(
-      operator: string,
-      tokenHolder: string,
+      _operator: string,
+      _tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
     "isOperatorFor(address,address)"(
-      operator: string,
-      tokenHolder: string,
+      _operator: string,
+      _tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
@@ -962,6 +1106,20 @@ export interface SuperSoulbound extends BaseContract {
       targetAccount: string,
       rewardAmount: BigNumberish,
       targetAccountBalanceDelta: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    mint(
+      _receiver: string,
+      _amount: BigNumberish,
+      _userData: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "mint(address,uint256,bytes)"(
+      _receiver: string,
+      _amount: BigNumberish,
+      _userData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -1024,36 +1182,36 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<ContractTransaction>;
 
     operatorBurn(
-      account: string,
-      amount: BigNumberish,
-      data: BytesLike,
-      operatorData: BytesLike,
+      _account: string,
+      _amount: BigNumberish,
+      _data: BytesLike,
+      _operatorData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     "operatorBurn(address,uint256,bytes,bytes)"(
-      account: string,
-      amount: BigNumberish,
-      data: BytesLike,
-      operatorData: BytesLike,
+      _account: string,
+      _amount: BigNumberish,
+      _data: BytesLike,
+      _operatorData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     operatorSend(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
-      data: BytesLike,
-      operatorData: BytesLike,
+      _sender: string,
+      _recipient: string,
+      _amount: BigNumberish,
+      _data: BytesLike,
+      _operatorData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     "operatorSend(address,address,uint256,bytes,bytes)"(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
-      data: BytesLike,
-      operatorData: BytesLike,
+      _sender: string,
+      _recipient: string,
+      _amount: BigNumberish,
+      _data: BytesLike,
+      _operatorData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -1109,13 +1267,37 @@ export interface SuperSoulbound extends BaseContract {
       }
     >;
 
+    renounceRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "renounceRole(bytes32,address)"(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     revokeOperator(
-      operator: string,
+      _operator: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     "revokeOperator(address)"(
-      operator: string,
+      _operator: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "revokeRole(bytes32,address)"(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -1191,6 +1373,16 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setStore(
+      _store: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "setStore(address)"(
+      _store: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     settleBalance(
       account: string,
       delta: BigNumberish,
@@ -1202,6 +1394,20 @@ export interface SuperSoulbound extends BaseContract {
       delta: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    store(overrides?: CallOverrides): Promise<[string]>;
+
+    "store()"(overrides?: CallOverrides): Promise<[string]>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    "supportsInterface(bytes4)"(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     symbol(overrides?: CallOverrides): Promise<[string]>;
 
@@ -1224,14 +1430,14 @@ export interface SuperSoulbound extends BaseContract {
     "totalSupply()"(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     transfer(
-      recipient: string,
-      amount: BigNumberish,
+      _to: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     "transfer(address,uint256)"(
-      recipient: string,
-      amount: BigNumberish,
+      _to: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -1246,16 +1452,16 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<ContractTransaction>;
 
     transferFrom(
-      holder: string,
-      recipient: string,
-      amount: BigNumberish,
+      _from: string,
+      _to: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     "transferFrom(address,address,uint256)"(
-      holder: string,
-      recipient: string,
-      amount: BigNumberish,
+      _from: string,
+      _to: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -1320,6 +1526,18 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
+  BURNER(overrides?: CallOverrides): Promise<string>;
+
+  "BURNER()"(overrides?: CallOverrides): Promise<string>;
+
+  DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
+  "DEFAULT_ADMIN_ROLE()"(overrides?: CallOverrides): Promise<string>;
+
+  MINTER(overrides?: CallOverrides): Promise<string>;
+
+  "MINTER()"(overrides?: CallOverrides): Promise<string>;
+
   allowance(
     account: string,
     spender: string,
@@ -1345,12 +1563,12 @@ export interface SuperSoulbound extends BaseContract {
   ): Promise<ContractTransaction>;
 
   authorizeOperator(
-    operator: string,
+    _operator: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   "authorizeOperator(address)"(
-    operator: string,
+    _operator: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1361,9 +1579,10 @@ export interface SuperSoulbound extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  burn(
-    amount: BigNumberish,
-    data: BytesLike,
+  "burn(address,uint256,bytes)"(
+    _from: string,
+    _amount: BigNumberish,
+    _userData: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1471,13 +1690,44 @@ export interface SuperSoulbound extends BaseContract {
 
   "getHost()"(overrides?: CallOverrides): Promise<string>;
 
+  getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
+
+  "getRoleAdmin(bytes32)"(
+    role: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   getUnderlyingToken(overrides?: CallOverrides): Promise<string>;
 
   "getUnderlyingToken()"(overrides?: CallOverrides): Promise<string>;
 
+  grantRole(
+    role: BytesLike,
+    account: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "grantRole(bytes32,address)"(
+    role: BytesLike,
+    account: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   granularity(overrides?: CallOverrides): Promise<BigNumber>;
 
   "granularity()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+  hasRole(
+    role: BytesLike,
+    account: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  "hasRole(bytes32,address)"(
+    role: BytesLike,
+    account: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   increaseAllowance(
     spender: string,
@@ -1492,18 +1742,18 @@ export interface SuperSoulbound extends BaseContract {
   ): Promise<ContractTransaction>;
 
   initialize(
-    underlyingToken: string,
-    underlyingDecimals: BigNumberish,
-    n: string,
-    s: string,
+    _underlyingToken: string,
+    _underlyingDecimals: BigNumberish,
+    _name: string,
+    _symbol: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   "initialize(address,uint8,string,string)"(
-    underlyingToken: string,
-    underlyingDecimals: BigNumberish,
-    n: string,
-    s: string,
+    _underlyingToken: string,
+    _underlyingDecimals: BigNumberish,
+    _name: string,
+    _symbol: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1552,14 +1802,14 @@ export interface SuperSoulbound extends BaseContract {
   ): Promise<boolean>;
 
   isOperatorFor(
-    operator: string,
-    tokenHolder: string,
+    _operator: string,
+    _tokenHolder: string,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
   "isOperatorFor(address,address)"(
-    operator: string,
-    tokenHolder: string,
+    _operator: string,
+    _tokenHolder: string,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
@@ -1582,6 +1832,20 @@ export interface SuperSoulbound extends BaseContract {
     targetAccount: string,
     rewardAmount: BigNumberish,
     targetAccountBalanceDelta: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  mint(
+    _receiver: string,
+    _amount: BigNumberish,
+    _userData: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "mint(address,uint256,bytes)"(
+    _receiver: string,
+    _amount: BigNumberish,
+    _userData: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1644,36 +1908,36 @@ export interface SuperSoulbound extends BaseContract {
   ): Promise<ContractTransaction>;
 
   operatorBurn(
-    account: string,
-    amount: BigNumberish,
-    data: BytesLike,
-    operatorData: BytesLike,
+    _account: string,
+    _amount: BigNumberish,
+    _data: BytesLike,
+    _operatorData: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   "operatorBurn(address,uint256,bytes,bytes)"(
-    account: string,
-    amount: BigNumberish,
-    data: BytesLike,
-    operatorData: BytesLike,
+    _account: string,
+    _amount: BigNumberish,
+    _data: BytesLike,
+    _operatorData: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   operatorSend(
-    sender: string,
-    recipient: string,
-    amount: BigNumberish,
-    data: BytesLike,
-    operatorData: BytesLike,
+    _sender: string,
+    _recipient: string,
+    _amount: BigNumberish,
+    _data: BytesLike,
+    _operatorData: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   "operatorSend(address,address,uint256,bytes,bytes)"(
-    sender: string,
-    recipient: string,
-    amount: BigNumberish,
-    data: BytesLike,
-    operatorData: BytesLike,
+    _sender: string,
+    _recipient: string,
+    _amount: BigNumberish,
+    _data: BytesLike,
+    _operatorData: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1729,13 +1993,37 @@ export interface SuperSoulbound extends BaseContract {
     }
   >;
 
+  renounceRole(
+    role: BytesLike,
+    account: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "renounceRole(bytes32,address)"(
+    role: BytesLike,
+    account: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   revokeOperator(
-    operator: string,
+    _operator: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   "revokeOperator(address)"(
-    operator: string,
+    _operator: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  revokeRole(
+    role: BytesLike,
+    account: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "revokeRole(bytes32,address)"(
+    role: BytesLike,
+    account: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1811,6 +2099,16 @@ export interface SuperSoulbound extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setStore(
+    _store: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "setStore(address)"(
+    _store: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   settleBalance(
     account: string,
     delta: BigNumberish,
@@ -1822,6 +2120,20 @@ export interface SuperSoulbound extends BaseContract {
     delta: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  store(overrides?: CallOverrides): Promise<string>;
+
+  "store()"(overrides?: CallOverrides): Promise<string>;
+
+  supportsInterface(
+    interfaceId: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  "supportsInterface(bytes4)"(
+    interfaceId: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   symbol(overrides?: CallOverrides): Promise<string>;
 
@@ -1844,14 +2156,14 @@ export interface SuperSoulbound extends BaseContract {
   "totalSupply()"(overrides?: CallOverrides): Promise<BigNumber>;
 
   transfer(
-    recipient: string,
-    amount: BigNumberish,
+    _to: string,
+    _amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   "transfer(address,uint256)"(
-    recipient: string,
-    amount: BigNumberish,
+    _to: string,
+    _amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1866,16 +2178,16 @@ export interface SuperSoulbound extends BaseContract {
   ): Promise<ContractTransaction>;
 
   transferFrom(
-    holder: string,
-    recipient: string,
-    amount: BigNumberish,
+    _from: string,
+    _to: string,
+    _amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   "transferFrom(address,address,uint256)"(
-    holder: string,
-    recipient: string,
-    amount: BigNumberish,
+    _from: string,
+    _to: string,
+    _amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1940,6 +2252,18 @@ export interface SuperSoulbound extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    BURNER(overrides?: CallOverrides): Promise<string>;
+
+    "BURNER()"(overrides?: CallOverrides): Promise<string>;
+
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
+
+    "DEFAULT_ADMIN_ROLE()"(overrides?: CallOverrides): Promise<string>;
+
+    MINTER(overrides?: CallOverrides): Promise<string>;
+
+    "MINTER()"(overrides?: CallOverrides): Promise<string>;
+
     allowance(
       account: string,
       spender: string,
@@ -1965,12 +2289,12 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<boolean>;
 
     authorizeOperator(
-      operator: string,
+      _operator: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
     "authorizeOperator(address)"(
-      operator: string,
+      _operator: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1981,9 +2305,10 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    burn(
-      amount: BigNumberish,
-      data: BytesLike,
+    "burn(address,uint256,bytes)"(
+      _from: string,
+      _amount: BigNumberish,
+      _userData: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -2084,13 +2409,44 @@ export interface SuperSoulbound extends BaseContract {
 
     "getHost()"(overrides?: CallOverrides): Promise<string>;
 
+    getRoleAdmin(role: BytesLike, overrides?: CallOverrides): Promise<string>;
+
+    "getRoleAdmin(bytes32)"(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
     getUnderlyingToken(overrides?: CallOverrides): Promise<string>;
 
     "getUnderlyingToken()"(overrides?: CallOverrides): Promise<string>;
 
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "grantRole(bytes32,address)"(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     granularity(overrides?: CallOverrides): Promise<BigNumber>;
 
     "granularity()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    "hasRole(bytes32,address)"(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     increaseAllowance(
       spender: string,
@@ -2105,18 +2461,18 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<boolean>;
 
     initialize(
-      underlyingToken: string,
-      underlyingDecimals: BigNumberish,
-      n: string,
-      s: string,
+      _underlyingToken: string,
+      _underlyingDecimals: BigNumberish,
+      _name: string,
+      _symbol: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
     "initialize(address,uint8,string,string)"(
-      underlyingToken: string,
-      underlyingDecimals: BigNumberish,
-      n: string,
-      s: string,
+      _underlyingToken: string,
+      _underlyingDecimals: BigNumberish,
+      _name: string,
+      _symbol: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -2165,14 +2521,14 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<boolean>;
 
     isOperatorFor(
-      operator: string,
-      tokenHolder: string,
+      _operator: string,
+      _tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
     "isOperatorFor(address,address)"(
-      operator: string,
-      tokenHolder: string,
+      _operator: string,
+      _tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
@@ -2195,6 +2551,20 @@ export interface SuperSoulbound extends BaseContract {
       targetAccount: string,
       rewardAmount: BigNumberish,
       targetAccountBalanceDelta: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    mint(
+      _receiver: string,
+      _amount: BigNumberish,
+      _userData: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "mint(address,uint256,bytes)"(
+      _receiver: string,
+      _amount: BigNumberish,
+      _userData: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -2257,36 +2627,36 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<void>;
 
     operatorBurn(
-      account: string,
-      amount: BigNumberish,
-      data: BytesLike,
-      operatorData: BytesLike,
+      _account: string,
+      _amount: BigNumberish,
+      _data: BytesLike,
+      _operatorData: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
     "operatorBurn(address,uint256,bytes,bytes)"(
-      account: string,
-      amount: BigNumberish,
-      data: BytesLike,
-      operatorData: BytesLike,
+      _account: string,
+      _amount: BigNumberish,
+      _data: BytesLike,
+      _operatorData: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
     operatorSend(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
-      data: BytesLike,
-      operatorData: BytesLike,
+      _sender: string,
+      _recipient: string,
+      _amount: BigNumberish,
+      _data: BytesLike,
+      _operatorData: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
     "operatorSend(address,address,uint256,bytes,bytes)"(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
-      data: BytesLike,
-      operatorData: BytesLike,
+      _sender: string,
+      _recipient: string,
+      _amount: BigNumberish,
+      _data: BytesLike,
+      _operatorData: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -2342,10 +2712,34 @@ export interface SuperSoulbound extends BaseContract {
       }
     >;
 
-    revokeOperator(operator: string, overrides?: CallOverrides): Promise<void>;
+    renounceRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "renounceRole(bytes32,address)"(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    revokeOperator(_operator: string, overrides?: CallOverrides): Promise<void>;
 
     "revokeOperator(address)"(
-      operator: string,
+      _operator: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "revokeRole(bytes32,address)"(
+      role: BytesLike,
+      account: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -2421,6 +2815,13 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setStore(_store: string, overrides?: CallOverrides): Promise<void>;
+
+    "setStore(address)"(
+      _store: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     settleBalance(
       account: string,
       delta: BigNumberish,
@@ -2432,6 +2833,20 @@ export interface SuperSoulbound extends BaseContract {
       delta: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    store(overrides?: CallOverrides): Promise<string>;
+
+    "store()"(overrides?: CallOverrides): Promise<string>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    "supportsInterface(bytes4)"(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     symbol(overrides?: CallOverrides): Promise<string>;
 
@@ -2454,14 +2869,14 @@ export interface SuperSoulbound extends BaseContract {
     "totalSupply()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     transfer(
-      recipient: string,
-      amount: BigNumberish,
+      _to: string,
+      _amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
     "transfer(address,uint256)"(
-      recipient: string,
-      amount: BigNumberish,
+      _to: string,
+      _amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
@@ -2473,16 +2888,16 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<void>;
 
     transferFrom(
-      holder: string,
-      recipient: string,
-      amount: BigNumberish,
+      _from: string,
+      _to: string,
+      _amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
     "transferFrom(address,address,uint256)"(
-      holder: string,
-      recipient: string,
-      amount: BigNumberish,
+      _from: string,
+      _to: string,
+      _amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
@@ -2716,6 +3131,39 @@ export interface SuperSoulbound extends BaseContract {
       tokenHolder?: string | null
     ): RevokedOperatorEventFilter;
 
+    "RoleAdminChanged(bytes32,bytes32,bytes32)"(
+      role?: BytesLike | null,
+      previousAdminRole?: BytesLike | null,
+      newAdminRole?: BytesLike | null
+    ): RoleAdminChangedEventFilter;
+    RoleAdminChanged(
+      role?: BytesLike | null,
+      previousAdminRole?: BytesLike | null,
+      newAdminRole?: BytesLike | null
+    ): RoleAdminChangedEventFilter;
+
+    "RoleGranted(bytes32,address,address)"(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): RoleGrantedEventFilter;
+    RoleGranted(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): RoleGrantedEventFilter;
+
+    "RoleRevoked(bytes32,address,address)"(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): RoleRevokedEventFilter;
+    RoleRevoked(
+      role?: BytesLike | null,
+      account?: string | null,
+      sender?: string | null
+    ): RoleRevokedEventFilter;
+
     "Sent(address,address,address,uint256,bytes,bytes)"(
       operator?: string | null,
       from?: string | null,
@@ -2764,6 +3212,18 @@ export interface SuperSoulbound extends BaseContract {
   };
 
   estimateGas: {
+    BURNER(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "BURNER()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "DEFAULT_ADMIN_ROLE()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    MINTER(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "MINTER()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     allowance(
       account: string,
       spender: string,
@@ -2789,12 +3249,12 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<BigNumber>;
 
     authorizeOperator(
-      operator: string,
+      _operator: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     "authorizeOperator(address)"(
-      operator: string,
+      _operator: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -2805,9 +3265,10 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    burn(
-      amount: BigNumberish,
-      data: BytesLike,
+    "burn(address,uint256,bytes)"(
+      _from: string,
+      _amount: BigNumberish,
+      _userData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -2915,13 +3376,47 @@ export interface SuperSoulbound extends BaseContract {
 
     "getHost()"(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getRoleAdmin(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "getRoleAdmin(bytes32)"(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getUnderlyingToken(overrides?: CallOverrides): Promise<BigNumber>;
 
     "getUnderlyingToken()"(overrides?: CallOverrides): Promise<BigNumber>;
 
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "grantRole(bytes32,address)"(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     granularity(overrides?: CallOverrides): Promise<BigNumber>;
 
     "granularity()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "hasRole(bytes32,address)"(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     increaseAllowance(
       spender: string,
@@ -2936,18 +3431,18 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      underlyingToken: string,
-      underlyingDecimals: BigNumberish,
-      n: string,
-      s: string,
+      _underlyingToken: string,
+      _underlyingDecimals: BigNumberish,
+      _name: string,
+      _symbol: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     "initialize(address,uint8,string,string)"(
-      underlyingToken: string,
-      underlyingDecimals: BigNumberish,
-      n: string,
-      s: string,
+      _underlyingToken: string,
+      _underlyingDecimals: BigNumberish,
+      _name: string,
+      _symbol: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -2996,14 +3491,14 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<BigNumber>;
 
     isOperatorFor(
-      operator: string,
-      tokenHolder: string,
+      _operator: string,
+      _tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     "isOperatorFor(address,address)"(
-      operator: string,
-      tokenHolder: string,
+      _operator: string,
+      _tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -3026,6 +3521,20 @@ export interface SuperSoulbound extends BaseContract {
       targetAccount: string,
       rewardAmount: BigNumberish,
       targetAccountBalanceDelta: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    mint(
+      _receiver: string,
+      _amount: BigNumberish,
+      _userData: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "mint(address,uint256,bytes)"(
+      _receiver: string,
+      _amount: BigNumberish,
+      _userData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -3088,36 +3597,36 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<BigNumber>;
 
     operatorBurn(
-      account: string,
-      amount: BigNumberish,
-      data: BytesLike,
-      operatorData: BytesLike,
+      _account: string,
+      _amount: BigNumberish,
+      _data: BytesLike,
+      _operatorData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     "operatorBurn(address,uint256,bytes,bytes)"(
-      account: string,
-      amount: BigNumberish,
-      data: BytesLike,
-      operatorData: BytesLike,
+      _account: string,
+      _amount: BigNumberish,
+      _data: BytesLike,
+      _operatorData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     operatorSend(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
-      data: BytesLike,
-      operatorData: BytesLike,
+      _sender: string,
+      _recipient: string,
+      _amount: BigNumberish,
+      _data: BytesLike,
+      _operatorData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     "operatorSend(address,address,uint256,bytes,bytes)"(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
-      data: BytesLike,
-      operatorData: BytesLike,
+      _sender: string,
+      _recipient: string,
+      _amount: BigNumberish,
+      _data: BytesLike,
+      _operatorData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -3147,13 +3656,37 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    renounceRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "renounceRole(bytes32,address)"(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     revokeOperator(
-      operator: string,
+      _operator: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     "revokeOperator(address)"(
-      operator: string,
+      _operator: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "revokeRole(bytes32,address)"(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -3229,6 +3762,16 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setStore(
+      _store: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "setStore(address)"(
+      _store: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     settleBalance(
       account: string,
       delta: BigNumberish,
@@ -3239,6 +3782,20 @@ export interface SuperSoulbound extends BaseContract {
       account: string,
       delta: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    store(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "store()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "supportsInterface(bytes4)"(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
@@ -3262,14 +3819,14 @@ export interface SuperSoulbound extends BaseContract {
     "totalSupply()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     transfer(
-      recipient: string,
-      amount: BigNumberish,
+      _to: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     "transfer(address,uint256)"(
-      recipient: string,
-      amount: BigNumberish,
+      _to: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -3284,16 +3841,16 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<BigNumber>;
 
     transferFrom(
-      holder: string,
-      recipient: string,
-      amount: BigNumberish,
+      _from: string,
+      _to: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     "transferFrom(address,address,uint256)"(
-      holder: string,
-      recipient: string,
-      amount: BigNumberish,
+      _from: string,
+      _to: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -3359,6 +3916,22 @@ export interface SuperSoulbound extends BaseContract {
   };
 
   populateTransaction: {
+    BURNER(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "BURNER()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    DEFAULT_ADMIN_ROLE(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "DEFAULT_ADMIN_ROLE()"(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    MINTER(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "MINTER()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     allowance(
       account: string,
       spender: string,
@@ -3384,12 +3957,12 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     authorizeOperator(
-      operator: string,
+      _operator: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "authorizeOperator(address)"(
-      operator: string,
+      _operator: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -3403,9 +3976,10 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    burn(
-      amount: BigNumberish,
-      data: BytesLike,
+    "burn(address,uint256,bytes)"(
+      _from: string,
+      _amount: BigNumberish,
+      _userData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -3517,6 +4091,16 @@ export interface SuperSoulbound extends BaseContract {
 
     "getHost()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    getRoleAdmin(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "getRoleAdmin(bytes32)"(
+      role: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getUnderlyingToken(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -3525,9 +4109,33 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    grantRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "grantRole(bytes32,address)"(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     granularity(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "granularity()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    hasRole(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "hasRole(bytes32,address)"(
+      role: BytesLike,
+      account: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     increaseAllowance(
       spender: string,
@@ -3542,18 +4150,18 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initialize(
-      underlyingToken: string,
-      underlyingDecimals: BigNumberish,
-      n: string,
-      s: string,
+      _underlyingToken: string,
+      _underlyingDecimals: BigNumberish,
+      _name: string,
+      _symbol: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "initialize(address,uint8,string,string)"(
-      underlyingToken: string,
-      underlyingDecimals: BigNumberish,
-      n: string,
-      s: string,
+      _underlyingToken: string,
+      _underlyingDecimals: BigNumberish,
+      _name: string,
+      _symbol: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -3602,14 +4210,14 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     isOperatorFor(
-      operator: string,
-      tokenHolder: string,
+      _operator: string,
+      _tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     "isOperatorFor(address,address)"(
-      operator: string,
-      tokenHolder: string,
+      _operator: string,
+      _tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -3632,6 +4240,20 @@ export interface SuperSoulbound extends BaseContract {
       targetAccount: string,
       rewardAmount: BigNumberish,
       targetAccountBalanceDelta: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    mint(
+      _receiver: string,
+      _amount: BigNumberish,
+      _userData: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "mint(address,uint256,bytes)"(
+      _receiver: string,
+      _amount: BigNumberish,
+      _userData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -3694,36 +4316,36 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     operatorBurn(
-      account: string,
-      amount: BigNumberish,
-      data: BytesLike,
-      operatorData: BytesLike,
+      _account: string,
+      _amount: BigNumberish,
+      _data: BytesLike,
+      _operatorData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "operatorBurn(address,uint256,bytes,bytes)"(
-      account: string,
-      amount: BigNumberish,
-      data: BytesLike,
-      operatorData: BytesLike,
+      _account: string,
+      _amount: BigNumberish,
+      _data: BytesLike,
+      _operatorData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     operatorSend(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
-      data: BytesLike,
-      operatorData: BytesLike,
+      _sender: string,
+      _recipient: string,
+      _amount: BigNumberish,
+      _data: BytesLike,
+      _operatorData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "operatorSend(address,address,uint256,bytes,bytes)"(
-      sender: string,
-      recipient: string,
-      amount: BigNumberish,
-      data: BytesLike,
-      operatorData: BytesLike,
+      _sender: string,
+      _recipient: string,
+      _amount: BigNumberish,
+      _data: BytesLike,
+      _operatorData: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -3753,13 +4375,37 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    renounceRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "renounceRole(bytes32,address)"(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     revokeOperator(
-      operator: string,
+      _operator: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "revokeOperator(address)"(
-      operator: string,
+      _operator: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    revokeRole(
+      role: BytesLike,
+      account: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "revokeRole(bytes32,address)"(
+      role: BytesLike,
+      account: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -3835,6 +4481,16 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    setStore(
+      _store: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "setStore(address)"(
+      _store: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     settleBalance(
       account: string,
       delta: BigNumberish,
@@ -3845,6 +4501,20 @@ export interface SuperSoulbound extends BaseContract {
       account: string,
       delta: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    store(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "store()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "supportsInterface(bytes4)"(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -3868,14 +4538,14 @@ export interface SuperSoulbound extends BaseContract {
     "totalSupply()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transfer(
-      recipient: string,
-      amount: BigNumberish,
+      _to: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "transfer(address,uint256)"(
-      recipient: string,
-      amount: BigNumberish,
+      _to: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -3890,16 +4560,16 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     transferFrom(
-      holder: string,
-      recipient: string,
-      amount: BigNumberish,
+      _from: string,
+      _to: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "transferFrom(address,address,uint256)"(
-      holder: string,
-      recipient: string,
-      amount: BigNumberish,
+      _from: string,
+      _to: string,
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

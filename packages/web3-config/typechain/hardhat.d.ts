@@ -85,6 +85,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Initializable__factory>;
     getContractFactory(
+      name: "IERC20Permit",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20Permit__factory>;
+    getContractFactory(
       name: "IERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
@@ -108,6 +112,14 @@ declare module "hardhat/types/runtime" {
       name: "IERC777",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC777__factory>;
+    getContractFactory(
+      name: "IERC777Recipient",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC777Recipient__factory>;
+    getContractFactory(
+      name: "IERC777Sender",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC777Sender__factory>;
     getContractFactory(
       name: "ERC165",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -185,6 +197,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Cashflow__factory>;
     getContractFactory(
+      name: "ISuperfluidSoulbound",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ISuperfluidSoulbound__factory>;
+    getContractFactory(
       name: "ISuperSoulbound",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ISuperSoulbound__factory>;
@@ -197,6 +213,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Store__factory>;
     getContractFactory(
+      name: "SuperfluidSoulbound",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SuperfluidSoulbound__factory>;
+    getContractFactory(
       name: "SuperSoulbound",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SuperSoulbound__factory>;
@@ -204,6 +224,10 @@ declare module "hardhat/types/runtime" {
       name: "SuperSoulboundV1",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SuperSoulboundV1__factory>;
+    getContractFactory(
+      name: "SuperSoulboundV2",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SuperSoulboundV2__factory>;
     getContractFactory(
       name: "SuperTokenBase",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -304,6 +328,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.Initializable>;
     getContractAt(
+      name: "IERC20Permit",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20Permit>;
+    getContractAt(
       name: "IERC20",
       address: string,
       signer?: ethers.Signer
@@ -333,6 +362,16 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC777>;
+    getContractAt(
+      name: "IERC777Recipient",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC777Recipient>;
+    getContractAt(
+      name: "IERC777Sender",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC777Sender>;
     getContractAt(
       name: "ERC165",
       address: string,
@@ -429,6 +468,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.Cashflow>;
     getContractAt(
+      name: "ISuperfluidSoulbound",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ISuperfluidSoulbound>;
+    getContractAt(
       name: "ISuperSoulbound",
       address: string,
       signer?: ethers.Signer
@@ -444,6 +488,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.Store>;
     getContractAt(
+      name: "SuperfluidSoulbound",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SuperfluidSoulbound>;
+    getContractAt(
       name: "SuperSoulbound",
       address: string,
       signer?: ethers.Signer
@@ -453,6 +502,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.SuperSoulboundV1>;
+    getContractAt(
+      name: "SuperSoulboundV2",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SuperSoulboundV2>;
     getContractAt(
       name: "SuperTokenBase",
       address: string,
