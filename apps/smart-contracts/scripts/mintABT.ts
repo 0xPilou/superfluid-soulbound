@@ -1,26 +1,23 @@
 import { ethers } from "ethers";
 import hre from "hardhat";
 import CashflowDeployment from "web3-config/deployments/optimismGoerli/Cashflow.json";
-import SuperSoulboundDeployment from "web3-config/deployments/optimismGoerli/SuperSoulbound.json";
-
-import { getFramework } from "../utils/sf-utils";
+import ABTokenDeployment from "web3-config/deployments/optimismGoerli/ABToken.json";
 
 const main = async () => {
-  const sf = await getFramework();
   const [deployer] = await hre.ethers.getSigners();
 
-  const sbt = new ethers.Contract(
-    SuperSoulboundDeployment.address,
-    SuperSoulboundDeployment.abi,
+  const abt = new ethers.Contract(
+    ABTokenDeployment.address,
+    ABTokenDeployment.abi,
     deployer
   );
 
-  await sbt
+  await abt
     .connect(deployer)
     .mint(CashflowDeployment.address, ethers.utils.parseEther("1000000000"));
 
   console.log(
-    `Minted 1.000.000.000 SBTx to Cashflow contract at ${CashflowDeployment.address}`
+    `Minted 1.000.000.000 ABT to Cashflow contract at ${CashflowDeployment.address}`
   );
   return;
 };

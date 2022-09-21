@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import hre from "hardhat";
 import StoreDeployment from "web3-config/deployments/optimismGoerli/Store.json";
-import SuperSoulboundDeployment from "web3-config/deployments/optimismGoerli/SuperSoulbound.json";
+import ABTokenDeployment from "web3-config/deployments/optimismGoerli/ABToken.json";
 
 const main = async () => {
   const [deployer] = await hre.ethers.getSigners();
@@ -13,10 +13,10 @@ const main = async () => {
   );
   const store = await Store.deployed();
 
-  if ((await store.token()) != SuperSoulboundDeployment.address) {
+  if ((await store.token()) != ABTokenDeployment.address) {
     const tx = await store
       .connect(deployer)
-      .setToken(SuperSoulboundDeployment.address);
+      .setToken(ABTokenDeployment.address);
     await tx.wait();
   }
 

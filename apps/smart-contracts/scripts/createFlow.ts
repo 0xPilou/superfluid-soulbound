@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import hre from "hardhat";
 import CashflowDeployment from "web3-config/deployments/optimismGoerli/Cashflow.json";
-import SuperSoulboundDeployment from "web3-config/deployments/optimismGoerli/SuperSoulbound.json";
+import ABTokenDeployment from "web3-config/deployments/optimismGoerli/ABToken.json";
 
 import { getFramework } from "../utils/sf-utils";
 
@@ -11,7 +11,7 @@ const main = async () => {
 
   const createFlowOperation = sf.cfaV1.createFlow({
     receiver: CashflowDeployment.address,
-    superToken: SuperSoulboundDeployment.address,
+    superToken: ABTokenDeployment.address,
     flowRate: ethers.utils.parseEther("0.1").toString(),
   });
   const txn = await createFlowOperation.exec(deployer);
