@@ -77,10 +77,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Ownable__factory>;
     getContractFactory(
-      name: "Proxy",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Proxy__factory>;
-    getContractFactory(
       name: "Initializable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Initializable__factory>;
@@ -185,21 +181,17 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.EventsEmitter__factory>;
     getContractFactory(
-      name: "SuperfluidToken",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SuperfluidToken__factory>;
-    getContractFactory(
       name: "UUPSProxiable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.UUPSProxiable__factory>;
     getContractFactory(
+      name: "ABToken",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ABToken__factory>;
+    getContractFactory(
       name: "Cashflow",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Cashflow__factory>;
-    getContractFactory(
-      name: "ISuperfluidSoulbound",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ISuperfluidSoulbound__factory>;
     getContractFactory(
       name: "ISuperSoulbound",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -220,22 +212,6 @@ declare module "hardhat/types/runtime" {
       name: "SuperSoulbound",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SuperSoulbound__factory>;
-    getContractFactory(
-      name: "SuperSoulboundV1",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SuperSoulboundV1__factory>;
-    getContractFactory(
-      name: "SuperSoulboundV2",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SuperSoulboundV2__factory>;
-    getContractFactory(
-      name: "SuperTokenBase",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SuperTokenBase__factory>;
-    getContractFactory(
-      name: "UUPSProxy",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.UUPSProxy__factory>;
 
     getContractAt(
       name: "IL1CrossDomainMessenger",
@@ -317,11 +293,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Ownable>;
-    getContractAt(
-      name: "Proxy",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Proxy>;
     getContractAt(
       name: "Initializable",
       address: string,
@@ -453,25 +424,20 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.EventsEmitter>;
     getContractAt(
-      name: "SuperfluidToken",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.SuperfluidToken>;
-    getContractAt(
       name: "UUPSProxiable",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.UUPSProxiable>;
     getContractAt(
+      name: "ABToken",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ABToken>;
+    getContractAt(
       name: "Cashflow",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.Cashflow>;
-    getContractAt(
-      name: "ISuperfluidSoulbound",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ISuperfluidSoulbound>;
     getContractAt(
       name: "ISuperSoulbound",
       address: string,
@@ -497,26 +463,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.SuperSoulbound>;
-    getContractAt(
-      name: "SuperSoulboundV1",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.SuperSoulboundV1>;
-    getContractAt(
-      name: "SuperSoulboundV2",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.SuperSoulboundV2>;
-    getContractAt(
-      name: "SuperTokenBase",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.SuperTokenBase>;
-    getContractAt(
-      name: "UUPSProxy",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.UUPSProxy>;
 
     // default types
     getContractFactory(
