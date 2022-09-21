@@ -1,8 +1,6 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-
-import { CASHFLOW_NAME, SUPERSOULBOUND_NAME } from "../deploy-constants";
-
+import { CASHFLOW_NAME, ABTOKEN_NAME } from "../deploy-constants";
 import { getFramework } from "../utils/sf-utils";
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
@@ -11,11 +9,11 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deploy } = deployments;
 
   const sf = await getFramework();
-  const supertoken = await deployments.get(SUPERSOULBOUND_NAME);
+  const abToken = await deployments.get(ABTOKEN_NAME);
 
   const deployment = await deploy(CASHFLOW_NAME, {
     from: deployer,
-    args: [sf.host.contract.address, supertoken.address],
+    args: [sf.host.contract.address, abToken.address],
   });
 
   deployments.log(
@@ -24,7 +22,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 };
 
 func.tags = [CASHFLOW_NAME];
-func.dependencies = [SUPERSOULBOUND_NAME];
+func.dependencies = [ABTOKEN_NAME];
 func.skip = async (env) => env.network.name !== "optimismGoerli";
 
 export default func;
