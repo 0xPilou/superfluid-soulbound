@@ -17,11 +17,7 @@ const main = async () => {
 
   await sbt
     .connect(deployer)
-    .mint(
-      CashflowDeployment.address,
-      ethers.utils.parseEther("1000000000"),
-      "0x"
-    );
+    .mint(CashflowDeployment.address, ethers.utils.parseEther("1000000000"));
 
   console.log(
     `Minted 1.000.000.000 SBTx to Cashflow contract at ${CashflowDeployment.address}`
