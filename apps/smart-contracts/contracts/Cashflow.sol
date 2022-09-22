@@ -41,7 +41,7 @@ contract Cashflow is SuperAppBase {
   mapping(uint256 => int96) public flowRates;
   mapping(bytes32 => bool) private allowedIds;
 
-  constructor(ISuperfluid host, ISuperToken _acceptedToken) {
+  constructor(ISuperfluid host) {
     assert(address(host) != address(0));
 
     cfaV1Lib = CFAv1Library.InitData({
