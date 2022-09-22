@@ -14,6 +14,9 @@ import { FixedSizeData } from "@superfluid-finance/ethereum-contracts/contracts/
 /* Openzeppelin Contracts */
 import { SafeCast } from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 
+/* Custom Imports */
+import { ICashflow } from "./interfaces/ICashflow.sol";
+
 /**
  * @title Superfluid compatible Soulbound Token implementation
  *
@@ -51,8 +54,21 @@ abstract contract SuperfluidSoulbound is ISuperfluidToken {
   uint256 private _reserve12;
   uint256 internal _reserve13;
 
-  constructor(ISuperfluid host) {
+  error NOT_CFA_AGREEMENT();
+  error NOT_STREAMABLE();
+
+  address private CFA_ADDRESS;
+
+  ICashflow internal _cashflow;
+
+  constructor(
+    ISuperfluid host,
+    address cfa,
+    address cashflow
+  ) {
     _host = host;
+    CFA_ADDRESS = cfa;
+    _cashflow = ICashflow(cashflow);
   }
 
   /// @dev ISuperfluidToken.getHost implementation
@@ -237,6 +253,7 @@ abstract contract SuperfluidSoulbound is ISuperfluidToken {
     override
   {
     address agreementClass = msg.sender;
+    if (agreementClass != CFA_ADDRESS) revert NOT_CFA_AGREEMENT();
     bytes32 slot = keccak256(abi.encode("AgreementData", agreementClass, id));
     if (FixedSizeData.hasData(slot, data.length)) {
       revert SuperfluidErrors.ALREADY_EXISTS(
@@ -263,6 +280,8 @@ abstract contract SuperfluidSoulbound is ISuperfluidToken {
     override
   {
     address agreementClass = msg.sender;
+    if (agreementClass != CFA_ADDRESS) revert NOT_CFA_AGREEMENT();
+    if (!_cashflow.isAllowed(id)) revert NOT_STREAMABLE();
     bytes32 slot = keccak256(abi.encode("AgreementData", agreementClass, id));
     FixedSizeData.storeData(slot, data);
     emit AgreementUpdated(msg.sender, id, data);
@@ -274,6 +293,7 @@ abstract contract SuperfluidSoulbound is ISuperfluidToken {
     override
   {
     address agreementClass = msg.sender;
+    if (agreementClass != CFA_ADDRESS) revert NOT_CFA_AGREEMENT();
     bytes32 slot = keccak256(abi.encode("AgreementData", agreementClass, id));
     if (!FixedSizeData.hasData(slot, dataLength)) {
       revert SuperfluidErrors.DOES_NOT_EXIST(

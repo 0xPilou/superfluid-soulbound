@@ -77,7 +77,9 @@ contract SuperSoulbound is UUPSProxiable, SuperfluidSoulbound, ISuperToken {
   uint256 private _reserve30;
   uint256 internal _reserve31;
 
-  constructor(address host) SuperfluidSoulbound(ISuperfluid(host)) {}
+  constructor(address host, address cfa, address cashflow)
+    SuperfluidSoulbound(ISuperfluid(host), cfa, cashflow)
+  {}
 
   function initialize(
     IERC20 underlyingToken,

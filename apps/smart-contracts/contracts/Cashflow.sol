@@ -36,7 +36,7 @@ contract Cashflow is SuperAppBase {
   CFAv1Library.InitData public cfaV1Lib;
 
   /// @dev Super token that may be streamed to this contract
-  ISuperToken internal immutable acceptedToken;
+  ISuperToken internal acceptedToken;
 
   mapping(uint256 => int96) public flowRates;
   mapping(bytes32 => bool) private allowedIds;
@@ -175,12 +175,12 @@ contract Cashflow is SuperAppBase {
     return allowedIds[_id];
   }
 
-  function setAcceptedToken(ISuperToken _acceptedToken) external {
-    assert(address(_acceptedToken) != address(0));
-    acceptedToken = _acceptedToken;
+  function setAcceptedToken(address _acceptedToken) external {
+    assert(_acceptedToken != address(0));
+    acceptedToken = ISuperToken(_acceptedToken);
   }
 
-  function acceptedToken() external view returns (address) {
+  function getAcceptedToken() external view returns (address) {
     return address(acceptedToken);
   }
 }
