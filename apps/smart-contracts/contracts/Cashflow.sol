@@ -15,11 +15,11 @@ bytes32 constant CFA_ID = keccak256(
   "org.superfluid-finance.agreements.ConstantFlowAgreement.v1"
 );
 
-/// @dev Thrown when receiver is also a super app.
-error ReceiverIsSuperApp();
-
 /// @dev Thrown when the callback caller is not the host.
 error Unauthorized();
+
+/// @dev Thrown when receiver is also a super app.
+error ReceiverIsSuperApp();
 
 /// @dev Thrown when the receiver is the zero adress.
 error InvalidReceiver();
@@ -39,12 +39,10 @@ contract Cashflow is SuperAppBase {
   ISuperToken internal immutable acceptedToken;
 
   mapping(uint256 => int96) public flowRates;
+  mapping(bytes32 => bool) private allowedIds;
 
   constructor(ISuperfluid host, ISuperToken _acceptedToken) {
     assert(address(host) != address(0));
-    assert(address(_acceptedToken) != address(0));
-
-    acceptedToken = _acceptedToken;
 
     cfaV1Lib = CFAv1Library.InitData({
       host: host,
@@ -151,10 +149,38 @@ contract Cashflow is SuperAppBase {
       to
     ); //returns 0 if stream doesn't exist
     if (outFlowRate == 0) {
-      cfaV1Lib.createFlow(to, acceptedToken, flowRate);
+      _createFlow(to, flowRate);
     } else {
       // increase the outflow by flowRates[tokenId]
       cfaV1Lib.updateFlow(to, acceptedToken, outFlowRate + flowRate);
     }
+  }
+
+  function _createFlow(address _to, int96 _flowRate) internal {
+    // Calculate the flow ID
+    bytes32 id = keccak256(abi.encodePacked(address(this), _to));
+
+    // Whitelist the flow ID
+    _setAllowedId(id);
+
+    // Create the flow
+    cfaV1Lib.createFlow(_to, acceptedToken, _flowRate);
+  }
+
+  function _setAllowedId(bytes32 _id) internal {
+    allowedIds[_id] = true;
+  }
+
+  function isAllowed(bytes32 _id) external view returns (bool) {
+    return allowedIds[_id];
+  }
+
+  function setAcceptedToken(ISuperToken _acceptedToken) external {
+    assert(address(_acceptedToken) != address(0));
+    acceptedToken = _acceptedToken;
+  }
+
+  function acceptedToken() external view returns (address) {
+    return address(acceptedToken);
   }
 }

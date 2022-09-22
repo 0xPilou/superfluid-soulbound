@@ -10,7 +10,12 @@ contract ABToken is SuperSoulbound, AccessControl {
   bytes32 public constant BURNER = keccak256("BURNER");
   bytes32 public constant MINTER = keccak256("MINTER");
 
-  constructor(address _store, address _host) SuperSoulbound(_host) {
+  constructor(
+    address _store,
+    address _host,
+    address _cfa,
+    address _cashflow
+  ) SuperSoulbound(_host, _cfa, _cashflow) {
     store = _store;
     _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
     _grantRole(MINTER, msg.sender);
