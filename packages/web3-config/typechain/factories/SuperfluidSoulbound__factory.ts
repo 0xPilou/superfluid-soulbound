@@ -33,6 +33,16 @@ const _abi = [
     type: "error",
   },
   {
+    inputs: [],
+    name: "NOT_CFA_AGREEMENT",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NOT_STREAMABLE",
+    type: "error",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",

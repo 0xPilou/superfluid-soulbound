@@ -197,6 +197,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IABToken__factory>;
     getContractFactory(
+      name: "ICashflow",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ICashflow__factory>;
+    getContractFactory(
       name: "MyNFT",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MyNFT__factory>;
@@ -443,6 +447,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IABToken>;
+    getContractAt(
+      name: "ICashflow",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ICashflow>;
     getContractAt(
       name: "MyNFT",
       address: string,

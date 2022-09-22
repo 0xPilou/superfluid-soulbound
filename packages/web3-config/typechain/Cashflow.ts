@@ -29,8 +29,11 @@ export interface CashflowInterface extends utils.Interface {
     "cfaV1Lib()": FunctionFragment;
     "editNFT(uint256,int96,address)": FunctionFragment;
     "flowRates(uint256)": FunctionFragment;
+    "getAcceptedToken()": FunctionFragment;
     "getFlow(address)": FunctionFragment;
+    "isAllowed(bytes32)": FunctionFragment;
     "issueNFT(address,int96,uint256)": FunctionFragment;
+    "setAcceptedToken(address)": FunctionFragment;
     "updateHolder(address,address,uint256)": FunctionFragment;
   };
 
@@ -67,10 +70,22 @@ export interface CashflowInterface extends utils.Interface {
     functionFragment: "flowRates",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "getAcceptedToken",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "getFlow", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "isAllowed",
+    values: [BytesLike]
+  ): string;
   encodeFunctionData(
     functionFragment: "issueNFT",
     values: [string, BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setAcceptedToken",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "updateHolder",
@@ -104,8 +119,17 @@ export interface CashflowInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "cfaV1Lib", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "editNFT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "flowRates", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getAcceptedToken",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "getFlow", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "isAllowed", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "issueNFT", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setAcceptedToken",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "updateHolder",
     data: BytesLike
@@ -288,6 +312,10 @@ export interface Cashflow extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    getAcceptedToken(overrides?: CallOverrides): Promise<[string]>;
+
+    "getAcceptedToken()"(overrides?: CallOverrides): Promise<[string]>;
+
     getFlow(
       _receiver: string,
       overrides?: CallOverrides
@@ -312,6 +340,13 @@ export interface Cashflow extends BaseContract {
       }
     >;
 
+    isAllowed(_id: BytesLike, overrides?: CallOverrides): Promise<[boolean]>;
+
+    "isAllowed(bytes32)"(
+      _id: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     issueNFT(
       receiver: string,
       flowRate: BigNumberish,
@@ -323,6 +358,16 @@ export interface Cashflow extends BaseContract {
       receiver: string,
       flowRate: BigNumberish,
       tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setAcceptedToken(
+      _acceptedToken: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "setAcceptedToken(address)"(
+      _acceptedToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -484,6 +529,10 @@ export interface Cashflow extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  getAcceptedToken(overrides?: CallOverrides): Promise<string>;
+
+  "getAcceptedToken()"(overrides?: CallOverrides): Promise<string>;
+
   getFlow(
     _receiver: string,
     overrides?: CallOverrides
@@ -508,6 +557,13 @@ export interface Cashflow extends BaseContract {
     }
   >;
 
+  isAllowed(_id: BytesLike, overrides?: CallOverrides): Promise<boolean>;
+
+  "isAllowed(bytes32)"(
+    _id: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   issueNFT(
     receiver: string,
     flowRate: BigNumberish,
@@ -519,6 +575,16 @@ export interface Cashflow extends BaseContract {
     receiver: string,
     flowRate: BigNumberish,
     tokenId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setAcceptedToken(
+    _acceptedToken: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "setAcceptedToken(address)"(
+    _acceptedToken: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -683,6 +749,10 @@ export interface Cashflow extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getAcceptedToken(overrides?: CallOverrides): Promise<string>;
+
+    "getAcceptedToken()"(overrides?: CallOverrides): Promise<string>;
+
     getFlow(
       _receiver: string,
       overrides?: CallOverrides
@@ -707,6 +777,13 @@ export interface Cashflow extends BaseContract {
       }
     >;
 
+    isAllowed(_id: BytesLike, overrides?: CallOverrides): Promise<boolean>;
+
+    "isAllowed(bytes32)"(
+      _id: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     issueNFT(
       receiver: string,
       flowRate: BigNumberish,
@@ -718,6 +795,16 @@ export interface Cashflow extends BaseContract {
       receiver: string,
       flowRate: BigNumberish,
       tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setAcceptedToken(
+      _acceptedToken: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "setAcceptedToken(address)"(
+      _acceptedToken: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -881,10 +968,21 @@ export interface Cashflow extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getAcceptedToken(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "getAcceptedToken()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     getFlow(_receiver: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     "getFlow(address)"(
       _receiver: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    isAllowed(_id: BytesLike, overrides?: CallOverrides): Promise<BigNumber>;
+
+    "isAllowed(bytes32)"(
+      _id: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -899,6 +997,16 @@ export interface Cashflow extends BaseContract {
       receiver: string,
       flowRate: BigNumberish,
       tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setAcceptedToken(
+      _acceptedToken: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "setAcceptedToken(address)"(
+      _acceptedToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1060,6 +1168,12 @@ export interface Cashflow extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getAcceptedToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "getAcceptedToken()"(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getFlow(
       _receiver: string,
       overrides?: CallOverrides
@@ -1067,6 +1181,16 @@ export interface Cashflow extends BaseContract {
 
     "getFlow(address)"(
       _receiver: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isAllowed(
+      _id: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "isAllowed(bytes32)"(
+      _id: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1081,6 +1205,16 @@ export interface Cashflow extends BaseContract {
       receiver: string,
       flowRate: BigNumberish,
       tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setAcceptedToken(
+      _acceptedToken: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "setAcceptedToken(address)"(
+      _acceptedToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
