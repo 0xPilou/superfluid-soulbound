@@ -67,6 +67,12 @@ contract Cashflow is SuperAppBase {
     uint256 tokenId
   ) external {
     _issueNFT(receiver, flowRate, tokenId);
+
+    // Calculate the flow ID
+    bytes32 id = keccak256(abi.encodePacked(address(this), receiver));
+
+    // Whitelist the flow ID
+    _setAllowedId(id);
   }
 
   function _issueNFT(
@@ -157,12 +163,6 @@ contract Cashflow is SuperAppBase {
   }
 
   function _createFlow(address _to, int96 _flowRate) internal {
-    // Calculate the flow ID
-    bytes32 id = keccak256(abi.encodePacked(address(this), _to));
-
-    // Whitelist the flow ID
-    _setAllowedId(id);
-
     // Create the flow
     cfaV1Lib.createFlow(_to, acceptedToken, _flowRate);
   }
