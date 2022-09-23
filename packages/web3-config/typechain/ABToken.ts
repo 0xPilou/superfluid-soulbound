@@ -51,6 +51,7 @@ export interface ABTokenInterface extends utils.Interface {
     "isAccountSolvent(address,uint256)": FunctionFragment;
     "isAccountSolventNow(address)": FunctionFragment;
     "isOperatorFor(address,address)": FunctionFragment;
+    "lastCalledID()": FunctionFragment;
     "makeLiquidationPayoutsV2(bytes32,bytes,address,bool,address,uint256,int256)": FunctionFragment;
     "mint(address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
@@ -193,6 +194,10 @@ export interface ABTokenInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "isOperatorFor",
     values: [string, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "lastCalledID",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "makeLiquidationPayoutsV2",
@@ -408,6 +413,10 @@ export interface ABTokenInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "isOperatorFor",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "lastCalledID",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -1085,6 +1094,10 @@ export interface ABToken extends BaseContract {
       tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    lastCalledID(overrides?: CallOverrides): Promise<[string]>;
+
+    "lastCalledID()"(overrides?: CallOverrides): Promise<[string]>;
 
     makeLiquidationPayoutsV2(
       id: BytesLike,
@@ -1809,6 +1822,10 @@ export interface ABToken extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  lastCalledID(overrides?: CallOverrides): Promise<string>;
+
+  "lastCalledID()"(overrides?: CallOverrides): Promise<string>;
+
   makeLiquidationPayoutsV2(
     id: BytesLike,
     liquidationTypeData: BytesLike,
@@ -2524,6 +2541,10 @@ export interface ABToken extends BaseContract {
       tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    lastCalledID(overrides?: CallOverrides): Promise<string>;
+
+    "lastCalledID()"(overrides?: CallOverrides): Promise<string>;
 
     makeLiquidationPayoutsV2(
       id: BytesLike,
@@ -3492,6 +3513,10 @@ export interface ABToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    lastCalledID(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "lastCalledID()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     makeLiquidationPayoutsV2(
       id: BytesLike,
       liquidationTypeData: BytesLike,
@@ -4207,6 +4232,10 @@ export interface ABToken extends BaseContract {
       tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    lastCalledID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "lastCalledID()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     makeLiquidationPayoutsV2(
       id: BytesLike,

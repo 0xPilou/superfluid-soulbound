@@ -29,6 +29,7 @@ export interface SuperfluidSoulboundInterface extends utils.Interface {
     "isAccountCriticalNow(address)": FunctionFragment;
     "isAccountSolvent(address,uint256)": FunctionFragment;
     "isAccountSolventNow(address)": FunctionFragment;
+    "lastCalledID()": FunctionFragment;
     "makeLiquidationPayoutsV2(bytes32,bytes,address,bool,address,uint256,int256)": FunctionFragment;
     "realtimeBalanceOf(address,uint256)": FunctionFragment;
     "realtimeBalanceOfNow(address)": FunctionFragment;
@@ -70,6 +71,10 @@ export interface SuperfluidSoulboundInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "isAccountSolventNow",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "lastCalledID",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "makeLiquidationPayoutsV2",
@@ -139,6 +144,10 @@ export interface SuperfluidSoulboundInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "isAccountSolventNow",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "lastCalledID",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -407,6 +416,10 @@ export interface SuperfluidSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean] & { isSolvent: boolean }>;
 
+    lastCalledID(overrides?: CallOverrides): Promise<[string]>;
+
+    "lastCalledID()"(overrides?: CallOverrides): Promise<[string]>;
+
     makeLiquidationPayoutsV2(
       id: BytesLike,
       liquidationTypeData: BytesLike,
@@ -628,6 +641,10 @@ export interface SuperfluidSoulbound extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  lastCalledID(overrides?: CallOverrides): Promise<string>;
+
+  "lastCalledID()"(overrides?: CallOverrides): Promise<string>;
+
   makeLiquidationPayoutsV2(
     id: BytesLike,
     liquidationTypeData: BytesLike,
@@ -848,6 +865,10 @@ export interface SuperfluidSoulbound extends BaseContract {
       account: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    lastCalledID(overrides?: CallOverrides): Promise<string>;
+
+    "lastCalledID()"(overrides?: CallOverrides): Promise<string>;
 
     makeLiquidationPayoutsV2(
       id: BytesLike,
@@ -1179,6 +1200,10 @@ export interface SuperfluidSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    lastCalledID(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "lastCalledID()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     makeLiquidationPayoutsV2(
       id: BytesLike,
       liquidationTypeData: BytesLike,
@@ -1374,6 +1399,10 @@ export interface SuperfluidSoulbound extends BaseContract {
       account: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    lastCalledID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "lastCalledID()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     makeLiquidationPayoutsV2(
       id: BytesLike,
