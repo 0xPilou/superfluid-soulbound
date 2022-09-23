@@ -18,6 +18,10 @@ const main = async () => {
       .connect(deployer)
       .setAcceptedToken(ABTokenDeployment.address);
     await tx.wait();
+
+    console.log(
+      `Cashflow Contract accepted token set to : ${ABTokenDeployment.address}`
+    );
   }
   return;
 };
