@@ -22,6 +22,8 @@ const main = async () => {
     console.log(
       `Cashflow Contract accepted token set to : ${ABTokenDeployment.address}`
     );
+  } else {
+    console.log(`Cashflow Contract accepted token not updateds`);
   }
   return;
 };
