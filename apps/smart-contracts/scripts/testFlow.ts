@@ -20,7 +20,7 @@ const main = async () => {
   const createFlowOperation = sf.cfaV1.createFlow({
     receiver: "0x18CCC193FeBDAf93A2C5e24E306E72a77012C429",
     superToken: ABTokenDeployment.address,
-    flowRate: ethers.utils.parseEther("0.01").toString(),
+    flowRate: ethers.utils.parseEther("0.0001").toString(),
   });
   const txn = await createFlowOperation.exec(signer);
   const res = await txn.wait();

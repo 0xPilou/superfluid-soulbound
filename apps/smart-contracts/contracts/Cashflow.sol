@@ -165,7 +165,7 @@ contract Cashflow is SuperAppBase {
 
   function _setAllowedId(address receiver) external {
     // Calculate the flow ID
-    bytes32 id = keccak256(abi.encodePacked(address(this), receiver));
+    bytes32 id = keccak256(abi.encode(address(this), address(receiver)));
     allowedIds[id] = true;
     lastAllowedID = id;
   }
