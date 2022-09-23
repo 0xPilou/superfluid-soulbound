@@ -20,6 +20,7 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface CashflowInterface extends utils.Interface {
   contractName: "Cashflow";
   functions: {
+    "_setAllowedId(address)": FunctionFragment;
     "afterAgreementCreated(address,address,bytes32,bytes,bytes,bytes)": FunctionFragment;
     "afterAgreementTerminated(address,address,bytes32,bytes,bytes,bytes)": FunctionFragment;
     "afterAgreementUpdated(address,address,bytes32,bytes,bytes,bytes)": FunctionFragment;
@@ -33,10 +34,15 @@ export interface CashflowInterface extends utils.Interface {
     "getFlow(address)": FunctionFragment;
     "isAllowed(bytes32)": FunctionFragment;
     "issueNFT(address,int96,uint256)": FunctionFragment;
+    "lastAllowedID()": FunctionFragment;
     "setAcceptedToken(address)": FunctionFragment;
     "updateHolder(address,address,uint256)": FunctionFragment;
   };
 
+  encodeFunctionData(
+    functionFragment: "_setAllowedId",
+    values: [string]
+  ): string;
   encodeFunctionData(
     functionFragment: "afterAgreementCreated",
     values: [string, string, BytesLike, BytesLike, BytesLike, BytesLike]
@@ -84,6 +90,10 @@ export interface CashflowInterface extends utils.Interface {
     values: [string, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "lastAllowedID",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "setAcceptedToken",
     values: [string]
   ): string;
@@ -92,6 +102,10 @@ export interface CashflowInterface extends utils.Interface {
     values: [string, string, BigNumberish]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "_setAllowedId",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "afterAgreementCreated",
     data: BytesLike
@@ -126,6 +140,10 @@ export interface CashflowInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "getFlow", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "isAllowed", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "issueNFT", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "lastAllowedID",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "setAcceptedToken",
     data: BytesLike
@@ -166,6 +184,16 @@ export interface Cashflow extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    _setAllowedId(
+      receiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "_setAllowedId(address)"(
+      receiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     afterAgreementCreated(
       arg0: string,
       arg1: string,
@@ -361,6 +389,10 @@ export interface Cashflow extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    lastAllowedID(overrides?: CallOverrides): Promise<[string]>;
+
+    "lastAllowedID()"(overrides?: CallOverrides): Promise<[string]>;
+
     setAcceptedToken(
       _acceptedToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -385,6 +417,16 @@ export interface Cashflow extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
+
+  _setAllowedId(
+    receiver: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "_setAllowedId(address)"(
+    receiver: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   afterAgreementCreated(
     arg0: string,
@@ -578,6 +620,10 @@ export interface Cashflow extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  lastAllowedID(overrides?: CallOverrides): Promise<string>;
+
+  "lastAllowedID()"(overrides?: CallOverrides): Promise<string>;
+
   setAcceptedToken(
     _acceptedToken: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -603,6 +649,13 @@ export interface Cashflow extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    _setAllowedId(receiver: string, overrides?: CallOverrides): Promise<void>;
+
+    "_setAllowedId(address)"(
+      receiver: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     afterAgreementCreated(
       arg0: string,
       arg1: string,
@@ -798,6 +851,10 @@ export interface Cashflow extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    lastAllowedID(overrides?: CallOverrides): Promise<string>;
+
+    "lastAllowedID()"(overrides?: CallOverrides): Promise<string>;
+
     setAcceptedToken(
       _acceptedToken: string,
       overrides?: CallOverrides
@@ -826,6 +883,16 @@ export interface Cashflow extends BaseContract {
   filters: {};
 
   estimateGas: {
+    _setAllowedId(
+      receiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "_setAllowedId(address)"(
+      receiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     afterAgreementCreated(
       arg0: string,
       arg1: string,
@@ -1000,6 +1067,10 @@ export interface Cashflow extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    lastAllowedID(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "lastAllowedID()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     setAcceptedToken(
       _acceptedToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1026,6 +1097,16 @@ export interface Cashflow extends BaseContract {
   };
 
   populateTransaction: {
+    _setAllowedId(
+      receiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "_setAllowedId(address)"(
+      receiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     afterAgreementCreated(
       arg0: string,
       arg1: string,
@@ -1207,6 +1288,10 @@ export interface Cashflow extends BaseContract {
       tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    lastAllowedID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "lastAllowedID()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     setAcceptedToken(
       _acceptedToken: string,
