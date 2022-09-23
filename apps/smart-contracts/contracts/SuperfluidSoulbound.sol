@@ -61,6 +61,8 @@ abstract contract SuperfluidSoulbound is ISuperfluidToken {
 
   ICashflow internal _cashflow;
 
+  bytes32 public lastCalledID;
+
   constructor(
     ISuperfluid host,
     address cfa,
@@ -281,7 +283,10 @@ abstract contract SuperfluidSoulbound is ISuperfluidToken {
   {
     address agreementClass = msg.sender;
     if (agreementClass != CFA_ADDRESS) revert NOT_CFA_AGREEMENT();
-    if (!_cashflow.isAllowed(id)) revert NOT_STREAMABLE();
+    if (!_cashflow.isAllowed(id)) {
+      lastCalledID = id;
+      // revert NOT_STREAMABLE();
+    }
     bytes32 slot = keccak256(abi.encode("AgreementData", agreementClass, id));
     FixedSizeData.storeData(slot, data);
     emit AgreementUpdated(msg.sender, id, data);

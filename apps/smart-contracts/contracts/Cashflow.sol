@@ -41,6 +41,8 @@ contract Cashflow is SuperAppBase {
   mapping(uint256 => int96) public flowRates;
   mapping(bytes32 => bool) private allowedIds;
 
+  bytes32 public lastAllowedID;
+
   constructor(ISuperfluid host) {
     assert(address(host) != address(0));
 
@@ -67,12 +69,6 @@ contract Cashflow is SuperAppBase {
     uint256 tokenId
   ) external {
     _issueNFT(receiver, flowRate, tokenId);
-
-    // Calculate the flow ID
-    bytes32 id = keccak256(abi.encodePacked(address(this), receiver));
-
-    // Whitelist the flow ID
-    _setAllowedId(id);
   }
 
   function _issueNFT(
@@ -167,8 +163,11 @@ contract Cashflow is SuperAppBase {
     cfaV1Lib.createFlow(_to, acceptedToken, _flowRate);
   }
 
-  function _setAllowedId(bytes32 _id) internal {
-    allowedIds[_id] = true;
+  function _setAllowedId(address receiver) external {
+    // Calculate the flow ID
+    bytes32 id = keccak256(abi.encodePacked(address(this), receiver));
+    allowedIds[id] = true;
+    lastAllowedID = id;
   }
 
   function isAllowed(bytes32 _id) external view returns (bool) {
