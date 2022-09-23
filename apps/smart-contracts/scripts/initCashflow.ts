@@ -13,7 +13,7 @@ const main = async () => {
   );
   const cashflow = await Cashflow.deployed();
 
-  if ((await cashflow.acceptedToken()) != ABTokenDeployment.address) {
+  if ((await cashflow.getAcceptedToken()) != ABTokenDeployment.address) {
     const tx = await cashflow
       .connect(deployer)
       .setAcceptedToken(ABTokenDeployment.address);
