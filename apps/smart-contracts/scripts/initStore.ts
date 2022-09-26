@@ -23,9 +23,9 @@ const main = async () => {
   let itemIds = [0, 1, 2];
   let quantities = [100, 50, 10];
   let prices = [
-    ethers.utils.parseEther("0.01"),
-    ethers.utils.parseEther("0.1"),
-    ethers.utils.parseEther("1"),
+    ethers.utils.parseEther("10"),
+    ethers.utils.parseEther("100"),
+    ethers.utils.parseEther("1000"),
   ];
 
   for (let i = 0; i < itemIds.length; i++) {
@@ -41,6 +41,7 @@ const main = async () => {
       ethers.utils.formatEther(prices[i].toString())
     );
     console.log("   Item Quantity : ", quantities[i]);
+    console.log("*******************************************");
   }
 
   return;
