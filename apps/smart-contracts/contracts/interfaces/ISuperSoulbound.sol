@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPLv3
 pragma solidity 0.8.16;
 
+import { IERC20 } from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
 /**
  * @title Superfluid compatible super soulbound token interface
  *
@@ -12,91 +14,91 @@ interface ISuperSoulbound {
     uint8 underlyingDecimals,
     string calldata n,
     string calldata s
-  ) external override;
+  ) external ;
 
-  function proxiableUUID() public pure override returns (bytes32);
+  function proxiableUUID() external pure  returns (bytes32);
 
-  function updateCode(address newAddress) external override;
+  function updateCode(address newAddress) external ;
 
   /**************************************************************************
    * ERC20 Token Info
    *************************************************************************/
 
-  function name() external view override returns (string memory);
+  function name() external view  returns (string memory);
 
-  function symbol() external view override returns (string memory);
+  function symbol() external view  returns (string memory);
 
-  function decimals() external pure override returns (uint8);
+  function decimals() external pure  returns (uint8);
 
   /**************************************************************************
    * ERC20 Implementations
    *************************************************************************/
 
-  function totalSupply() public view override returns (uint256);
+  function totalSupply() external view  returns (uint256);
 
   function balanceOf(address account)
-    public
+    external
     view
-    override
+    
     returns (uint256 balance);
 
   function transfer(address recipient, uint256 amount)
-    public
-    override
+    external
+    
     returns (bool);
 
   function allowance(address account, address spender)
-    public
+    external
     view
-    override
+    
     returns (uint256);
 
   function approve(address spender, uint256 amount)
-    public
-    override
+    external
+    
     returns (bool);
 
   function transferFrom(
     address holder,
     address recipient,
     uint256 amount
-  ) public override returns (bool);
+  ) external  returns (bool);
 
   function increaseAllowance(address spender, uint256 addedValue)
-    public
-    override
+    external
+    
     returns (bool);
 
   function decreaseAllowance(address spender, uint256 subtractedValue)
-    public
-    override
+    external
+    
     returns (bool);
 
   /**************************************************************************
    * ERC-777 functions
    *************************************************************************/
 
-  function granularity() external pure override returns (uint256);
+  function granularity() external pure  returns (uint256);
 
   function send(
     address recipient,
     uint256 amount,
     bytes calldata data
-  ) external override;
+  ) external ;
 
-  function burn(uint256 amount, bytes calldata data) external override;
+  function burn(uint256 amount, bytes calldata data) external ;
 
   function isOperatorFor(address operator, address tokenHolder)
     external
     view
-    override
+    
     returns (bool);
 
-  function authorizeOperator(address operator) external override;
+  function authorizeOperator(address operator) external ;
 
-  function revokeOperator(address operator) external override;
+  function revokeOperator(address operator) external ;
 
-  function defaultOperators() external view override returns (address[] memory);
+  function defaultOperators() external view  returns (address[] memory);
 
   function operatorSend(
     address sender,
@@ -104,14 +106,14 @@ interface ISuperSoulbound {
     uint256 amount,
     bytes calldata data,
     bytes calldata operatorData
-  ) external override;
+  ) external ;
 
   function operatorBurn(
     address account,
     uint256 amount,
     bytes calldata data,
     bytes calldata operatorData
-  ) external override;
+  ) external ;
 
   /**************************************************************************
    * SuperToken custom token functions
@@ -121,52 +123,52 @@ interface ISuperSoulbound {
     address account,
     uint256 amount,
     bytes memory userData
-  ) external override;
+  ) external ;
 
   function selfBurn(
     address account,
     uint256 amount,
     bytes memory userData
-  ) external override;
+  ) external ;
 
   function selfApproveFor(
     address account,
     address spender,
     uint256 amount
-  ) external override;
+  ) external ;
 
   function selfTransferFrom(
     address holder,
     address spender,
     address recipient,
     uint256 amount
-  ) external override;
+  ) external ;
 
   /**************************************************************************
    * SuperToken extra functions
    *************************************************************************/
 
-  function transferAll(address recipient) external override;
+  function transferAll(address recipient) external ;
 
   /**************************************************************************
    * ERC20 wrapping
    *************************************************************************/
 
   /// @dev ISuperfluidGovernance.getUnderlyingToken implementation
-  function getUnderlyingToken() external view override returns (address);
+  function getUnderlyingToken() external view  returns (address);
 
   /// @dev ISuperToken.upgrade implementation
-  function upgrade(uint256 amount) external override;
+  function upgrade(uint256 amount) external ;
 
   /// @dev ISuperToken.upgradeTo implementation
   function upgradeTo(
     address to,
     uint256 amount,
     bytes calldata data
-  ) external override;
+  ) external ;
 
   /// @dev ISuperToken.downgrade implementation
-  function downgrade(uint256 amount) external override;
+  function downgrade(uint256 amount) external ;
 
   /**************************************************************************
    * Superfluid Batch Operations
@@ -176,18 +178,20 @@ interface ISuperSoulbound {
     address account,
     address spender,
     uint256 amount
-  ) external override;
+  ) external ;
 
   function operationTransferFrom(
     address account,
     address spender,
     address recipient,
     uint256 amount
-  ) external override;
+  ) external ;
 
-  function operationUpgrade(address account, uint256 amount) external override;
+  function operationUpgrade(address account, uint256 amount) external ;
 
   function operationDowngrade(address account, uint256 amount)
     external
-    override;
+    ;
+
+  function setAllowedId(address receiver) external;
 }

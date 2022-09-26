@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.16;
 
-import { ISuperfluid, ISuperToken, ISuperApp, ISuperAgreement, SuperAppDefinitions } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
+import { ISuperfluid, ISuperApp, ISuperToken, ISuperAgreement, SuperAppDefinitions } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
 
 import { CFAv1Library } from "@superfluid-finance/ethereum-contracts/contracts/apps/CFAv1Library.sol";
 
 import { IConstantFlowAgreementV1 } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/IConstantFlowAgreementV1.sol";
 
 import { SuperAppBase } from "@superfluid-finance/ethereum-contracts/contracts/apps/SuperAppBase.sol";
-import "hardhat/console.sol";
+
+import { ISuperSoulbound } from "./interfaces/ISuperSoulbound.sol";
 
 /// @dev Constant Flow Agreement registration key, used to get the address from the host.
 bytes32 constant CFA_ID = keccak256(
@@ -36,12 +37,9 @@ contract Cashflow is SuperAppBase {
   CFAv1Library.InitData public cfaV1Lib;
 
   /// @dev Super token that may be streamed to this contract
-  ISuperToken internal acceptedToken;
+  ISuperSoulbound internal acceptedToken;
 
   mapping(uint256 => int96) public flowRates;
-  mapping(bytes32 => bool) private allowedIds;
-
-  bytes32 public lastAllowedID;
 
   constructor(ISuperfluid host) {
     assert(address(host) != address(0));
@@ -52,7 +50,7 @@ contract Cashflow is SuperAppBase {
     });
   }
 
-  modifier onlyExpected(ISuperToken superToken, address agreementClass) {
+  modifier onlyExpected(ISuperSoulbound superToken, address agreementClass) {
     if (superToken != acceptedToken) revert InvalidToken();
     if (agreementClass != address(cfaV1Lib.cfa)) revert InvalidAgreement();
     _;
@@ -78,7 +76,7 @@ contract Cashflow is SuperAppBase {
   ) internal {
     require(receiver != address(this), "Issue to a new address");
     require(flowRate > 0, "flowRatee must be positive!");
-
+    acceptedToken.setAllowedId(receiver);
     flowRates[tokenId] = flowRate;
   }
 
@@ -87,6 +85,7 @@ contract Cashflow is SuperAppBase {
     address newReceiver,
     uint256 tokenId
   ) external {
+    acceptedToken.setAllowedId(newReceiver);
     _reduceFlow(oldReceiver, flowRates[tokenId]);
     _increaseFlow(newReceiver, flowRates[tokenId]);
   }
@@ -101,7 +100,12 @@ contract Cashflow is SuperAppBase {
       uint256 owedDeposit
     )
   {
-    return cfaV1Lib.cfa.getFlow(acceptedToken, address(this), _receiver);
+    return
+      cfaV1Lib.cfa.getFlow(
+        ISuperToken(address(acceptedToken)),
+        address(this),
+        _receiver
+      );
   }
 
   function editNFT(
@@ -126,17 +130,25 @@ contract Cashflow is SuperAppBase {
     if (to == address(this)) return;
 
     (, int96 outFlowRate, , ) = cfaV1Lib.cfa.getFlow(
-      acceptedToken,
+      ISuperToken(address(acceptedToken)),
       address(this),
       to
     );
 
     if (outFlowRate == flowRate) {
-      cfaV1Lib.deleteFlow(address(this), to, acceptedToken);
+      cfaV1Lib.deleteFlow(
+        address(this),
+        to,
+        ISuperToken(address(acceptedToken))
+      );
     } else if (outFlowRate > flowRate) {
       // reduce the outflow by flowRate;
       // shouldn't overflow, because we just checked that it was bigger.
-      cfaV1Lib.updateFlow(to, acceptedToken, outFlowRate - flowRate);
+      cfaV1Lib.updateFlow(
+        to,
+        ISuperToken(address(acceptedToken)),
+        outFlowRate - flowRate
+      );
     }
     // won't do anything if outFlowRate < flowRate
   }
@@ -146,7 +158,7 @@ contract Cashflow is SuperAppBase {
     if (to == address(0)) return;
 
     (, int96 outFlowRate, , ) = cfaV1Lib.cfa.getFlow(
-      acceptedToken,
+      ISuperToken(address(acceptedToken)),
       address(this),
       to
     ); //returns 0 if stream doesn't exist
@@ -154,29 +166,22 @@ contract Cashflow is SuperAppBase {
       _createFlow(to, flowRate);
     } else {
       // increase the outflow by flowRates[tokenId]
-      cfaV1Lib.updateFlow(to, acceptedToken, outFlowRate + flowRate);
+      cfaV1Lib.updateFlow(
+        to,
+        ISuperToken(address(acceptedToken)),
+        outFlowRate + flowRate
+      );
     }
   }
 
   function _createFlow(address _to, int96 _flowRate) internal {
     // Create the flow
-    cfaV1Lib.createFlow(_to, acceptedToken, _flowRate);
-  }
-
-  function _setAllowedId(address receiver) external {
-    // Calculate the flow ID
-    bytes32 id = keccak256(abi.encode(address(this), address(receiver)));
-    allowedIds[id] = true;
-    lastAllowedID = id;
-  }
-
-  function isAllowed(bytes32 _id) external view returns (bool) {
-    return allowedIds[_id];
+    cfaV1Lib.createFlow(_to, ISuperToken(address(acceptedToken)), _flowRate);
   }
 
   function setAcceptedToken(address _acceptedToken) external {
     assert(_acceptedToken != address(0));
-    acceptedToken = ISuperToken(_acceptedToken);
+    acceptedToken = ISuperSoulbound(_acceptedToken);
   }
 
   function getAcceptedToken() external view returns (address) {

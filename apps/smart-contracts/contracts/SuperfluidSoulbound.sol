@@ -14,9 +14,6 @@ import { FixedSizeData } from "@superfluid-finance/ethereum-contracts/contracts/
 /* Openzeppelin Contracts */
 import { SafeCast } from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 
-/* Custom Imports */
-import { ICashflow } from "./interfaces/ICashflow.sol";
-
 /**
  * @title Superfluid compatible Soulbound Token implementation
  *
@@ -54,23 +51,25 @@ abstract contract SuperfluidSoulbound is ISuperfluidToken {
   uint256 private _reserve12;
   uint256 internal _reserve13;
 
+  /// @dev Stores the allowed flowIds
+  mapping(bytes32 => bool) private allowedIds;
+
+  address internal _admin;
+
   error NOT_STREAMABLE();
   error NOT_CFA_AGREEMENT();
+  error NOT_ADMIN();
 
   address private CFA_ADDRESS;
-
-  ICashflow internal _cashflow;
-
-  bytes32 public lastCalledID;
 
   constructor(
     ISuperfluid host,
     address cfa,
-    address cashflow
+    address admin
   ) {
     _host = host;
     CFA_ADDRESS = cfa;
-    _cashflow = ICashflow(cashflow);
+    _admin = admin;
   }
 
   /// @dev ISuperfluidToken.getHost implementation
@@ -283,7 +282,7 @@ abstract contract SuperfluidSoulbound is ISuperfluidToken {
   {
     address agreementClass = msg.sender;
     if (agreementClass != CFA_ADDRESS) revert NOT_CFA_AGREEMENT();
-    if (!_cashflow.isAllowed(id)) {
+    if (!this.isAllowed(id)) {
       revert NOT_STREAMABLE();
     }
     bytes32 slot = keccak256(abi.encode("AgreementData", agreementClass, id));
@@ -409,10 +408,30 @@ abstract contract SuperfluidSoulbound is ISuperfluidToken {
     );
   }
 
+  function setAllowedId(address receiver) external onlyAdmin {
+    // Calculate the flow ID
+    bytes32 id = keccak256(abi.encode(address(_admin), address(receiver)));
+    allowedIds[id] = true;
+  }
+
+  function isAllowed(bytes32 _id) external view returns (bool) {
+    return allowedIds[_id];
+  }
+
+  function setAdmin(address admin) external {
+    _admin = admin;
+  }
+
   /**************************************************************************
    * Modifiers
    *************************************************************************/
 
+  modifier onlyAdmin() {
+    if (address(_admin) != msg.sender) {
+      revert NOT_ADMIN();
+    }
+    _;
+  }
   modifier onlyAgreement() {
     if (!_host.isAgreementClassListed(ISuperAgreement(msg.sender))) {
       revert SuperfluidErrors.ONLY_LISTED_AGREEMENT(
