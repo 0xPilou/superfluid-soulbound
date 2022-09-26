@@ -13,40 +13,27 @@ import {
   Signer,
   utils,
 } from "ethers";
-import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
+import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export interface SuperSoulboundInterface extends utils.Interface {
-  contractName: "SuperSoulbound";
+export interface ISuperSoulboundInterface extends utils.Interface {
+  contractName: "ISuperSoulbound";
   functions: {
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "authorizeOperator(address)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "burn(uint256,bytes)": FunctionFragment;
-    "castrate()": FunctionFragment;
-    "createAgreement(bytes32,bytes32[])": FunctionFragment;
     "decimals()": FunctionFragment;
     "decreaseAllowance(address,uint256)": FunctionFragment;
     "defaultOperators()": FunctionFragment;
     "downgrade(uint256)": FunctionFragment;
-    "getAccountActiveAgreements(address)": FunctionFragment;
-    "getAgreementData(address,bytes32,uint256)": FunctionFragment;
-    "getAgreementStateSlot(address,address,uint256,uint256)": FunctionFragment;
-    "getCodeAddress()": FunctionFragment;
-    "getHost()": FunctionFragment;
     "getUnderlyingToken()": FunctionFragment;
     "granularity()": FunctionFragment;
     "increaseAllowance(address,uint256)": FunctionFragment;
     "initialize(address,uint8,string,string)": FunctionFragment;
-    "isAccountCritical(address,uint256)": FunctionFragment;
-    "isAccountCriticalNow(address)": FunctionFragment;
-    "isAccountSolvent(address,uint256)": FunctionFragment;
-    "isAccountSolventNow(address)": FunctionFragment;
-    "isAllowed(bytes32)": FunctionFragment;
     "isOperatorFor(address,address)": FunctionFragment;
-    "makeLiquidationPayoutsV2(bytes32,bytes,address,bool,address,uint256,int256)": FunctionFragment;
     "name()": FunctionFragment;
     "operationApprove(address,address,uint256)": FunctionFragment;
     "operationDowngrade(address,uint256)": FunctionFragment;
@@ -55,25 +42,18 @@ export interface SuperSoulboundInterface extends utils.Interface {
     "operatorBurn(address,uint256,bytes,bytes)": FunctionFragment;
     "operatorSend(address,address,uint256,bytes,bytes)": FunctionFragment;
     "proxiableUUID()": FunctionFragment;
-    "realtimeBalanceOf(address,uint256)": FunctionFragment;
-    "realtimeBalanceOfNow(address)": FunctionFragment;
     "revokeOperator(address)": FunctionFragment;
     "selfApproveFor(address,address,uint256)": FunctionFragment;
     "selfBurn(address,uint256,bytes)": FunctionFragment;
     "selfMint(address,uint256,bytes)": FunctionFragment;
     "selfTransferFrom(address,address,address,uint256)": FunctionFragment;
     "send(address,uint256,bytes)": FunctionFragment;
-    "setAdmin(address)": FunctionFragment;
     "setAllowedId(address)": FunctionFragment;
-    "settleBalance(address,int256)": FunctionFragment;
     "symbol()": FunctionFragment;
-    "terminateAgreement(bytes32,uint256)": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "transfer(address,uint256)": FunctionFragment;
     "transferAll(address)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
-    "updateAgreementData(bytes32,bytes32[])": FunctionFragment;
-    "updateAgreementStateSlot(address,uint256,bytes32[])": FunctionFragment;
     "updateCode(address)": FunctionFragment;
     "upgrade(uint256)": FunctionFragment;
     "upgradeTo(address,uint256,bytes)": FunctionFragment;
@@ -96,11 +76,6 @@ export interface SuperSoulboundInterface extends utils.Interface {
     functionFragment: "burn",
     values: [BigNumberish, BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: "castrate", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "createAgreement",
-    values: [BytesLike, BytesLike[]]
-  ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "decreaseAllowance",
@@ -114,23 +89,6 @@ export interface SuperSoulboundInterface extends utils.Interface {
     functionFragment: "downgrade",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(
-    functionFragment: "getAccountActiveAgreements",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getAgreementData",
-    values: [string, BytesLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getAgreementStateSlot",
-    values: [string, string, BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getCodeAddress",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "getHost", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getUnderlyingToken",
     values?: undefined
@@ -148,40 +106,8 @@ export interface SuperSoulboundInterface extends utils.Interface {
     values: [string, BigNumberish, string, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "isAccountCritical",
-    values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isAccountCriticalNow",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isAccountSolvent",
-    values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isAccountSolventNow",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isAllowed",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
     functionFragment: "isOperatorFor",
     values: [string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "makeLiquidationPayoutsV2",
-    values: [
-      BytesLike,
-      BytesLike,
-      string,
-      boolean,
-      string,
-      BigNumberish,
-      BigNumberish
-    ]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
@@ -213,14 +139,6 @@ export interface SuperSoulboundInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "realtimeBalanceOf",
-    values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "realtimeBalanceOfNow",
-    values: [string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "revokeOperator",
     values: [string]
   ): string;
@@ -244,20 +162,11 @@ export interface SuperSoulboundInterface extends utils.Interface {
     functionFragment: "send",
     values: [string, BigNumberish, BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: "setAdmin", values: [string]): string;
   encodeFunctionData(
     functionFragment: "setAllowedId",
     values: [string]
   ): string;
-  encodeFunctionData(
-    functionFragment: "settleBalance",
-    values: [string, BigNumberish]
-  ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "terminateAgreement",
-    values: [BytesLike, BigNumberish]
-  ): string;
   encodeFunctionData(
     functionFragment: "totalSupply",
     values?: undefined
@@ -270,14 +179,6 @@ export interface SuperSoulboundInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "updateAgreementData",
-    values: [BytesLike, BytesLike[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "updateAgreementStateSlot",
-    values: [string, BigNumberish, BytesLike[]]
   ): string;
   encodeFunctionData(functionFragment: "updateCode", values: [string]): string;
   encodeFunctionData(
@@ -297,11 +198,6 @@ export interface SuperSoulboundInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "castrate", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "createAgreement",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "decreaseAllowance",
@@ -312,23 +208,6 @@ export interface SuperSoulboundInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "downgrade", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "getAccountActiveAgreements",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getAgreementData",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getAgreementStateSlot",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getCodeAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "getHost", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getUnderlyingToken",
     data: BytesLike
@@ -343,28 +222,7 @@ export interface SuperSoulboundInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "isAccountCritical",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "isAccountCriticalNow",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "isAccountSolvent",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "isAccountSolventNow",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "isAllowed", data: BytesLike): Result;
-  decodeFunctionResult(
     functionFragment: "isOperatorFor",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "makeLiquidationPayoutsV2",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
@@ -397,14 +255,6 @@ export interface SuperSoulboundInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "realtimeBalanceOf",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "realtimeBalanceOfNow",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "revokeOperator",
     data: BytesLike
   ): Result;
@@ -419,20 +269,11 @@ export interface SuperSoulboundInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "send", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setAdmin", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setAllowedId",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "settleBalance",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "terminateAgreement",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "totalSupply",
     data: BytesLike
@@ -446,248 +287,20 @@ export interface SuperSoulboundInterface extends utils.Interface {
     functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "updateAgreementData",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "updateAgreementStateSlot",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "updateCode", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "upgrade", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
 
-  events: {
-    "AgreementCreated(address,bytes32,bytes32[])": EventFragment;
-    "AgreementLiquidated(address,bytes32,address,address,uint256)": EventFragment;
-    "AgreementLiquidatedBy(address,address,bytes32,address,address,uint256,uint256)": EventFragment;
-    "AgreementLiquidatedV2(address,bytes32,address,address,address,uint256,int256,bytes)": EventFragment;
-    "AgreementStateUpdated(address,address,uint256)": EventFragment;
-    "AgreementTerminated(address,bytes32)": EventFragment;
-    "AgreementUpdated(address,bytes32,bytes32[])": EventFragment;
-    "Approval(address,address,uint256)": EventFragment;
-    "AuthorizedOperator(address,address)": EventFragment;
-    "Bailout(address,uint256)": EventFragment;
-    "Burned(address,address,uint256,bytes,bytes)": EventFragment;
-    "CodeUpdated(bytes32,address)": EventFragment;
-    "Initialized(uint8)": EventFragment;
-    "Minted(address,address,uint256,bytes,bytes)": EventFragment;
-    "RevokedOperator(address,address)": EventFragment;
-    "Sent(address,address,address,uint256,bytes,bytes)": EventFragment;
-    "TokenDowngraded(address,uint256)": EventFragment;
-    "TokenUpgraded(address,uint256)": EventFragment;
-    "Transfer(address,address,uint256)": EventFragment;
-  };
-
-  getEvent(nameOrSignatureOrTopic: "AgreementCreated"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "AgreementLiquidated"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "AgreementLiquidatedBy"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "AgreementLiquidatedV2"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "AgreementStateUpdated"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "AgreementTerminated"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "AgreementUpdated"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "AuthorizedOperator"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Bailout"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Burned"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "CodeUpdated"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Minted"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "RevokedOperator"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Sent"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "TokenDowngraded"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "TokenUpgraded"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
+  events: {};
 }
 
-export type AgreementCreatedEvent = TypedEvent<
-  [string, string, string[]],
-  { agreementClass: string; id: string; data: string[] }
->;
-
-export type AgreementCreatedEventFilter =
-  TypedEventFilter<AgreementCreatedEvent>;
-
-export type AgreementLiquidatedEvent = TypedEvent<
-  [string, string, string, string, BigNumber],
-  {
-    agreementClass: string;
-    id: string;
-    penaltyAccount: string;
-    rewardAccount: string;
-    rewardAmount: BigNumber;
-  }
->;
-
-export type AgreementLiquidatedEventFilter =
-  TypedEventFilter<AgreementLiquidatedEvent>;
-
-export type AgreementLiquidatedByEvent = TypedEvent<
-  [string, string, string, string, string, BigNumber, BigNumber],
-  {
-    liquidatorAccount: string;
-    agreementClass: string;
-    id: string;
-    penaltyAccount: string;
-    bondAccount: string;
-    rewardAmount: BigNumber;
-    bailoutAmount: BigNumber;
-  }
->;
-
-export type AgreementLiquidatedByEventFilter =
-  TypedEventFilter<AgreementLiquidatedByEvent>;
-
-export type AgreementLiquidatedV2Event = TypedEvent<
-  [string, string, string, string, string, BigNumber, BigNumber, string],
-  {
-    agreementClass: string;
-    id: string;
-    liquidatorAccount: string;
-    targetAccount: string;
-    rewardAmountReceiver: string;
-    rewardAmount: BigNumber;
-    targetAccountBalanceDelta: BigNumber;
-    liquidationTypeData: string;
-  }
->;
-
-export type AgreementLiquidatedV2EventFilter =
-  TypedEventFilter<AgreementLiquidatedV2Event>;
-
-export type AgreementStateUpdatedEvent = TypedEvent<
-  [string, string, BigNumber],
-  { agreementClass: string; account: string; slotId: BigNumber }
->;
-
-export type AgreementStateUpdatedEventFilter =
-  TypedEventFilter<AgreementStateUpdatedEvent>;
-
-export type AgreementTerminatedEvent = TypedEvent<
-  [string, string],
-  { agreementClass: string; id: string }
->;
-
-export type AgreementTerminatedEventFilter =
-  TypedEventFilter<AgreementTerminatedEvent>;
-
-export type AgreementUpdatedEvent = TypedEvent<
-  [string, string, string[]],
-  { agreementClass: string; id: string; data: string[] }
->;
-
-export type AgreementUpdatedEventFilter =
-  TypedEventFilter<AgreementUpdatedEvent>;
-
-export type ApprovalEvent = TypedEvent<
-  [string, string, BigNumber],
-  { owner: string; spender: string; value: BigNumber }
->;
-
-export type ApprovalEventFilter = TypedEventFilter<ApprovalEvent>;
-
-export type AuthorizedOperatorEvent = TypedEvent<
-  [string, string],
-  { operator: string; tokenHolder: string }
->;
-
-export type AuthorizedOperatorEventFilter =
-  TypedEventFilter<AuthorizedOperatorEvent>;
-
-export type BailoutEvent = TypedEvent<
-  [string, BigNumber],
-  { bailoutAccount: string; bailoutAmount: BigNumber }
->;
-
-export type BailoutEventFilter = TypedEventFilter<BailoutEvent>;
-
-export type BurnedEvent = TypedEvent<
-  [string, string, BigNumber, string, string],
-  {
-    operator: string;
-    from: string;
-    amount: BigNumber;
-    data: string;
-    operatorData: string;
-  }
->;
-
-export type BurnedEventFilter = TypedEventFilter<BurnedEvent>;
-
-export type CodeUpdatedEvent = TypedEvent<
-  [string, string],
-  { uuid: string; codeAddress: string }
->;
-
-export type CodeUpdatedEventFilter = TypedEventFilter<CodeUpdatedEvent>;
-
-export type InitializedEvent = TypedEvent<[number], { version: number }>;
-
-export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
-
-export type MintedEvent = TypedEvent<
-  [string, string, BigNumber, string, string],
-  {
-    operator: string;
-    to: string;
-    amount: BigNumber;
-    data: string;
-    operatorData: string;
-  }
->;
-
-export type MintedEventFilter = TypedEventFilter<MintedEvent>;
-
-export type RevokedOperatorEvent = TypedEvent<
-  [string, string],
-  { operator: string; tokenHolder: string }
->;
-
-export type RevokedOperatorEventFilter = TypedEventFilter<RevokedOperatorEvent>;
-
-export type SentEvent = TypedEvent<
-  [string, string, string, BigNumber, string, string],
-  {
-    operator: string;
-    from: string;
-    to: string;
-    amount: BigNumber;
-    data: string;
-    operatorData: string;
-  }
->;
-
-export type SentEventFilter = TypedEventFilter<SentEvent>;
-
-export type TokenDowngradedEvent = TypedEvent<
-  [string, BigNumber],
-  { account: string; amount: BigNumber }
->;
-
-export type TokenDowngradedEventFilter = TypedEventFilter<TokenDowngradedEvent>;
-
-export type TokenUpgradedEvent = TypedEvent<
-  [string, BigNumber],
-  { account: string; amount: BigNumber }
->;
-
-export type TokenUpgradedEventFilter = TypedEventFilter<TokenUpgradedEvent>;
-
-export type TransferEvent = TypedEvent<
-  [string, string, BigNumber],
-  { from: string; to: string; value: BigNumber }
->;
-
-export type TransferEventFilter = TypedEventFilter<TransferEvent>;
-
-export interface SuperSoulbound extends BaseContract {
-  contractName: "SuperSoulbound";
+export interface ISuperSoulbound extends BaseContract {
+  contractName: "ISuperSoulbound";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: SuperSoulboundInterface;
+  interface: ISuperSoulboundInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -765,26 +378,6 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    castrate(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "castrate()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    createAgreement(
-      id: BytesLike,
-      data: BytesLike[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "createAgreement(bytes32,bytes32[])"(
-      id: BytesLike,
-      data: BytesLike[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     decimals(overrides?: CallOverrides): Promise<[number]>;
 
     "decimals()"(overrides?: CallOverrides): Promise<[number]>;
@@ -814,60 +407,6 @@ export interface SuperSoulbound extends BaseContract {
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    getAccountActiveAgreements(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<[string[]]>;
-
-    "getAccountActiveAgreements(address)"(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<[string[]]>;
-
-    getAgreementData(
-      agreementClass: string,
-      id: BytesLike,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string[]] & { data: string[] }>;
-
-    "getAgreementData(address,bytes32,uint256)"(
-      agreementClass: string,
-      id: BytesLike,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string[]] & { data: string[] }>;
-
-    getAgreementStateSlot(
-      agreementClass: string,
-      account: string,
-      slotId: BigNumberish,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string[]] & { slotData: string[] }>;
-
-    "getAgreementStateSlot(address,address,uint256,uint256)"(
-      agreementClass: string,
-      account: string,
-      slotId: BigNumberish,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string[]] & { slotData: string[] }>;
-
-    getCodeAddress(
-      overrides?: CallOverrides
-    ): Promise<[string] & { codeAddress: string }>;
-
-    "getCodeAddress()"(
-      overrides?: CallOverrides
-    ): Promise<[string] & { codeAddress: string }>;
-
-    getHost(overrides?: CallOverrides): Promise<[string] & { host: string }>;
-
-    "getHost()"(
-      overrides?: CallOverrides
-    ): Promise<[string] & { host: string }>;
 
     getUnderlyingToken(overrides?: CallOverrides): Promise<[string]>;
 
@@ -905,57 +444,6 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    isAccountCritical(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[boolean] & { isCritical: boolean }>;
-
-    "isAccountCritical(address,uint256)"(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[boolean] & { isCritical: boolean }>;
-
-    isAccountCriticalNow(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean] & { isCritical: boolean }>;
-
-    "isAccountCriticalNow(address)"(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean] & { isCritical: boolean }>;
-
-    isAccountSolvent(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[boolean] & { isSolvent: boolean }>;
-
-    "isAccountSolvent(address,uint256)"(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[boolean] & { isSolvent: boolean }>;
-
-    isAccountSolventNow(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean] & { isSolvent: boolean }>;
-
-    "isAccountSolventNow(address)"(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean] & { isSolvent: boolean }>;
-
-    isAllowed(_id: BytesLike, overrides?: CallOverrides): Promise<[boolean]>;
-
-    "isAllowed(bytes32)"(
-      _id: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
     isOperatorFor(
       operator: string,
       tokenHolder: string,
@@ -967,28 +455,6 @@ export interface SuperSoulbound extends BaseContract {
       tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
-
-    makeLiquidationPayoutsV2(
-      id: BytesLike,
-      liquidationTypeData: BytesLike,
-      liquidatorAccount: string,
-      useDefaultRewardAccount: boolean,
-      targetAccount: string,
-      rewardAmount: BigNumberish,
-      targetAccountBalanceDelta: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "makeLiquidationPayoutsV2(bytes32,bytes,address,bool,address,uint256,int256)"(
-      id: BytesLike,
-      liquidationTypeData: BytesLike,
-      liquidatorAccount: string,
-      useDefaultRewardAccount: boolean,
-      targetAccount: string,
-      rewardAmount: BigNumberish,
-      targetAccountBalanceDelta: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
@@ -1086,54 +552,6 @@ export interface SuperSoulbound extends BaseContract {
 
     "proxiableUUID()"(overrides?: CallOverrides): Promise<[string]>;
 
-    realtimeBalanceOf(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        availableBalance: BigNumber;
-        deposit: BigNumber;
-        owedDeposit: BigNumber;
-      }
-    >;
-
-    "realtimeBalanceOf(address,uint256)"(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        availableBalance: BigNumber;
-        deposit: BigNumber;
-        owedDeposit: BigNumber;
-      }
-    >;
-
-    realtimeBalanceOfNow(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber, BigNumber] & {
-        availableBalance: BigNumber;
-        deposit: BigNumber;
-        owedDeposit: BigNumber;
-        timestamp: BigNumber;
-      }
-    >;
-
-    "realtimeBalanceOfNow(address)"(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber, BigNumber] & {
-        availableBalance: BigNumber;
-        deposit: BigNumber;
-        owedDeposit: BigNumber;
-        timestamp: BigNumber;
-      }
-    >;
-
     revokeOperator(
       operator: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1216,16 +634,6 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setAdmin(
-      admin: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "setAdmin(address)"(
-      admin: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     setAllowedId(
       receiver: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1236,33 +644,9 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    settleBalance(
-      account: string,
-      delta: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "settleBalance(address,int256)"(
-      account: string,
-      delta: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     symbol(overrides?: CallOverrides): Promise<[string]>;
 
     "symbol()"(overrides?: CallOverrides): Promise<[string]>;
-
-    terminateAgreement(
-      id: BytesLike,
-      dataLength: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "terminateAgreement(bytes32,uint256)"(
-      id: BytesLike,
-      dataLength: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
 
     totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -1301,32 +685,6 @@ export interface SuperSoulbound extends BaseContract {
       holder: string,
       recipient: string,
       amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    updateAgreementData(
-      id: BytesLike,
-      data: BytesLike[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "updateAgreementData(bytes32,bytes32[])"(
-      id: BytesLike,
-      data: BytesLike[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    updateAgreementStateSlot(
-      account: string,
-      slotId: BigNumberish,
-      slotData: BytesLike[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "updateAgreementStateSlot(address,uint256,bytes32[])"(
-      account: string,
-      slotId: BigNumberish,
-      slotData: BytesLike[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -1418,26 +776,6 @@ export interface SuperSoulbound extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  castrate(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "castrate()"(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  createAgreement(
-    id: BytesLike,
-    data: BytesLike[],
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "createAgreement(bytes32,bytes32[])"(
-    id: BytesLike,
-    data: BytesLike[],
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   decimals(overrides?: CallOverrides): Promise<number>;
 
   "decimals()"(overrides?: CallOverrides): Promise<number>;
@@ -1467,54 +805,6 @@ export interface SuperSoulbound extends BaseContract {
     amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
-
-  getAccountActiveAgreements(
-    account: string,
-    overrides?: CallOverrides
-  ): Promise<string[]>;
-
-  "getAccountActiveAgreements(address)"(
-    account: string,
-    overrides?: CallOverrides
-  ): Promise<string[]>;
-
-  getAgreementData(
-    agreementClass: string,
-    id: BytesLike,
-    dataLength: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string[]>;
-
-  "getAgreementData(address,bytes32,uint256)"(
-    agreementClass: string,
-    id: BytesLike,
-    dataLength: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string[]>;
-
-  getAgreementStateSlot(
-    agreementClass: string,
-    account: string,
-    slotId: BigNumberish,
-    dataLength: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string[]>;
-
-  "getAgreementStateSlot(address,address,uint256,uint256)"(
-    agreementClass: string,
-    account: string,
-    slotId: BigNumberish,
-    dataLength: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string[]>;
-
-  getCodeAddress(overrides?: CallOverrides): Promise<string>;
-
-  "getCodeAddress()"(overrides?: CallOverrides): Promise<string>;
-
-  getHost(overrides?: CallOverrides): Promise<string>;
-
-  "getHost()"(overrides?: CallOverrides): Promise<string>;
 
   getUnderlyingToken(overrides?: CallOverrides): Promise<string>;
 
@@ -1552,57 +842,6 @@ export interface SuperSoulbound extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  isAccountCritical(
-    account: string,
-    timestamp: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  "isAccountCritical(address,uint256)"(
-    account: string,
-    timestamp: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  isAccountCriticalNow(
-    account: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  "isAccountCriticalNow(address)"(
-    account: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  isAccountSolvent(
-    account: string,
-    timestamp: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  "isAccountSolvent(address,uint256)"(
-    account: string,
-    timestamp: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  isAccountSolventNow(
-    account: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  "isAccountSolventNow(address)"(
-    account: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  isAllowed(_id: BytesLike, overrides?: CallOverrides): Promise<boolean>;
-
-  "isAllowed(bytes32)"(
-    _id: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
   isOperatorFor(
     operator: string,
     tokenHolder: string,
@@ -1614,28 +853,6 @@ export interface SuperSoulbound extends BaseContract {
     tokenHolder: string,
     overrides?: CallOverrides
   ): Promise<boolean>;
-
-  makeLiquidationPayoutsV2(
-    id: BytesLike,
-    liquidationTypeData: BytesLike,
-    liquidatorAccount: string,
-    useDefaultRewardAccount: boolean,
-    targetAccount: string,
-    rewardAmount: BigNumberish,
-    targetAccountBalanceDelta: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "makeLiquidationPayoutsV2(bytes32,bytes,address,bool,address,uint256,int256)"(
-    id: BytesLike,
-    liquidationTypeData: BytesLike,
-    liquidatorAccount: string,
-    useDefaultRewardAccount: boolean,
-    targetAccount: string,
-    rewardAmount: BigNumberish,
-    targetAccountBalanceDelta: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   name(overrides?: CallOverrides): Promise<string>;
 
@@ -1733,54 +950,6 @@ export interface SuperSoulbound extends BaseContract {
 
   "proxiableUUID()"(overrides?: CallOverrides): Promise<string>;
 
-  realtimeBalanceOf(
-    account: string,
-    timestamp: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber, BigNumber] & {
-      availableBalance: BigNumber;
-      deposit: BigNumber;
-      owedDeposit: BigNumber;
-    }
-  >;
-
-  "realtimeBalanceOf(address,uint256)"(
-    account: string,
-    timestamp: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber, BigNumber] & {
-      availableBalance: BigNumber;
-      deposit: BigNumber;
-      owedDeposit: BigNumber;
-    }
-  >;
-
-  realtimeBalanceOfNow(
-    account: string,
-    overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber, BigNumber, BigNumber] & {
-      availableBalance: BigNumber;
-      deposit: BigNumber;
-      owedDeposit: BigNumber;
-      timestamp: BigNumber;
-    }
-  >;
-
-  "realtimeBalanceOfNow(address)"(
-    account: string,
-    overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber, BigNumber, BigNumber] & {
-      availableBalance: BigNumber;
-      deposit: BigNumber;
-      owedDeposit: BigNumber;
-      timestamp: BigNumber;
-    }
-  >;
-
   revokeOperator(
     operator: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -1863,16 +1032,6 @@ export interface SuperSoulbound extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setAdmin(
-    admin: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "setAdmin(address)"(
-    admin: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   setAllowedId(
     receiver: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -1883,33 +1042,9 @@ export interface SuperSoulbound extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  settleBalance(
-    account: string,
-    delta: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "settleBalance(address,int256)"(
-    account: string,
-    delta: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   symbol(overrides?: CallOverrides): Promise<string>;
 
   "symbol()"(overrides?: CallOverrides): Promise<string>;
-
-  terminateAgreement(
-    id: BytesLike,
-    dataLength: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "terminateAgreement(bytes32,uint256)"(
-    id: BytesLike,
-    dataLength: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1948,32 +1083,6 @@ export interface SuperSoulbound extends BaseContract {
     holder: string,
     recipient: string,
     amount: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  updateAgreementData(
-    id: BytesLike,
-    data: BytesLike[],
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "updateAgreementData(bytes32,bytes32[])"(
-    id: BytesLike,
-    data: BytesLike[],
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  updateAgreementStateSlot(
-    account: string,
-    slotId: BigNumberish,
-    slotData: BytesLike[],
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "updateAgreementStateSlot(address,uint256,bytes32[])"(
-    account: string,
-    slotId: BigNumberish,
-    slotData: BytesLike[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -2065,22 +1174,6 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    castrate(overrides?: CallOverrides): Promise<void>;
-
-    "castrate()"(overrides?: CallOverrides): Promise<void>;
-
-    createAgreement(
-      id: BytesLike,
-      data: BytesLike[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "createAgreement(bytes32,bytes32[])"(
-      id: BytesLike,
-      data: BytesLike[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     decimals(overrides?: CallOverrides): Promise<number>;
 
     "decimals()"(overrides?: CallOverrides): Promise<number>;
@@ -2107,54 +1200,6 @@ export interface SuperSoulbound extends BaseContract {
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    getAccountActiveAgreements(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<string[]>;
-
-    "getAccountActiveAgreements(address)"(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<string[]>;
-
-    getAgreementData(
-      agreementClass: string,
-      id: BytesLike,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string[]>;
-
-    "getAgreementData(address,bytes32,uint256)"(
-      agreementClass: string,
-      id: BytesLike,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string[]>;
-
-    getAgreementStateSlot(
-      agreementClass: string,
-      account: string,
-      slotId: BigNumberish,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string[]>;
-
-    "getAgreementStateSlot(address,address,uint256,uint256)"(
-      agreementClass: string,
-      account: string,
-      slotId: BigNumberish,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string[]>;
-
-    getCodeAddress(overrides?: CallOverrides): Promise<string>;
-
-    "getCodeAddress()"(overrides?: CallOverrides): Promise<string>;
-
-    getHost(overrides?: CallOverrides): Promise<string>;
-
-    "getHost()"(overrides?: CallOverrides): Promise<string>;
 
     getUnderlyingToken(overrides?: CallOverrides): Promise<string>;
 
@@ -2192,57 +1237,6 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    isAccountCritical(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    "isAccountCritical(address,uint256)"(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    isAccountCriticalNow(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    "isAccountCriticalNow(address)"(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    isAccountSolvent(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    "isAccountSolvent(address,uint256)"(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    isAccountSolventNow(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    "isAccountSolventNow(address)"(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    isAllowed(_id: BytesLike, overrides?: CallOverrides): Promise<boolean>;
-
-    "isAllowed(bytes32)"(
-      _id: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
     isOperatorFor(
       operator: string,
       tokenHolder: string,
@@ -2254,28 +1248,6 @@ export interface SuperSoulbound extends BaseContract {
       tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    makeLiquidationPayoutsV2(
-      id: BytesLike,
-      liquidationTypeData: BytesLike,
-      liquidatorAccount: string,
-      useDefaultRewardAccount: boolean,
-      targetAccount: string,
-      rewardAmount: BigNumberish,
-      targetAccountBalanceDelta: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "makeLiquidationPayoutsV2(bytes32,bytes,address,bool,address,uint256,int256)"(
-      id: BytesLike,
-      liquidationTypeData: BytesLike,
-      liquidatorAccount: string,
-      useDefaultRewardAccount: boolean,
-      targetAccount: string,
-      rewardAmount: BigNumberish,
-      targetAccountBalanceDelta: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     name(overrides?: CallOverrides): Promise<string>;
 
@@ -2373,54 +1345,6 @@ export interface SuperSoulbound extends BaseContract {
 
     "proxiableUUID()"(overrides?: CallOverrides): Promise<string>;
 
-    realtimeBalanceOf(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        availableBalance: BigNumber;
-        deposit: BigNumber;
-        owedDeposit: BigNumber;
-      }
-    >;
-
-    "realtimeBalanceOf(address,uint256)"(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        availableBalance: BigNumber;
-        deposit: BigNumber;
-        owedDeposit: BigNumber;
-      }
-    >;
-
-    realtimeBalanceOfNow(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber, BigNumber] & {
-        availableBalance: BigNumber;
-        deposit: BigNumber;
-        owedDeposit: BigNumber;
-        timestamp: BigNumber;
-      }
-    >;
-
-    "realtimeBalanceOfNow(address)"(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber, BigNumber] & {
-        availableBalance: BigNumber;
-        deposit: BigNumber;
-        owedDeposit: BigNumber;
-        timestamp: BigNumber;
-      }
-    >;
-
     revokeOperator(operator: string, overrides?: CallOverrides): Promise<void>;
 
     "revokeOperator(address)"(
@@ -2500,13 +1424,6 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setAdmin(admin: string, overrides?: CallOverrides): Promise<void>;
-
-    "setAdmin(address)"(
-      admin: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     setAllowedId(receiver: string, overrides?: CallOverrides): Promise<void>;
 
     "setAllowedId(address)"(
@@ -2514,33 +1431,9 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    settleBalance(
-      account: string,
-      delta: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "settleBalance(address,int256)"(
-      account: string,
-      delta: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     symbol(overrides?: CallOverrides): Promise<string>;
 
     "symbol()"(overrides?: CallOverrides): Promise<string>;
-
-    terminateAgreement(
-      id: BytesLike,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "terminateAgreement(bytes32,uint256)"(
-      id: BytesLike,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -2579,32 +1472,6 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    updateAgreementData(
-      id: BytesLike,
-      data: BytesLike[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "updateAgreementData(bytes32,bytes32[])"(
-      id: BytesLike,
-      data: BytesLike[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    updateAgreementStateSlot(
-      account: string,
-      slotId: BigNumberish,
-      slotData: BytesLike[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "updateAgreementStateSlot(address,uint256,bytes32[])"(
-      account: string,
-      slotId: BigNumberish,
-      slotData: BytesLike[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     updateCode(newAddress: string, overrides?: CallOverrides): Promise<void>;
 
     "updateCode(address)"(
@@ -2634,227 +1501,7 @@ export interface SuperSoulbound extends BaseContract {
     ): Promise<void>;
   };
 
-  filters: {
-    "AgreementCreated(address,bytes32,bytes32[])"(
-      agreementClass?: string | null,
-      id?: null,
-      data?: null
-    ): AgreementCreatedEventFilter;
-    AgreementCreated(
-      agreementClass?: string | null,
-      id?: null,
-      data?: null
-    ): AgreementCreatedEventFilter;
-
-    "AgreementLiquidated(address,bytes32,address,address,uint256)"(
-      agreementClass?: string | null,
-      id?: null,
-      penaltyAccount?: string | null,
-      rewardAccount?: string | null,
-      rewardAmount?: null
-    ): AgreementLiquidatedEventFilter;
-    AgreementLiquidated(
-      agreementClass?: string | null,
-      id?: null,
-      penaltyAccount?: string | null,
-      rewardAccount?: string | null,
-      rewardAmount?: null
-    ): AgreementLiquidatedEventFilter;
-
-    "AgreementLiquidatedBy(address,address,bytes32,address,address,uint256,uint256)"(
-      liquidatorAccount?: null,
-      agreementClass?: string | null,
-      id?: null,
-      penaltyAccount?: string | null,
-      bondAccount?: string | null,
-      rewardAmount?: null,
-      bailoutAmount?: null
-    ): AgreementLiquidatedByEventFilter;
-    AgreementLiquidatedBy(
-      liquidatorAccount?: null,
-      agreementClass?: string | null,
-      id?: null,
-      penaltyAccount?: string | null,
-      bondAccount?: string | null,
-      rewardAmount?: null,
-      bailoutAmount?: null
-    ): AgreementLiquidatedByEventFilter;
-
-    "AgreementLiquidatedV2(address,bytes32,address,address,address,uint256,int256,bytes)"(
-      agreementClass?: string | null,
-      id?: null,
-      liquidatorAccount?: string | null,
-      targetAccount?: string | null,
-      rewardAmountReceiver?: null,
-      rewardAmount?: null,
-      targetAccountBalanceDelta?: null,
-      liquidationTypeData?: null
-    ): AgreementLiquidatedV2EventFilter;
-    AgreementLiquidatedV2(
-      agreementClass?: string | null,
-      id?: null,
-      liquidatorAccount?: string | null,
-      targetAccount?: string | null,
-      rewardAmountReceiver?: null,
-      rewardAmount?: null,
-      targetAccountBalanceDelta?: null,
-      liquidationTypeData?: null
-    ): AgreementLiquidatedV2EventFilter;
-
-    "AgreementStateUpdated(address,address,uint256)"(
-      agreementClass?: string | null,
-      account?: string | null,
-      slotId?: null
-    ): AgreementStateUpdatedEventFilter;
-    AgreementStateUpdated(
-      agreementClass?: string | null,
-      account?: string | null,
-      slotId?: null
-    ): AgreementStateUpdatedEventFilter;
-
-    "AgreementTerminated(address,bytes32)"(
-      agreementClass?: string | null,
-      id?: null
-    ): AgreementTerminatedEventFilter;
-    AgreementTerminated(
-      agreementClass?: string | null,
-      id?: null
-    ): AgreementTerminatedEventFilter;
-
-    "AgreementUpdated(address,bytes32,bytes32[])"(
-      agreementClass?: string | null,
-      id?: null,
-      data?: null
-    ): AgreementUpdatedEventFilter;
-    AgreementUpdated(
-      agreementClass?: string | null,
-      id?: null,
-      data?: null
-    ): AgreementUpdatedEventFilter;
-
-    "Approval(address,address,uint256)"(
-      owner?: string | null,
-      spender?: string | null,
-      value?: null
-    ): ApprovalEventFilter;
-    Approval(
-      owner?: string | null,
-      spender?: string | null,
-      value?: null
-    ): ApprovalEventFilter;
-
-    "AuthorizedOperator(address,address)"(
-      operator?: string | null,
-      tokenHolder?: string | null
-    ): AuthorizedOperatorEventFilter;
-    AuthorizedOperator(
-      operator?: string | null,
-      tokenHolder?: string | null
-    ): AuthorizedOperatorEventFilter;
-
-    "Bailout(address,uint256)"(
-      bailoutAccount?: string | null,
-      bailoutAmount?: null
-    ): BailoutEventFilter;
-    Bailout(
-      bailoutAccount?: string | null,
-      bailoutAmount?: null
-    ): BailoutEventFilter;
-
-    "Burned(address,address,uint256,bytes,bytes)"(
-      operator?: string | null,
-      from?: string | null,
-      amount?: null,
-      data?: null,
-      operatorData?: null
-    ): BurnedEventFilter;
-    Burned(
-      operator?: string | null,
-      from?: string | null,
-      amount?: null,
-      data?: null,
-      operatorData?: null
-    ): BurnedEventFilter;
-
-    "CodeUpdated(bytes32,address)"(
-      uuid?: null,
-      codeAddress?: null
-    ): CodeUpdatedEventFilter;
-    CodeUpdated(uuid?: null, codeAddress?: null): CodeUpdatedEventFilter;
-
-    "Initialized(uint8)"(version?: null): InitializedEventFilter;
-    Initialized(version?: null): InitializedEventFilter;
-
-    "Minted(address,address,uint256,bytes,bytes)"(
-      operator?: string | null,
-      to?: string | null,
-      amount?: null,
-      data?: null,
-      operatorData?: null
-    ): MintedEventFilter;
-    Minted(
-      operator?: string | null,
-      to?: string | null,
-      amount?: null,
-      data?: null,
-      operatorData?: null
-    ): MintedEventFilter;
-
-    "RevokedOperator(address,address)"(
-      operator?: string | null,
-      tokenHolder?: string | null
-    ): RevokedOperatorEventFilter;
-    RevokedOperator(
-      operator?: string | null,
-      tokenHolder?: string | null
-    ): RevokedOperatorEventFilter;
-
-    "Sent(address,address,address,uint256,bytes,bytes)"(
-      operator?: string | null,
-      from?: string | null,
-      to?: string | null,
-      amount?: null,
-      data?: null,
-      operatorData?: null
-    ): SentEventFilter;
-    Sent(
-      operator?: string | null,
-      from?: string | null,
-      to?: string | null,
-      amount?: null,
-      data?: null,
-      operatorData?: null
-    ): SentEventFilter;
-
-    "TokenDowngraded(address,uint256)"(
-      account?: string | null,
-      amount?: null
-    ): TokenDowngradedEventFilter;
-    TokenDowngraded(
-      account?: string | null,
-      amount?: null
-    ): TokenDowngradedEventFilter;
-
-    "TokenUpgraded(address,uint256)"(
-      account?: string | null,
-      amount?: null
-    ): TokenUpgradedEventFilter;
-    TokenUpgraded(
-      account?: string | null,
-      amount?: null
-    ): TokenUpgradedEventFilter;
-
-    "Transfer(address,address,uint256)"(
-      from?: string | null,
-      to?: string | null,
-      value?: null
-    ): TransferEventFilter;
-    Transfer(
-      from?: string | null,
-      to?: string | null,
-      value?: null
-    ): TransferEventFilter;
-  };
+  filters: {};
 
   estimateGas: {
     allowance(
@@ -2910,26 +1557,6 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    castrate(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "castrate()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    createAgreement(
-      id: BytesLike,
-      data: BytesLike[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "createAgreement(bytes32,bytes32[])"(
-      id: BytesLike,
-      data: BytesLike[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
 
     "decimals()"(overrides?: CallOverrides): Promise<BigNumber>;
@@ -2959,54 +1586,6 @@ export interface SuperSoulbound extends BaseContract {
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
-
-    getAccountActiveAgreements(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getAccountActiveAgreements(address)"(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getAgreementData(
-      agreementClass: string,
-      id: BytesLike,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getAgreementData(address,bytes32,uint256)"(
-      agreementClass: string,
-      id: BytesLike,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getAgreementStateSlot(
-      agreementClass: string,
-      account: string,
-      slotId: BigNumberish,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getAgreementStateSlot(address,address,uint256,uint256)"(
-      agreementClass: string,
-      account: string,
-      slotId: BigNumberish,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getCodeAddress(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "getCodeAddress()"(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getHost(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "getHost()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     getUnderlyingToken(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -3044,57 +1623,6 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    isAccountCritical(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "isAccountCritical(address,uint256)"(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    isAccountCriticalNow(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "isAccountCriticalNow(address)"(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    isAccountSolvent(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "isAccountSolvent(address,uint256)"(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    isAccountSolventNow(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "isAccountSolventNow(address)"(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    isAllowed(_id: BytesLike, overrides?: CallOverrides): Promise<BigNumber>;
-
-    "isAllowed(bytes32)"(
-      _id: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     isOperatorFor(
       operator: string,
       tokenHolder: string,
@@ -3105,28 +1633,6 @@ export interface SuperSoulbound extends BaseContract {
       operator: string,
       tokenHolder: string,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    makeLiquidationPayoutsV2(
-      id: BytesLike,
-      liquidationTypeData: BytesLike,
-      liquidatorAccount: string,
-      useDefaultRewardAccount: boolean,
-      targetAccount: string,
-      rewardAmount: BigNumberish,
-      targetAccountBalanceDelta: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "makeLiquidationPayoutsV2(bytes32,bytes,address,bool,address,uint256,int256)"(
-      id: BytesLike,
-      liquidationTypeData: BytesLike,
-      liquidatorAccount: string,
-      useDefaultRewardAccount: boolean,
-      targetAccount: string,
-      rewardAmount: BigNumberish,
-      targetAccountBalanceDelta: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
@@ -3225,28 +1731,6 @@ export interface SuperSoulbound extends BaseContract {
 
     "proxiableUUID()"(overrides?: CallOverrides): Promise<BigNumber>;
 
-    realtimeBalanceOf(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "realtimeBalanceOf(address,uint256)"(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    realtimeBalanceOfNow(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "realtimeBalanceOfNow(address)"(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     revokeOperator(
       operator: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -3329,16 +1813,6 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setAdmin(
-      admin: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "setAdmin(address)"(
-      admin: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     setAllowedId(
       receiver: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -3349,33 +1823,9 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    settleBalance(
-      account: string,
-      delta: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "settleBalance(address,int256)"(
-      account: string,
-      delta: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
 
     "symbol()"(overrides?: CallOverrides): Promise<BigNumber>;
-
-    terminateAgreement(
-      id: BytesLike,
-      dataLength: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "terminateAgreement(bytes32,uint256)"(
-      id: BytesLike,
-      dataLength: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
 
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -3414,32 +1864,6 @@ export interface SuperSoulbound extends BaseContract {
       holder: string,
       recipient: string,
       amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    updateAgreementData(
-      id: BytesLike,
-      data: BytesLike[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "updateAgreementData(bytes32,bytes32[])"(
-      id: BytesLike,
-      data: BytesLike[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    updateAgreementStateSlot(
-      account: string,
-      slotId: BigNumberish,
-      slotData: BytesLike[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "updateAgreementStateSlot(address,uint256,bytes32[])"(
-      account: string,
-      slotId: BigNumberish,
-      slotData: BytesLike[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -3535,26 +1959,6 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    castrate(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "castrate()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    createAgreement(
-      id: BytesLike,
-      data: BytesLike[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "createAgreement(bytes32,bytes32[])"(
-      id: BytesLike,
-      data: BytesLike[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "decimals()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -3586,56 +1990,6 @@ export interface SuperSoulbound extends BaseContract {
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
-
-    getAccountActiveAgreements(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getAccountActiveAgreements(address)"(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getAgreementData(
-      agreementClass: string,
-      id: BytesLike,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getAgreementData(address,bytes32,uint256)"(
-      agreementClass: string,
-      id: BytesLike,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getAgreementStateSlot(
-      agreementClass: string,
-      account: string,
-      slotId: BigNumberish,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getAgreementStateSlot(address,address,uint256,uint256)"(
-      agreementClass: string,
-      account: string,
-      slotId: BigNumberish,
-      dataLength: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getCodeAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "getCodeAddress()"(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getHost(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "getHost()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getUnderlyingToken(
       overrides?: CallOverrides
@@ -3677,60 +2031,6 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    isAccountCritical(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "isAccountCritical(address,uint256)"(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    isAccountCriticalNow(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "isAccountCriticalNow(address)"(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    isAccountSolvent(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "isAccountSolvent(address,uint256)"(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    isAccountSolventNow(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "isAccountSolventNow(address)"(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    isAllowed(
-      _id: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "isAllowed(bytes32)"(
-      _id: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     isOperatorFor(
       operator: string,
       tokenHolder: string,
@@ -3741,28 +2041,6 @@ export interface SuperSoulbound extends BaseContract {
       operator: string,
       tokenHolder: string,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    makeLiquidationPayoutsV2(
-      id: BytesLike,
-      liquidationTypeData: BytesLike,
-      liquidatorAccount: string,
-      useDefaultRewardAccount: boolean,
-      targetAccount: string,
-      rewardAmount: BigNumberish,
-      targetAccountBalanceDelta: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "makeLiquidationPayoutsV2(bytes32,bytes,address,bool,address,uint256,int256)"(
-      id: BytesLike,
-      liquidationTypeData: BytesLike,
-      liquidatorAccount: string,
-      useDefaultRewardAccount: boolean,
-      targetAccount: string,
-      rewardAmount: BigNumberish,
-      targetAccountBalanceDelta: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -3861,28 +2139,6 @@ export interface SuperSoulbound extends BaseContract {
 
     "proxiableUUID()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    realtimeBalanceOf(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "realtimeBalanceOf(address,uint256)"(
-      account: string,
-      timestamp: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    realtimeBalanceOfNow(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "realtimeBalanceOfNow(address)"(
-      account: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     revokeOperator(
       operator: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -3965,16 +2221,6 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setAdmin(
-      admin: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "setAdmin(address)"(
-      admin: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     setAllowedId(
       receiver: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -3985,33 +2231,9 @@ export interface SuperSoulbound extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    settleBalance(
-      account: string,
-      delta: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "settleBalance(address,int256)"(
-      account: string,
-      delta: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "symbol()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    terminateAgreement(
-      id: BytesLike,
-      dataLength: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "terminateAgreement(bytes32,uint256)"(
-      id: BytesLike,
-      dataLength: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
 
     totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -4050,32 +2272,6 @@ export interface SuperSoulbound extends BaseContract {
       holder: string,
       recipient: string,
       amount: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    updateAgreementData(
-      id: BytesLike,
-      data: BytesLike[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "updateAgreementData(bytes32,bytes32[])"(
-      id: BytesLike,
-      data: BytesLike[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    updateAgreementStateSlot(
-      account: string,
-      slotId: BigNumberish,
-      slotData: BytesLike[],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "updateAgreementStateSlot(address,uint256,bytes32[])"(
-      account: string,
-      slotId: BigNumberish,
-      slotData: BytesLike[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

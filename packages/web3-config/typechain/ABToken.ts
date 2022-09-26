@@ -50,8 +50,8 @@ export interface ABTokenInterface extends utils.Interface {
     "isAccountCriticalNow(address)": FunctionFragment;
     "isAccountSolvent(address,uint256)": FunctionFragment;
     "isAccountSolventNow(address)": FunctionFragment;
+    "isAllowed(bytes32)": FunctionFragment;
     "isOperatorFor(address,address)": FunctionFragment;
-    "lastCalledID()": FunctionFragment;
     "makeLiquidationPayoutsV2(bytes32,bytes,address,bool,address,uint256,int256)": FunctionFragment;
     "mint(address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
@@ -72,6 +72,8 @@ export interface ABTokenInterface extends utils.Interface {
     "selfMint(address,uint256,bytes)": FunctionFragment;
     "selfTransferFrom(address,address,address,uint256)": FunctionFragment;
     "send(address,uint256,bytes)": FunctionFragment;
+    "setAdmin(address)": FunctionFragment;
+    "setAllowedId(address)": FunctionFragment;
     "setStore(address)": FunctionFragment;
     "settleBalance(address,int256)": FunctionFragment;
     "store()": FunctionFragment;
@@ -192,12 +194,12 @@ export interface ABTokenInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "isOperatorFor",
-    values: [string, string]
+    functionFragment: "isAllowed",
+    values: [BytesLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "lastCalledID",
-    values?: undefined
+    functionFragment: "isOperatorFor",
+    values: [string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "makeLiquidationPayoutsV2",
@@ -283,6 +285,11 @@ export interface ABTokenInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "send",
     values: [string, BigNumberish, BytesLike]
+  ): string;
+  encodeFunctionData(functionFragment: "setAdmin", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "setAllowedId",
+    values: [string]
   ): string;
   encodeFunctionData(functionFragment: "setStore", values: [string]): string;
   encodeFunctionData(
@@ -411,12 +418,9 @@ export interface ABTokenInterface extends utils.Interface {
     functionFragment: "isAccountSolventNow",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "isAllowed", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isOperatorFor",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "lastCalledID",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -481,6 +485,11 @@ export interface ABTokenInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "send", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setAdmin", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setAllowedId",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "setStore", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "settleBalance",
@@ -1083,6 +1092,13 @@ export interface ABToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean] & { isSolvent: boolean }>;
 
+    isAllowed(_id: BytesLike, overrides?: CallOverrides): Promise<[boolean]>;
+
+    "isAllowed(bytes32)"(
+      _id: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     isOperatorFor(
       operator: string,
       tokenHolder: string,
@@ -1094,10 +1110,6 @@ export interface ABToken extends BaseContract {
       tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
-
-    lastCalledID(overrides?: CallOverrides): Promise<[string]>;
-
-    "lastCalledID()"(overrides?: CallOverrides): Promise<[string]>;
 
     makeLiquidationPayoutsV2(
       id: BytesLike,
@@ -1380,6 +1392,26 @@ export interface ABToken extends BaseContract {
       recipient: string,
       amount: BigNumberish,
       data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setAdmin(
+      admin: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "setAdmin(address)"(
+      admin: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setAllowedId(
+      receiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "setAllowedId(address)"(
+      receiver: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -1810,6 +1842,13 @@ export interface ABToken extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  isAllowed(_id: BytesLike, overrides?: CallOverrides): Promise<boolean>;
+
+  "isAllowed(bytes32)"(
+    _id: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   isOperatorFor(
     operator: string,
     tokenHolder: string,
@@ -1821,10 +1860,6 @@ export interface ABToken extends BaseContract {
     tokenHolder: string,
     overrides?: CallOverrides
   ): Promise<boolean>;
-
-  lastCalledID(overrides?: CallOverrides): Promise<string>;
-
-  "lastCalledID()"(overrides?: CallOverrides): Promise<string>;
 
   makeLiquidationPayoutsV2(
     id: BytesLike,
@@ -2107,6 +2142,26 @@ export interface ABToken extends BaseContract {
     recipient: string,
     amount: BigNumberish,
     data: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setAdmin(
+    admin: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "setAdmin(address)"(
+    admin: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setAllowedId(
+    receiver: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "setAllowedId(address)"(
+    receiver: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -2530,6 +2585,13 @@ export interface ABToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    isAllowed(_id: BytesLike, overrides?: CallOverrides): Promise<boolean>;
+
+    "isAllowed(bytes32)"(
+      _id: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     isOperatorFor(
       operator: string,
       tokenHolder: string,
@@ -2541,10 +2603,6 @@ export interface ABToken extends BaseContract {
       tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    lastCalledID(overrides?: CallOverrides): Promise<string>;
-
-    "lastCalledID()"(overrides?: CallOverrides): Promise<string>;
 
     makeLiquidationPayoutsV2(
       id: BytesLike,
@@ -2824,6 +2882,20 @@ export interface ABToken extends BaseContract {
       recipient: string,
       amount: BigNumberish,
       data: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setAdmin(admin: string, overrides?: CallOverrides): Promise<void>;
+
+    "setAdmin(address)"(
+      admin: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setAllowedId(receiver: string, overrides?: CallOverrides): Promise<void>;
+
+    "setAllowedId(address)"(
+      receiver: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -3501,6 +3573,13 @@ export interface ABToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    isAllowed(_id: BytesLike, overrides?: CallOverrides): Promise<BigNumber>;
+
+    "isAllowed(bytes32)"(
+      _id: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     isOperatorFor(
       operator: string,
       tokenHolder: string,
@@ -3512,10 +3591,6 @@ export interface ABToken extends BaseContract {
       tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    lastCalledID(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "lastCalledID()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     makeLiquidationPayoutsV2(
       id: BytesLike,
@@ -3772,6 +3847,26 @@ export interface ABToken extends BaseContract {
       recipient: string,
       amount: BigNumberish,
       data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setAdmin(
+      admin: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "setAdmin(address)"(
+      admin: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setAllowedId(
+      receiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "setAllowedId(address)"(
+      receiver: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -4221,6 +4316,16 @@ export interface ABToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    isAllowed(
+      _id: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "isAllowed(bytes32)"(
+      _id: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     isOperatorFor(
       operator: string,
       tokenHolder: string,
@@ -4232,10 +4337,6 @@ export interface ABToken extends BaseContract {
       tokenHolder: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    lastCalledID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "lastCalledID()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     makeLiquidationPayoutsV2(
       id: BytesLike,
@@ -4492,6 +4593,26 @@ export interface ABToken extends BaseContract {
       recipient: string,
       amount: BigNumberish,
       data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setAdmin(
+      admin: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "setAdmin(address)"(
+      admin: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setAllowedId(
+      receiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "setAllowedId(address)"(
+      receiver: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

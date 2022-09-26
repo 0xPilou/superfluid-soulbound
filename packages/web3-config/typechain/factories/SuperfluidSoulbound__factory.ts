@@ -34,6 +34,11 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "NOT_ADMIN",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "NOT_CFA_AGREEMENT",
     type: "error",
   },
@@ -507,13 +512,19 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "lastCalledID",
-    outputs: [
+    inputs: [
       {
         internalType: "bytes32",
-        name: "",
+        name: "_id",
         type: "bytes32",
+      },
+    ],
+    name: "isAllowed",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -628,6 +639,32 @@ const _abi = [
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "admin",
+        type: "address",
+      },
+    ],
+    name: "setAdmin",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "receiver",
+        type: "address",
+      },
+    ],
+    name: "setAllowedId",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {

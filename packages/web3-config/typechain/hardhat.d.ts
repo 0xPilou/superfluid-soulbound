@@ -201,6 +201,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ICashflow__factory>;
     getContractFactory(
+      name: "ISuperSoulbound",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ISuperSoulbound__factory>;
+    getContractFactory(
       name: "MyNFT",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MyNFT__factory>;
@@ -452,6 +456,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ICashflow>;
+    getContractAt(
+      name: "ISuperSoulbound",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ISuperSoulbound>;
     getContractAt(
       name: "MyNFT",
       address: string,

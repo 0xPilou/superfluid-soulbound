@@ -29,10 +29,12 @@ export interface SuperfluidSoulboundInterface extends utils.Interface {
     "isAccountCriticalNow(address)": FunctionFragment;
     "isAccountSolvent(address,uint256)": FunctionFragment;
     "isAccountSolventNow(address)": FunctionFragment;
-    "lastCalledID()": FunctionFragment;
+    "isAllowed(bytes32)": FunctionFragment;
     "makeLiquidationPayoutsV2(bytes32,bytes,address,bool,address,uint256,int256)": FunctionFragment;
     "realtimeBalanceOf(address,uint256)": FunctionFragment;
     "realtimeBalanceOfNow(address)": FunctionFragment;
+    "setAdmin(address)": FunctionFragment;
+    "setAllowedId(address)": FunctionFragment;
     "settleBalance(address,int256)": FunctionFragment;
     "terminateAgreement(bytes32,uint256)": FunctionFragment;
     "updateAgreementData(bytes32,bytes32[])": FunctionFragment;
@@ -73,8 +75,8 @@ export interface SuperfluidSoulboundInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "lastCalledID",
-    values?: undefined
+    functionFragment: "isAllowed",
+    values: [BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "makeLiquidationPayoutsV2",
@@ -94,6 +96,11 @@ export interface SuperfluidSoulboundInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "realtimeBalanceOfNow",
+    values: [string]
+  ): string;
+  encodeFunctionData(functionFragment: "setAdmin", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "setAllowedId",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -146,10 +153,7 @@ export interface SuperfluidSoulboundInterface extends utils.Interface {
     functionFragment: "isAccountSolventNow",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "lastCalledID",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "isAllowed", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "makeLiquidationPayoutsV2",
     data: BytesLike
@@ -160,6 +164,11 @@ export interface SuperfluidSoulboundInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "realtimeBalanceOfNow",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setAdmin", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setAllowedId",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -416,9 +425,12 @@ export interface SuperfluidSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean] & { isSolvent: boolean }>;
 
-    lastCalledID(overrides?: CallOverrides): Promise<[string]>;
+    isAllowed(_id: BytesLike, overrides?: CallOverrides): Promise<[boolean]>;
 
-    "lastCalledID()"(overrides?: CallOverrides): Promise<[string]>;
+    "isAllowed(bytes32)"(
+      _id: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     makeLiquidationPayoutsV2(
       id: BytesLike,
@@ -489,6 +501,26 @@ export interface SuperfluidSoulbound extends BaseContract {
         timestamp: BigNumber;
       }
     >;
+
+    setAdmin(
+      admin: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "setAdmin(address)"(
+      admin: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setAllowedId(
+      receiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "setAllowedId(address)"(
+      receiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     settleBalance(
       account: string,
@@ -641,9 +673,12 @@ export interface SuperfluidSoulbound extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  lastCalledID(overrides?: CallOverrides): Promise<string>;
+  isAllowed(_id: BytesLike, overrides?: CallOverrides): Promise<boolean>;
 
-  "lastCalledID()"(overrides?: CallOverrides): Promise<string>;
+  "isAllowed(bytes32)"(
+    _id: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   makeLiquidationPayoutsV2(
     id: BytesLike,
@@ -714,6 +749,26 @@ export interface SuperfluidSoulbound extends BaseContract {
       timestamp: BigNumber;
     }
   >;
+
+  setAdmin(
+    admin: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "setAdmin(address)"(
+    admin: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setAllowedId(
+    receiver: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "setAllowedId(address)"(
+    receiver: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   settleBalance(
     account: string,
@@ -866,9 +921,12 @@ export interface SuperfluidSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    lastCalledID(overrides?: CallOverrides): Promise<string>;
+    isAllowed(_id: BytesLike, overrides?: CallOverrides): Promise<boolean>;
 
-    "lastCalledID()"(overrides?: CallOverrides): Promise<string>;
+    "isAllowed(bytes32)"(
+      _id: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     makeLiquidationPayoutsV2(
       id: BytesLike,
@@ -939,6 +997,20 @@ export interface SuperfluidSoulbound extends BaseContract {
         timestamp: BigNumber;
       }
     >;
+
+    setAdmin(admin: string, overrides?: CallOverrides): Promise<void>;
+
+    "setAdmin(address)"(
+      admin: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setAllowedId(receiver: string, overrides?: CallOverrides): Promise<void>;
+
+    "setAllowedId(address)"(
+      receiver: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     settleBalance(
       account: string,
@@ -1200,9 +1272,12 @@ export interface SuperfluidSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    lastCalledID(overrides?: CallOverrides): Promise<BigNumber>;
+    isAllowed(_id: BytesLike, overrides?: CallOverrides): Promise<BigNumber>;
 
-    "lastCalledID()"(overrides?: CallOverrides): Promise<BigNumber>;
+    "isAllowed(bytes32)"(
+      _id: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     makeLiquidationPayoutsV2(
       id: BytesLike,
@@ -1246,6 +1321,26 @@ export interface SuperfluidSoulbound extends BaseContract {
     "realtimeBalanceOfNow(address)"(
       account: string,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    setAdmin(
+      admin: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "setAdmin(address)"(
+      admin: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setAllowedId(
+      receiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "setAllowedId(address)"(
+      receiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     settleBalance(
@@ -1400,9 +1495,15 @@ export interface SuperfluidSoulbound extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    lastCalledID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    isAllowed(
+      _id: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
-    "lastCalledID()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    "isAllowed(bytes32)"(
+      _id: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     makeLiquidationPayoutsV2(
       id: BytesLike,
@@ -1446,6 +1547,26 @@ export interface SuperfluidSoulbound extends BaseContract {
     "realtimeBalanceOfNow(address)"(
       account: string,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    setAdmin(
+      admin: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "setAdmin(address)"(
+      admin: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setAllowedId(
+      receiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "setAllowedId(address)"(
+      receiver: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     settleBalance(

@@ -5,10 +5,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/IABToken.sol";
 
 contract Store is Ownable {
-  uint256 public nbItems = 0;
-
   // Token address used for payment
   address public token;
+
+  uint256 public nbItems = 0;
 
   struct Item {
     uint256 quantity;
