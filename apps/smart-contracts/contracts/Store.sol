@@ -6,9 +6,10 @@ import "./interfaces/IABToken.sol";
 
 contract Store is Ownable {
   // Token address used for payment
-  address public token;
 
   uint256 public nbItems = 0;
+
+  address public token;
 
   struct Item {
     uint256 quantity;

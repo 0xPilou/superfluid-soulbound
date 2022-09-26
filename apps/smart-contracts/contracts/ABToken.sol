@@ -5,10 +5,10 @@ import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol"
 import { SuperSoulbound } from "./SuperSoulbound.sol";
 
 contract ABToken is SuperSoulbound, AccessControl {
-  address public store;
-
   bytes32 public constant BURNER = keccak256("BURNER");
   bytes32 public constant MINTER = keccak256("MINTER");
+
+  address public store;
 
   constructor(
     address _store,

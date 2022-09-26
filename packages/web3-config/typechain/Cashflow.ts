@@ -13,7 +13,7 @@ import {
   Signer,
   utils,
 } from "ethers";
-import { FunctionFragment, Result } from "@ethersproject/abi";
+import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
@@ -31,8 +31,13 @@ export interface CashflowInterface extends utils.Interface {
     "flowRates(uint256)": FunctionFragment;
     "getAcceptedToken()": FunctionFragment;
     "getFlow(address)": FunctionFragment;
+    "getNFT()": FunctionFragment;
     "issueNFT(address,int96,uint256)": FunctionFragment;
+    "owner()": FunctionFragment;
+    "renounceOwnership()": FunctionFragment;
     "setAcceptedToken(address)": FunctionFragment;
+    "setNFT(address)": FunctionFragment;
+    "transferOwnership(address)": FunctionFragment;
     "updateHolder(address,address,uint256)": FunctionFragment;
   };
 
@@ -74,12 +79,23 @@ export interface CashflowInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "getFlow", values: [string]): string;
+  encodeFunctionData(functionFragment: "getNFT", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "issueNFT",
     values: [string, BigNumberish, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "renounceOwnership",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "setAcceptedToken",
+    values: [string]
+  ): string;
+  encodeFunctionData(functionFragment: "setNFT", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "transferOwnership",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -119,9 +135,20 @@ export interface CashflowInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getFlow", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getNFT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "issueNFT", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "setAcceptedToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setNFT", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -129,8 +156,20 @@ export interface CashflowInterface extends utils.Interface {
     data: BytesLike
   ): Result;
 
-  events: {};
+  events: {
+    "OwnershipTransferred(address,address)": EventFragment;
+  };
+
+  getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
+
+export type OwnershipTransferredEvent = TypedEvent<
+  [string, string],
+  { previousOwner: string; newOwner: string }
+>;
+
+export type OwnershipTransferredEventFilter =
+  TypedEventFilter<OwnershipTransferredEvent>;
 
 export interface Cashflow extends BaseContract {
   contractName: "Cashflow";
@@ -334,6 +373,10 @@ export interface Cashflow extends BaseContract {
       }
     >;
 
+    getNFT(overrides?: CallOverrides): Promise<[string]>;
+
+    "getNFT()"(overrides?: CallOverrides): Promise<[string]>;
+
     issueNFT(
       receiver: string,
       flowRate: BigNumberish,
@@ -348,6 +391,18 @@ export interface Cashflow extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    owner(overrides?: CallOverrides): Promise<[string]>;
+
+    "owner()"(overrides?: CallOverrides): Promise<[string]>;
+
+    renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "renounceOwnership()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setAcceptedToken(
       _acceptedToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -355,6 +410,26 @@ export interface Cashflow extends BaseContract {
 
     "setAcceptedToken(address)"(
       _acceptedToken: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setNFT(
+      _nft: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "setNFT(address)"(
+      _nft: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "transferOwnership(address)"(
+      newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -544,6 +619,10 @@ export interface Cashflow extends BaseContract {
     }
   >;
 
+  getNFT(overrides?: CallOverrides): Promise<string>;
+
+  "getNFT()"(overrides?: CallOverrides): Promise<string>;
+
   issueNFT(
     receiver: string,
     flowRate: BigNumberish,
@@ -558,6 +637,18 @@ export interface Cashflow extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  owner(overrides?: CallOverrides): Promise<string>;
+
+  "owner()"(overrides?: CallOverrides): Promise<string>;
+
+  renounceOwnership(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "renounceOwnership()"(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setAcceptedToken(
     _acceptedToken: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -565,6 +656,26 @@ export interface Cashflow extends BaseContract {
 
   "setAcceptedToken(address)"(
     _acceptedToken: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setNFT(
+    _nft: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "setNFT(address)"(
+    _nft: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  transferOwnership(
+    newOwner: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "transferOwnership(address)"(
+    newOwner: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -757,6 +868,10 @@ export interface Cashflow extends BaseContract {
       }
     >;
 
+    getNFT(overrides?: CallOverrides): Promise<string>;
+
+    "getNFT()"(overrides?: CallOverrides): Promise<string>;
+
     issueNFT(
       receiver: string,
       flowRate: BigNumberish,
@@ -771,6 +886,14 @@ export interface Cashflow extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    owner(overrides?: CallOverrides): Promise<string>;
+
+    "owner()"(overrides?: CallOverrides): Promise<string>;
+
+    renounceOwnership(overrides?: CallOverrides): Promise<void>;
+
+    "renounceOwnership()"(overrides?: CallOverrides): Promise<void>;
+
     setAcceptedToken(
       _acceptedToken: string,
       overrides?: CallOverrides
@@ -778,6 +901,20 @@ export interface Cashflow extends BaseContract {
 
     "setAcceptedToken(address)"(
       _acceptedToken: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setNFT(_nft: string, overrides?: CallOverrides): Promise<void>;
+
+    "setNFT(address)"(_nft: string, overrides?: CallOverrides): Promise<void>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "transferOwnership(address)"(
+      newOwner: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -796,7 +933,16 @@ export interface Cashflow extends BaseContract {
     ): Promise<void>;
   };
 
-  filters: {};
+  filters: {
+    "OwnershipTransferred(address,address)"(
+      previousOwner?: string | null,
+      newOwner?: string | null
+    ): OwnershipTransferredEventFilter;
+    OwnershipTransferred(
+      previousOwner?: string | null,
+      newOwner?: string | null
+    ): OwnershipTransferredEventFilter;
+  };
 
   estimateGas: {
     afterAgreementCreated(
@@ -952,6 +1098,10 @@ export interface Cashflow extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getNFT(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "getNFT()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     issueNFT(
       receiver: string,
       flowRate: BigNumberish,
@@ -966,6 +1116,18 @@ export interface Cashflow extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    owner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "owner()"(overrides?: CallOverrides): Promise<BigNumber>;
+
+    renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "renounceOwnership()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setAcceptedToken(
       _acceptedToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -973,6 +1135,26 @@ export interface Cashflow extends BaseContract {
 
     "setAcceptedToken(address)"(
       _acceptedToken: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setNFT(
+      _nft: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "setNFT(address)"(
+      _nft: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "transferOwnership(address)"(
+      newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1150,6 +1332,10 @@ export interface Cashflow extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getNFT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "getNFT()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     issueNFT(
       receiver: string,
       flowRate: BigNumberish,
@@ -1164,6 +1350,18 @@ export interface Cashflow extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "owner()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    renounceOwnership(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "renounceOwnership()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     setAcceptedToken(
       _acceptedToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -1171,6 +1369,26 @@ export interface Cashflow extends BaseContract {
 
     "setAcceptedToken(address)"(
       _acceptedToken: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setNFT(
+      _nft: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "setNFT(address)"(
+      _nft: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    transferOwnership(
+      newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "transferOwnership(address)"(
+      newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

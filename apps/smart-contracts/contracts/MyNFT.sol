@@ -6,9 +6,9 @@ import { L1CrossDomainMessenger } from "@eth-optimism/contracts/L1/messaging/L1C
 import { IL1CrossDomainMessenger } from "@eth-optimism/contracts/L1/messaging/IL1CrossDomainMessenger.sol";
 
 contract MyNFT is ERC721 {
+  int96 public rate;
   uint256 public mintCount = 0;
   uint256 public MAX_MINT = 100;
-  int96 public rate;
 
   address public cashflowContract;
   IL1CrossDomainMessenger private messenger;
