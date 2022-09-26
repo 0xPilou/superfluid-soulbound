@@ -26,7 +26,6 @@ const main = async () => {
     console.log(`Cashflow Contract accepted token not updateds`);
   }
 
-  await cashflow._setAllowedId("0x1F0Ec748dc3994629e32Eb1223a52D5aE8E8f90e");
   return;
 };
 
