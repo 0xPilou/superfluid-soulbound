@@ -16,7 +16,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   });
 
   deployments.log(
-    `Contract ${CASHFLOW_NAME} deployed at ${deployment.address}`
+    `Contract ${CASHFLOW_NAME} deployed at ${deployment.address} on Optimism Goerli`
   );
 };
 

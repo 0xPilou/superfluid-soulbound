@@ -25,7 +25,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     ],
   });
 
-  deployments.log(`Contract ${name} deployed at ${deployment.address}`);
+  deployments.log(`Contract ${name} deployed at ${deployment.address} on Goerli`);
 };
 
 func.tags = [name];

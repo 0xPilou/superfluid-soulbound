@@ -1,6 +1,7 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import { STORE_NAME, ABTOKEN_NAME, CASHFLOW_NAME } from "../deploy-constants";
+import { network } from "hardhat";
 
 const SF_HOST_ADDRESS = "0xE40983C2476032A0915600b9472B3141aA5B5Ba9";
 const SF_CFA_ADDRESS = "0xff48668fa670A85e55A7a822b352d5ccF3E7b18C";
@@ -19,7 +20,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: [store.address, SF_HOST_ADDRESS, SF_CFA_ADDRESS, cashflow.address],
   });
 
-  deployments.log(`Contract ${ABTOKEN_NAME} deployed at ${deployment.address}`);
+  deployments.log(`Contract ${ABTOKEN_NAME} deployed at ${deployment.address} on Optimism Goerli`);
 
   const abToken = await hre.ethers.getContractAt(
     ABTOKEN_NAME,

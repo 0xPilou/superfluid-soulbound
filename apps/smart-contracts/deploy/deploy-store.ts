@@ -12,7 +12,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: [],
   });
 
-  deployments.log(`Contract ${STORE_NAME} deployed at ${deployment.address}`);
+  deployments.log(
+    `Contract ${STORE_NAME} deployed at ${deployment.address} on Optimism Goerli`
+  );
 };
 
 func.tags = [STORE_NAME];
