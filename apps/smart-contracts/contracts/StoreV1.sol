@@ -1,14 +1,12 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.16;
 
-/* Openzeppelin Contracts */
-import { ERC1155 } from "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
-import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
-
-/* Custom Imports */
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/IABToken.sol";
 
-contract Store is ERC1155, Ownable {
+contract StoreV1 is Ownable {
+  // Token address used for payment
+
   uint256 public nbItems = 0;
 
   address public token;
@@ -23,35 +21,17 @@ contract Store is ERC1155, Ownable {
   mapping(uint256 => Item) public items;
 
   event UpdatedInventory(uint256 itemId, uint256 quantity, uint256 price);
-  event Purchased(address buyer, uint256 itemId, uint256 quantity);
   event Redeemed(address buyer, uint256 itemId, uint256 quantity);
 
-  constructor() ERC1155("") {}
-
-  /**************************************************************************
-   *                            PUBLIC FUNCTIONS
-   *************************************************************************/
-
-  function purchase(uint256 _itemId, uint256 _quantity) external {
+  function redeem(uint256 _itemId, uint256 _quantity) external {
     Item storage item = items[_itemId];
 
     if (item.quantity < _quantity) revert OutOfStock();
 
     IABToken(token).burn(msg.sender, _quantity * item.price);
     item.quantity -= _quantity;
-
-    _mint(msg.sender, _itemId, _quantity, "");
-    emit Purchased(msg.sender, _itemId, _quantity);
-  }
-
-  function redeem(uint256 _itemId, uint256 _quantity) external {
-    _burn(msg.sender, _itemId, _quantity);
     emit Redeemed(msg.sender, _itemId, _quantity);
   }
-
-  /**************************************************************************
-   *                              ONLY OWNER
-   *************************************************************************/
 
   function addItem(uint256 _quantity, uint256 _price) external onlyOwner {
     Item memory item;
