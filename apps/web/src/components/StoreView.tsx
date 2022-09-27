@@ -47,11 +47,6 @@ const StoreView = () => {
     }
   }
   const [cart, setCart] = useState(new Array(itemIds.length).fill(false));
-  const [cartDetails, setCartDetails] = useState(new Array(0));
-
-  console.log(getItemIds(cart));
-  // console.log(cartDetails);
-  // console.log("CART:", cart);
 
   return (
     <>
@@ -62,12 +57,7 @@ const StoreView = () => {
             <h3>Items in Store : {nbItems!.toNumber()}</h3>
             <div style={{ display: "flex" }}>
               {itemIds.map((key, item) => (
-                <ItemView
-                  key={key}
-                  id={item}
-                  cart={cart}
-                  setCart={setCart}
-                />
+                <ItemView key={key} id={item} cart={cart} setCart={setCart} />
               ))}
             </div>
             <div>
