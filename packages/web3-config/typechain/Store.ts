@@ -21,33 +21,74 @@ export interface StoreInterface extends utils.Interface {
   contractName: "Store";
   functions: {
     "addItem(uint256,uint256)": FunctionFragment;
+    "balanceOf(address,uint256)": FunctionFragment;
+    "balanceOfBatch(address[],uint256[])": FunctionFragment;
+    "isApprovedForAll(address,address)": FunctionFragment;
     "items(uint256)": FunctionFragment;
     "nbItems()": FunctionFragment;
     "owner()": FunctionFragment;
-    "redeem(uint256,uint256)": FunctionFragment;
+    "purchase(uint256[],uint256[])": FunctionFragment;
+    "redeem(uint256[],uint256[])": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
+    "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)": FunctionFragment;
+    "safeTransferFrom(address,address,uint256,uint256,bytes)": FunctionFragment;
+    "setApprovalForAll(address,bool)": FunctionFragment;
     "setToken(address)": FunctionFragment;
+    "supportsInterface(bytes4)": FunctionFragment;
     "token()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "updateItem(uint256,uint256,uint256)": FunctionFragment;
+    "uri(uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: "addItem",
     values: [BigNumberish, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "balanceOf",
+    values: [string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "balanceOfBatch",
+    values: [string[], BigNumberish[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isApprovedForAll",
+    values: [string, string]
+  ): string;
   encodeFunctionData(functionFragment: "items", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "nbItems", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "purchase",
+    values: [BigNumberish[], BigNumberish[]]
+  ): string;
+  encodeFunctionData(
     functionFragment: "redeem",
-    values: [BigNumberish, BigNumberish]
+    values: [BigNumberish[], BigNumberish[]]
   ): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "safeBatchTransferFrom",
+    values: [string, string, BigNumberish[], BigNumberish[], BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "safeTransferFrom",
+    values: [string, string, BigNumberish, BigNumberish, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setApprovalForAll",
+    values: [string, boolean]
+  ): string;
   encodeFunctionData(functionFragment: "setToken", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "supportsInterface",
+    values: [BytesLike]
+  ): string;
   encodeFunctionData(functionFragment: "token", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
@@ -57,34 +98,79 @@ export interface StoreInterface extends utils.Interface {
     functionFragment: "updateItem",
     values: [BigNumberish, BigNumberish, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "uri", values: [BigNumberish]): string;
 
   decodeFunctionResult(functionFragment: "addItem", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "balanceOfBatch",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "isApprovedForAll",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "items", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "nbItems", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "purchase", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "redeem", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "safeBatchTransferFrom",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "safeTransferFrom",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setApprovalForAll",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "setToken", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "supportsInterface",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "token", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "updateItem", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "uri", data: BytesLike): Result;
 
   events: {
+    "ApprovalForAll(address,address,bool)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
-    "Redeemed(address,uint256,uint256)": EventFragment;
+    "Purchased(address,uint256[],uint256[])": EventFragment;
+    "Redeemed(address,uint256[],uint256[])": EventFragment;
+    "TransferBatch(address,address,address,uint256[],uint256[])": EventFragment;
+    "TransferSingle(address,address,address,uint256,uint256)": EventFragment;
+    "URI(string,uint256)": EventFragment;
     "UpdatedInventory(uint256,uint256,uint256)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Purchased"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Redeemed"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TransferBatch"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TransferSingle"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "URI"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "UpdatedInventory"): EventFragment;
 }
+
+export type ApprovalForAllEvent = TypedEvent<
+  [string, string, boolean],
+  { account: string; operator: string; approved: boolean }
+>;
+
+export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
 
 export type OwnershipTransferredEvent = TypedEvent<
   [string, string],
@@ -94,12 +180,52 @@ export type OwnershipTransferredEvent = TypedEvent<
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
+export type PurchasedEvent = TypedEvent<
+  [string, BigNumber[], BigNumber[]],
+  { buyer: string; itemIds: BigNumber[]; quantities: BigNumber[] }
+>;
+
+export type PurchasedEventFilter = TypedEventFilter<PurchasedEvent>;
+
 export type RedeemedEvent = TypedEvent<
-  [string, BigNumber, BigNumber],
-  { buyer: string; itemId: BigNumber; quantity: BigNumber }
+  [string, BigNumber[], BigNumber[]],
+  { buyer: string; itemIds: BigNumber[]; quantities: BigNumber[] }
 >;
 
 export type RedeemedEventFilter = TypedEventFilter<RedeemedEvent>;
+
+export type TransferBatchEvent = TypedEvent<
+  [string, string, string, BigNumber[], BigNumber[]],
+  {
+    operator: string;
+    from: string;
+    to: string;
+    ids: BigNumber[];
+    values: BigNumber[];
+  }
+>;
+
+export type TransferBatchEventFilter = TypedEventFilter<TransferBatchEvent>;
+
+export type TransferSingleEvent = TypedEvent<
+  [string, string, string, BigNumber, BigNumber],
+  {
+    operator: string;
+    from: string;
+    to: string;
+    id: BigNumber;
+    value: BigNumber;
+  }
+>;
+
+export type TransferSingleEventFilter = TypedEventFilter<TransferSingleEvent>;
+
+export type URIEvent = TypedEvent<
+  [string, BigNumber],
+  { value: string; id: BigNumber }
+>;
+
+export type URIEventFilter = TypedEventFilter<URIEvent>;
 
 export type UpdatedInventoryEvent = TypedEvent<
   [BigNumber, BigNumber, BigNumber],
@@ -149,6 +275,42 @@ export interface Store extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    balanceOf(
+      account: string,
+      id: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    "balanceOf(address,uint256)"(
+      account: string,
+      id: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    balanceOfBatch(
+      accounts: string[],
+      ids: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<[BigNumber[]]>;
+
+    "balanceOfBatch(address[],uint256[])"(
+      accounts: string[],
+      ids: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<[BigNumber[]]>;
+
+    isApprovedForAll(
+      account: string,
+      operator: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    "isApprovedForAll(address,address)"(
+      account: string,
+      operator: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     items(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -171,15 +333,27 @@ export interface Store extends BaseContract {
 
     "owner()"(overrides?: CallOverrides): Promise<[string]>;
 
-    redeem(
-      _itemId: BigNumberish,
-      _quantity: BigNumberish,
+    purchase(
+      _itemIds: BigNumberish[],
+      _quantities: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "redeem(uint256,uint256)"(
-      _itemId: BigNumberish,
-      _quantity: BigNumberish,
+    "purchase(uint256[],uint256[])"(
+      _itemIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    redeem(
+      _itemIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "redeem(uint256[],uint256[])"(
+      _itemIds: BigNumberish[],
+      _quantities: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -188,6 +362,54 @@ export interface Store extends BaseContract {
     ): Promise<ContractTransaction>;
 
     "renounceOwnership()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    safeBatchTransferFrom(
+      from: string,
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)"(
+      from: string,
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    safeTransferFrom(
+      from: string,
+      to: string,
+      id: BigNumberish,
+      amount: BigNumberish,
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "safeTransferFrom(address,address,uint256,uint256,bytes)"(
+      from: string,
+      to: string,
+      id: BigNumberish,
+      amount: BigNumberish,
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setApprovalForAll(
+      operator: string,
+      approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "setApprovalForAll(address,bool)"(
+      operator: string,
+      approved: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -200,6 +422,16 @@ export interface Store extends BaseContract {
       _token: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    "supportsInterface(bytes4)"(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
     token(overrides?: CallOverrides): Promise<[string]>;
 
@@ -228,6 +460,13 @@ export interface Store extends BaseContract {
       _price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
+
+    "uri(uint256)"(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
   };
 
   addItem(
@@ -241,6 +480,42 @@ export interface Store extends BaseContract {
     _price: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  balanceOf(
+    account: string,
+    id: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  "balanceOf(address,uint256)"(
+    account: string,
+    id: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  balanceOfBatch(
+    accounts: string[],
+    ids: BigNumberish[],
+    overrides?: CallOverrides
+  ): Promise<BigNumber[]>;
+
+  "balanceOfBatch(address[],uint256[])"(
+    accounts: string[],
+    ids: BigNumberish[],
+    overrides?: CallOverrides
+  ): Promise<BigNumber[]>;
+
+  isApprovedForAll(
+    account: string,
+    operator: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  "isApprovedForAll(address,address)"(
+    account: string,
+    operator: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   items(
     arg0: BigNumberish,
@@ -264,15 +539,27 @@ export interface Store extends BaseContract {
 
   "owner()"(overrides?: CallOverrides): Promise<string>;
 
-  redeem(
-    _itemId: BigNumberish,
-    _quantity: BigNumberish,
+  purchase(
+    _itemIds: BigNumberish[],
+    _quantities: BigNumberish[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "redeem(uint256,uint256)"(
-    _itemId: BigNumberish,
-    _quantity: BigNumberish,
+  "purchase(uint256[],uint256[])"(
+    _itemIds: BigNumberish[],
+    _quantities: BigNumberish[],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  redeem(
+    _itemIds: BigNumberish[],
+    _quantities: BigNumberish[],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "redeem(uint256[],uint256[])"(
+    _itemIds: BigNumberish[],
+    _quantities: BigNumberish[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -281,6 +568,54 @@ export interface Store extends BaseContract {
   ): Promise<ContractTransaction>;
 
   "renounceOwnership()"(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  safeBatchTransferFrom(
+    from: string,
+    to: string,
+    ids: BigNumberish[],
+    amounts: BigNumberish[],
+    data: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)"(
+    from: string,
+    to: string,
+    ids: BigNumberish[],
+    amounts: BigNumberish[],
+    data: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  safeTransferFrom(
+    from: string,
+    to: string,
+    id: BigNumberish,
+    amount: BigNumberish,
+    data: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "safeTransferFrom(address,address,uint256,uint256,bytes)"(
+    from: string,
+    to: string,
+    id: BigNumberish,
+    amount: BigNumberish,
+    data: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setApprovalForAll(
+    operator: string,
+    approved: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "setApprovalForAll(address,bool)"(
+    operator: string,
+    approved: boolean,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -293,6 +628,16 @@ export interface Store extends BaseContract {
     _token: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  supportsInterface(
+    interfaceId: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  "supportsInterface(bytes4)"(
+    interfaceId: BytesLike,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   token(overrides?: CallOverrides): Promise<string>;
 
@@ -322,6 +667,13 @@ export interface Store extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+  "uri(uint256)"(
+    arg0: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   callStatic: {
     addItem(
       _quantity: BigNumberish,
@@ -334,6 +686,42 @@ export interface Store extends BaseContract {
       _price: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    balanceOf(
+      account: string,
+      id: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "balanceOf(address,uint256)"(
+      account: string,
+      id: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    balanceOfBatch(
+      accounts: string[],
+      ids: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
+
+    "balanceOfBatch(address[],uint256[])"(
+      accounts: string[],
+      ids: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber[]>;
+
+    isApprovedForAll(
+      account: string,
+      operator: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    "isApprovedForAll(address,address)"(
+      account: string,
+      operator: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     items(
       arg0: BigNumberish,
@@ -357,15 +745,27 @@ export interface Store extends BaseContract {
 
     "owner()"(overrides?: CallOverrides): Promise<string>;
 
-    redeem(
-      _itemId: BigNumberish,
-      _quantity: BigNumberish,
+    purchase(
+      _itemIds: BigNumberish[],
+      _quantities: BigNumberish[],
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "redeem(uint256,uint256)"(
-      _itemId: BigNumberish,
-      _quantity: BigNumberish,
+    "purchase(uint256[],uint256[])"(
+      _itemIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    redeem(
+      _itemIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "redeem(uint256[],uint256[])"(
+      _itemIds: BigNumberish[],
+      _quantities: BigNumberish[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -373,12 +773,70 @@ export interface Store extends BaseContract {
 
     "renounceOwnership()"(overrides?: CallOverrides): Promise<void>;
 
+    safeBatchTransferFrom(
+      from: string,
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)"(
+      from: string,
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    safeTransferFrom(
+      from: string,
+      to: string,
+      id: BigNumberish,
+      amount: BigNumberish,
+      data: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "safeTransferFrom(address,address,uint256,uint256,bytes)"(
+      from: string,
+      to: string,
+      id: BigNumberish,
+      amount: BigNumberish,
+      data: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setApprovalForAll(
+      operator: string,
+      approved: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "setApprovalForAll(address,bool)"(
+      operator: string,
+      approved: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setToken(_token: string, overrides?: CallOverrides): Promise<void>;
 
     "setToken(address)"(
       _token: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    "supportsInterface(bytes4)"(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
     token(overrides?: CallOverrides): Promise<string>;
 
@@ -407,9 +865,27 @@ export interface Store extends BaseContract {
       _price: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    "uri(uint256)"(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
   };
 
   filters: {
+    "ApprovalForAll(address,address,bool)"(
+      account?: string | null,
+      operator?: string | null,
+      approved?: null
+    ): ApprovalForAllEventFilter;
+    ApprovalForAll(
+      account?: string | null,
+      operator?: string | null,
+      approved?: null
+    ): ApprovalForAllEventFilter;
+
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
@@ -419,12 +895,63 @@ export interface Store extends BaseContract {
       newOwner?: string | null
     ): OwnershipTransferredEventFilter;
 
-    "Redeemed(address,uint256,uint256)"(
+    "Purchased(address,uint256[],uint256[])"(
       buyer?: null,
-      itemId?: null,
-      quantity?: null
+      itemIds?: null,
+      quantities?: null
+    ): PurchasedEventFilter;
+    Purchased(
+      buyer?: null,
+      itemIds?: null,
+      quantities?: null
+    ): PurchasedEventFilter;
+
+    "Redeemed(address,uint256[],uint256[])"(
+      buyer?: null,
+      itemIds?: null,
+      quantities?: null
     ): RedeemedEventFilter;
-    Redeemed(buyer?: null, itemId?: null, quantity?: null): RedeemedEventFilter;
+    Redeemed(
+      buyer?: null,
+      itemIds?: null,
+      quantities?: null
+    ): RedeemedEventFilter;
+
+    "TransferBatch(address,address,address,uint256[],uint256[])"(
+      operator?: string | null,
+      from?: string | null,
+      to?: string | null,
+      ids?: null,
+      values?: null
+    ): TransferBatchEventFilter;
+    TransferBatch(
+      operator?: string | null,
+      from?: string | null,
+      to?: string | null,
+      ids?: null,
+      values?: null
+    ): TransferBatchEventFilter;
+
+    "TransferSingle(address,address,address,uint256,uint256)"(
+      operator?: string | null,
+      from?: string | null,
+      to?: string | null,
+      id?: null,
+      value?: null
+    ): TransferSingleEventFilter;
+    TransferSingle(
+      operator?: string | null,
+      from?: string | null,
+      to?: string | null,
+      id?: null,
+      value?: null
+    ): TransferSingleEventFilter;
+
+    "URI(string,uint256)"(
+      value?: null,
+      id?: BigNumberish | null
+    ): URIEventFilter;
+    URI(value?: null, id?: BigNumberish | null): URIEventFilter;
 
     "UpdatedInventory(uint256,uint256,uint256)"(
       itemId?: null,
@@ -451,6 +978,42 @@ export interface Store extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    balanceOf(
+      account: string,
+      id: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "balanceOf(address,uint256)"(
+      account: string,
+      id: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    balanceOfBatch(
+      accounts: string[],
+      ids: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "balanceOfBatch(address[],uint256[])"(
+      accounts: string[],
+      ids: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    isApprovedForAll(
+      account: string,
+      operator: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "isApprovedForAll(address,address)"(
+      account: string,
+      operator: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     items(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     "items(uint256)"(
@@ -466,15 +1029,27 @@ export interface Store extends BaseContract {
 
     "owner()"(overrides?: CallOverrides): Promise<BigNumber>;
 
-    redeem(
-      _itemId: BigNumberish,
-      _quantity: BigNumberish,
+    purchase(
+      _itemIds: BigNumberish[],
+      _quantities: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "redeem(uint256,uint256)"(
-      _itemId: BigNumberish,
-      _quantity: BigNumberish,
+    "purchase(uint256[],uint256[])"(
+      _itemIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    redeem(
+      _itemIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "redeem(uint256[],uint256[])"(
+      _itemIds: BigNumberish[],
+      _quantities: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -486,6 +1061,54 @@ export interface Store extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    safeBatchTransferFrom(
+      from: string,
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)"(
+      from: string,
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    safeTransferFrom(
+      from: string,
+      to: string,
+      id: BigNumberish,
+      amount: BigNumberish,
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "safeTransferFrom(address,address,uint256,uint256,bytes)"(
+      from: string,
+      to: string,
+      id: BigNumberish,
+      amount: BigNumberish,
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setApprovalForAll(
+      operator: string,
+      approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "setApprovalForAll(address,bool)"(
+      operator: string,
+      approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setToken(
       _token: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -494,6 +1117,16 @@ export interface Store extends BaseContract {
     "setToken(address)"(
       _token: string,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "supportsInterface(bytes4)"(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     token(overrides?: CallOverrides): Promise<BigNumber>;
@@ -523,6 +1156,13 @@ export interface Store extends BaseContract {
       _price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    uri(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    "uri(uint256)"(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -536,6 +1176,42 @@ export interface Store extends BaseContract {
       _quantity: BigNumberish,
       _price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    balanceOf(
+      account: string,
+      id: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "balanceOf(address,uint256)"(
+      account: string,
+      id: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    balanceOfBatch(
+      accounts: string[],
+      ids: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "balanceOfBatch(address[],uint256[])"(
+      accounts: string[],
+      ids: BigNumberish[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isApprovedForAll(
+      account: string,
+      operator: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "isApprovedForAll(address,address)"(
+      account: string,
+      operator: string,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     items(
@@ -556,15 +1232,27 @@ export interface Store extends BaseContract {
 
     "owner()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    redeem(
-      _itemId: BigNumberish,
-      _quantity: BigNumberish,
+    purchase(
+      _itemIds: BigNumberish[],
+      _quantities: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "redeem(uint256,uint256)"(
-      _itemId: BigNumberish,
-      _quantity: BigNumberish,
+    "purchase(uint256[],uint256[])"(
+      _itemIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    redeem(
+      _itemIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "redeem(uint256[],uint256[])"(
+      _itemIds: BigNumberish[],
+      _quantities: BigNumberish[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -576,6 +1264,54 @@ export interface Store extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    safeBatchTransferFrom(
+      from: string,
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)"(
+      from: string,
+      to: string,
+      ids: BigNumberish[],
+      amounts: BigNumberish[],
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    safeTransferFrom(
+      from: string,
+      to: string,
+      id: BigNumberish,
+      amount: BigNumberish,
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "safeTransferFrom(address,address,uint256,uint256,bytes)"(
+      from: string,
+      to: string,
+      id: BigNumberish,
+      amount: BigNumberish,
+      data: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setApprovalForAll(
+      operator: string,
+      approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "setApprovalForAll(address,bool)"(
+      operator: string,
+      approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     setToken(
       _token: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -584,6 +1320,16 @@ export interface Store extends BaseContract {
     "setToken(address)"(
       _token: string,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    supportsInterface(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "supportsInterface(bytes4)"(
+      interfaceId: BytesLike,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     token(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -612,6 +1358,16 @@ export interface Store extends BaseContract {
       _quantity: BigNumberish,
       _price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    uri(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "uri(uint256)"(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };
 }
