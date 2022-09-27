@@ -18,6 +18,9 @@ const main = async () => {
       .connect(deployer)
       .setToken(ABTokenDeployment.address);
     await tx.wait();
+    console.log(
+      `Store Contract accepted currency set to : ${ABTokenDeployment.address}`
+    );
   }
 
   let itemIds = [0, 1, 2];
