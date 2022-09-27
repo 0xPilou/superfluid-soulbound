@@ -1,15 +1,18 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.16;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
-import "./interfaces/IABToken.sol";
+/* Openzeppelin Contract */
+import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
+
+/* Custom Imports */
+import { IABToken } from "./interfaces/IABToken.sol";
 
 contract StoreV1 is Ownable {
-  // Token address used for payment
+  address public token;
 
   uint256 public nbItems = 0;
 
-  address public token;
+  mapping(uint256 => Item) public items;
 
   struct Item {
     uint256 quantity;
@@ -17,8 +20,6 @@ contract StoreV1 is Ownable {
   }
   error OutOfStock();
   error IncorrectItem();
-
-  mapping(uint256 => Item) public items;
 
   event UpdatedInventory(uint256 itemId, uint256 quantity, uint256 price);
   event Redeemed(address buyer, uint256 itemId, uint256 quantity);
