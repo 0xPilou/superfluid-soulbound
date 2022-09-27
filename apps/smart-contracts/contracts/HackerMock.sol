@@ -5,8 +5,8 @@ import { L1CrossDomainMessenger } from "@eth-optimism/contracts/L1/messaging/L1C
 import { IL1CrossDomainMessenger } from "@eth-optimism/contracts/L1/messaging/IL1CrossDomainMessenger.sol";
 
 contract HackerMock {
-  address public cashflowContract;
   IL1CrossDomainMessenger private messenger;
+  address public cashflowContract;
 
   constructor(address _optimisticContractAddress, address _cashflowContract) {
     messenger = L1CrossDomainMessenger(_optimisticContractAddress);

@@ -37,12 +37,13 @@ contract Cashflow is SuperAppBase, Ownable {
   using CFAv1Library for CFAv1Library.InitData;
   CFAv1Library.InitData public cfaV1Lib;
 
+  address internal nft;
+
   /// @dev Super token that may be streamed to this contract
   ISuperSoulbound internal acceptedToken;
 
   ICrossDomainMessenger internal messenger =
     ICrossDomainMessenger(0x4200000000000000000000000000000000000007);
-  address internal nft;
 
   mapping(uint256 => int96) public flowRates;
 
