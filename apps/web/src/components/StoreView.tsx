@@ -1,31 +1,43 @@
-import { ethers } from "ethers";
 import { useState } from "react";
 import { chain, useContractRead, useContractWrite } from "wagmi";
 import { getAddress, getAbi } from "web3-config";
 import ItemView from "./ItemView";
+import StoreAdminView from "./StoreAdminView";
+
+function getItemIds(cart: any[]): number[] {
+  let idArray: number[] = [];
+
+  cart.forEach((element, index) => {
+    if (element === true) {
+      idArray.push(index);
+    }
+  });
+  return idArray;
+}
+
+function getItemQty(cart: any[]): number[] {
+  let qtyArray: number[] = [];
+
+  cart.forEach((element) => {
+    if (element === true) {
+      qtyArray.push(1);
+    }
+  });
+  return qtyArray;
+}
 
 const StoreView = () => {
-  const [price, setPrice] = useState(1);
-  const [quantity, setQuantity] = useState(1);
-
-  const handleChangePrice = (event) => {
-    setPrice(event.target.value);
-  };
-  const handleChangeQuantity = (event) => {
-    setQuantity(event.target.value);
-  };
-
   const { data: nbItems } = useContractRead({
     addressOrName: getAddress(chain.optimismGoerli.id, "Store"),
     contractInterface: getAbi(chain.optimismGoerli.id, "Store"),
     functionName: "nbItems",
   });
 
-  const { write: addItem } = useContractWrite({
+  const { write: purchase } = useContractWrite({
     mode: "recklesslyUnprepared",
     addressOrName: getAddress(chain.optimismGoerli.id, "Store"),
     contractInterface: getAbi(chain.optimismGoerli.id, "Store"),
-    functionName: "addItem",
+    functionName: "purchase",
   });
 
   let itemIds = [];
@@ -34,6 +46,12 @@ const StoreView = () => {
       itemIds.push(i);
     }
   }
+  const [cart, setCart] = useState(new Array(itemIds.length).fill(false));
+  const [cartDetails, setCartDetails] = useState(new Array(0));
+
+  console.log(getItemIds(cart));
+  // console.log(cartDetails);
+  // console.log("CART:", cart);
 
   return (
     <>
@@ -44,33 +62,30 @@ const StoreView = () => {
             <h3>Items in Store : {nbItems!.toNumber()}</h3>
             <div style={{ display: "flex" }}>
               {itemIds.map((key, item) => (
-                <ItemView key={key} id={item} />
+                <ItemView
+                  key={key}
+                  id={item}
+                  cart={cart}
+                  setCart={setCart}
+                />
               ))}
             </div>
-          </div>
-          <div>
-            <h3>Store Admin Function :</h3>
             <div>
-              <label>Quantity :</label>
-              <input value={quantity} onChange={handleChangeQuantity} />
+              <button
+                onClick={() => {
+                  purchase({
+                    recklesslySetUnpreparedArgs: [
+                      getItemIds(cart),
+                      getItemQty(cart),
+                    ],
+                  });
+                }}
+              >
+                BUY
+              </button>
             </div>
-            <div>
-              <label>Price :</label>
-              <input value={price} onChange={handleChangePrice} />
-            </div>
-            <button
-              onClick={() => {
-                addItem({
-                  recklesslySetUnpreparedArgs: [
-                    quantity,
-                    ethers.utils.parseEther(price.toString()),
-                  ],
-                });
-              }}
-            >
-              Add Item
-            </button>
           </div>
+          <StoreAdminView />
         </div>
       )}
     </>

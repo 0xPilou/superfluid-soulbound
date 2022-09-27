@@ -2,11 +2,13 @@ import { ethers } from "ethers";
 import { chain, useContractWrite, useContractRead } from "wagmi";
 import { getAddress, getAbi } from "web3-config";
 
-type StoreProps = {
+type ItemProps = {
   id: number;
+  cart: any[];
+  setCart: any;
 };
 
-const StoreView = (props: StoreProps) => {
+const ItemView = (props: ItemProps) => {
   const { data: itemDetails } = useContractRead({
     addressOrName: getAddress(chain.optimismGoerli.id, "Store"),
     contractInterface: getAbi(chain.optimismGoerli.id, "Store"),
@@ -15,12 +17,12 @@ const StoreView = (props: StoreProps) => {
     // watch: true,
   });
 
-  const { write: redeem } = useContractWrite({
-    mode: "recklesslyUnprepared",
-    addressOrName: getAddress(chain.optimismGoerli.id, "Store"),
-    contractInterface: getAbi(chain.optimismGoerli.id, "Store"),
-    functionName: "redeem",
-  });
+  const handleSelectItem = (position) => {
+    const updatedCart = props.cart.map((item, index) =>
+      index === position ? !item : item
+    );
+    props.setCart(updatedCart);
+  };
 
   return (
     <div
@@ -38,21 +40,16 @@ const StoreView = (props: StoreProps) => {
             ABT
           </h3>
           <h3>Quantity : {itemDetails!.quantity.toNumber()} units</h3>
-          <div>
-            <button
-              onClick={() => {
-                redeem({
-                  recklesslySetUnpreparedArgs: [props.id, 1],
-                });
-              }}
-            >
-              Redeem
-            </button>
-          </div>
+          <input
+            type="checkbox"
+            id={`custom-checkbox-${props.id}`}
+            checked={props.cart[props.id]}
+            onChange={() => handleSelectItem(props.id)}
+          />
         </>
       )}
     </div>
   );
 };
 
-export default StoreView;
+export default ItemView;
