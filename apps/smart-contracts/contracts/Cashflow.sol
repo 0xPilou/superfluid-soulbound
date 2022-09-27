@@ -1,19 +1,22 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.16;
 
+/* Superfluid Interfaces */
 import { ISuperfluid, ISuperApp, ISuperToken, ISuperAgreement, SuperAppDefinitions } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/superfluid/ISuperfluid.sol";
-
-import { CFAv1Library } from "@superfluid-finance/ethereum-contracts/contracts/apps/CFAv1Library.sol";
-
 import { IConstantFlowAgreementV1 } from "@superfluid-finance/ethereum-contracts/contracts/interfaces/agreements/IConstantFlowAgreementV1.sol";
 
+/* Superfluid Contracts */
+import { CFAv1Library } from "@superfluid-finance/ethereum-contracts/contracts/apps/CFAv1Library.sol";
 import { SuperAppBase } from "@superfluid-finance/ethereum-contracts/contracts/apps/SuperAppBase.sol";
 
-import { ISuperSoulbound } from "./interfaces/ISuperSoulbound.sol";
+/* Openzeppelin Contract */
+import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 
+/* Optimism Interface */
 import { ICrossDomainMessenger } from "@eth-optimism/contracts/libraries/bridge/ICrossDomainMessenger.sol";
 
-import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
+/* Custom Imports */
+import { ISuperSoulbound } from "./interfaces/ISuperSoulbound.sol";
 
 /// @dev Constant Flow Agreement registration key, used to get the address from the host.
 bytes32 constant CFA_ID = keccak256(
