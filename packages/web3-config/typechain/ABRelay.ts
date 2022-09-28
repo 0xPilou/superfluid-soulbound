@@ -17,8 +17,8 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export interface AnotherRelayInterface extends utils.Interface {
-  contractName: "AnotherRelay";
+export interface ABRelayInterface extends utils.Interface {
+  contractName: "ABRelay";
   functions: {
     "createdDrop()": FunctionFragment;
     "grantAllowance(address)": FunctionFragment;
@@ -117,13 +117,13 @@ export type OwnershipTransferredEvent = TypedEvent<
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
-export interface AnotherRelay extends BaseContract {
-  contractName: "AnotherRelay";
+export interface ABRelay extends BaseContract {
+  contractName: "ABRelay";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: AnotherRelayInterface;
+  interface: ABRelayInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,

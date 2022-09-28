@@ -19,21 +19,15 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface HackerMockInterface extends utils.Interface {
   contractName: "HackerMock";
   functions: {
-    "cashflowContract()": FunctionFragment;
     "hackFlow(address)": FunctionFragment;
+    "relay()": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "cashflowContract",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "hackFlow", values: [string]): string;
+  encodeFunctionData(functionFragment: "relay", values?: undefined): string;
 
-  decodeFunctionResult(
-    functionFragment: "cashflowContract",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "hackFlow", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "relay", data: BytesLike): Result;
 
   events: {};
 }
@@ -66,10 +60,6 @@ export interface HackerMock extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    cashflowContract(overrides?: CallOverrides): Promise<[string]>;
-
-    "cashflowContract()"(overrides?: CallOverrides): Promise<[string]>;
-
     hackFlow(
       subscriber: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -79,11 +69,11 @@ export interface HackerMock extends BaseContract {
       subscriber: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    relay(overrides?: CallOverrides): Promise<[string]>;
+
+    "relay()"(overrides?: CallOverrides): Promise<[string]>;
   };
-
-  cashflowContract(overrides?: CallOverrides): Promise<string>;
-
-  "cashflowContract()"(overrides?: CallOverrides): Promise<string>;
 
   hackFlow(
     subscriber: string,
@@ -95,26 +85,26 @@ export interface HackerMock extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  relay(overrides?: CallOverrides): Promise<string>;
+
+  "relay()"(overrides?: CallOverrides): Promise<string>;
+
   callStatic: {
-    cashflowContract(overrides?: CallOverrides): Promise<string>;
-
-    "cashflowContract()"(overrides?: CallOverrides): Promise<string>;
-
     hackFlow(subscriber: string, overrides?: CallOverrides): Promise<void>;
 
     "hackFlow(address)"(
       subscriber: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    relay(overrides?: CallOverrides): Promise<string>;
+
+    "relay()"(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {};
 
   estimateGas: {
-    cashflowContract(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "cashflowContract()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     hackFlow(
       subscriber: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -124,15 +114,13 @@ export interface HackerMock extends BaseContract {
       subscriber: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    relay(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "relay()"(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    cashflowContract(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "cashflowContract()"(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     hackFlow(
       subscriber: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -142,5 +130,9 @@ export interface HackerMock extends BaseContract {
       subscriber: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    relay(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "relay()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

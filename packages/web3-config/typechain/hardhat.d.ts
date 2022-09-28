@@ -209,13 +209,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABToken__factory>;
     getContractFactory(
-      name: "AnotherRelay",
+      name: "ABRelay",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.AnotherRelay__factory>;
-    getContractFactory(
-      name: "CashflowV1",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.CashflowV1__factory>;
+    ): Promise<Contracts.ABRelay__factory>;
     getContractFactory(
       name: "HackerMock",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -499,15 +495,10 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ABToken>;
     getContractAt(
-      name: "AnotherRelay",
+      name: "ABRelay",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.AnotherRelay>;
-    getContractAt(
-      name: "CashflowV1",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.CashflowV1>;
+    ): Promise<Contracts.ABRelay>;
     getContractAt(
       name: "HackerMock",
       address: string,

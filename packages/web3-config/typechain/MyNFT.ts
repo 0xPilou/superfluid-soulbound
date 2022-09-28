@@ -20,10 +20,10 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface MyNFTInterface extends utils.Interface {
   contractName: "MyNFT";
   functions: {
+    "AB_RELAY()": FunctionFragment;
     "MAX_MINT()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "cashflowContract()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mintCount()": FunctionFragment;
@@ -39,16 +39,13 @@ export interface MyNFTInterface extends utils.Interface {
     "transferFrom(address,address,uint256)": FunctionFragment;
   };
 
+  encodeFunctionData(functionFragment: "AB_RELAY", values?: undefined): string;
   encodeFunctionData(functionFragment: "MAX_MINT", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "cashflowContract",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
@@ -90,13 +87,10 @@ export interface MyNFTInterface extends utils.Interface {
     values: [string, string, BigNumberish]
   ): string;
 
+  decodeFunctionResult(functionFragment: "AB_RELAY", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "MAX_MINT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "cashflowContract",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
@@ -189,6 +183,10 @@ export interface MyNFT extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    AB_RELAY(overrides?: CallOverrides): Promise<[string]>;
+
+    "AB_RELAY()"(overrides?: CallOverrides): Promise<[string]>;
+
     MAX_MINT(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     "MAX_MINT()"(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -211,10 +209,6 @@ export interface MyNFT extends BaseContract {
       owner: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
-
-    cashflowContract(overrides?: CallOverrides): Promise<[string]>;
-
-    "cashflowContract()"(overrides?: CallOverrides): Promise<[string]>;
 
     getApproved(
       tokenId: BigNumberish,
@@ -338,6 +332,10 @@ export interface MyNFT extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
+  AB_RELAY(overrides?: CallOverrides): Promise<string>;
+
+  "AB_RELAY()"(overrides?: CallOverrides): Promise<string>;
+
   MAX_MINT(overrides?: CallOverrides): Promise<BigNumber>;
 
   "MAX_MINT()"(overrides?: CallOverrides): Promise<BigNumber>;
@@ -360,10 +358,6 @@ export interface MyNFT extends BaseContract {
     owner: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
-
-  cashflowContract(overrides?: CallOverrides): Promise<string>;
-
-  "cashflowContract()"(overrides?: CallOverrides): Promise<string>;
 
   getApproved(
     tokenId: BigNumberish,
@@ -481,6 +475,10 @@ export interface MyNFT extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    AB_RELAY(overrides?: CallOverrides): Promise<string>;
+
+    "AB_RELAY()"(overrides?: CallOverrides): Promise<string>;
+
     MAX_MINT(overrides?: CallOverrides): Promise<BigNumber>;
 
     "MAX_MINT()"(overrides?: CallOverrides): Promise<BigNumber>;
@@ -503,10 +501,6 @@ export interface MyNFT extends BaseContract {
       owner: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    cashflowContract(overrides?: CallOverrides): Promise<string>;
-
-    "cashflowContract()"(overrides?: CallOverrides): Promise<string>;
 
     getApproved(
       tokenId: BigNumberish,
@@ -660,6 +654,10 @@ export interface MyNFT extends BaseContract {
   };
 
   estimateGas: {
+    AB_RELAY(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "AB_RELAY()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     MAX_MINT(overrides?: CallOverrides): Promise<BigNumber>;
 
     "MAX_MINT()"(overrides?: CallOverrides): Promise<BigNumber>;
@@ -682,10 +680,6 @@ export interface MyNFT extends BaseContract {
       owner: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    cashflowContract(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "cashflowContract()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     getApproved(
       tokenId: BigNumberish,
@@ -810,6 +804,10 @@ export interface MyNFT extends BaseContract {
   };
 
   populateTransaction: {
+    AB_RELAY(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "AB_RELAY()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     MAX_MINT(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "MAX_MINT()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -833,12 +831,6 @@ export interface MyNFT extends BaseContract {
 
     "balanceOf(address)"(
       owner: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    cashflowContract(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "cashflowContract()"(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
