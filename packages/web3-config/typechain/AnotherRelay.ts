@@ -4,6 +4,7 @@
 import {
   BaseContract,
   BigNumber,
+  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -21,12 +22,13 @@ export interface AnotherRelayInterface extends utils.Interface {
   functions: {
     "createdDrop()": FunctionFragment;
     "grantAllowance(address)": FunctionFragment;
-    "issuedNFT()": FunctionFragment;
+    "issuedNFT(int96,uint256)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "revokeAllowance(address)": FunctionFragment;
+    "setABStream(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "transferredNFT()": FunctionFragment;
+    "transferredNFT(address,address,uint256)": FunctionFragment;
     "updatedDrop()": FunctionFragment;
   };
 
@@ -38,7 +40,10 @@ export interface AnotherRelayInterface extends utils.Interface {
     functionFragment: "grantAllowance",
     values: [string]
   ): string;
-  encodeFunctionData(functionFragment: "issuedNFT", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "issuedNFT",
+    values: [BigNumberish, BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -48,13 +53,14 @@ export interface AnotherRelayInterface extends utils.Interface {
     functionFragment: "revokeAllowance",
     values: [string]
   ): string;
+  encodeFunctionData(functionFragment: "setABStream", values: [string]): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "transferredNFT",
-    values?: undefined
+    values: [string, string, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "updatedDrop",
@@ -77,6 +83,10 @@ export interface AnotherRelayInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "revokeAllowance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setABStream",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -154,10 +164,14 @@ export interface AnotherRelay extends BaseContract {
     ): Promise<ContractTransaction>;
 
     issuedNFT(
+      _flowRate: BigNumberish,
+      _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "issuedNFT()"(
+    "issuedNFT(int96,uint256)"(
+      _flowRate: BigNumberish,
+      _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -183,6 +197,16 @@ export interface AnotherRelay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setABStream(
+      _abStream: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "setABStream(address)"(
+      _abStream: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     transferOwnership(
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -194,10 +218,16 @@ export interface AnotherRelay extends BaseContract {
     ): Promise<ContractTransaction>;
 
     transferredNFT(
+      _from: string,
+      _to: string,
+      _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "transferredNFT()"(
+    "transferredNFT(address,address,uint256)"(
+      _from: string,
+      _to: string,
+      _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -229,10 +259,14 @@ export interface AnotherRelay extends BaseContract {
   ): Promise<ContractTransaction>;
 
   issuedNFT(
+    _flowRate: BigNumberish,
+    _tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "issuedNFT()"(
+  "issuedNFT(int96,uint256)"(
+    _flowRate: BigNumberish,
+    _tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -258,6 +292,16 @@ export interface AnotherRelay extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setABStream(
+    _abStream: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "setABStream(address)"(
+    _abStream: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   transferOwnership(
     newOwner: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -269,10 +313,16 @@ export interface AnotherRelay extends BaseContract {
   ): Promise<ContractTransaction>;
 
   transferredNFT(
+    _from: string,
+    _to: string,
+    _tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "transferredNFT()"(
+  "transferredNFT(address,address,uint256)"(
+    _from: string,
+    _to: string,
+    _tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -296,9 +346,17 @@ export interface AnotherRelay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    issuedNFT(overrides?: CallOverrides): Promise<void>;
+    issuedNFT(
+      _flowRate: BigNumberish,
+      _tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
-    "issuedNFT()"(overrides?: CallOverrides): Promise<void>;
+    "issuedNFT(int96,uint256)"(
+      _flowRate: BigNumberish,
+      _tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -315,6 +373,13 @@ export interface AnotherRelay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setABStream(_abStream: string, overrides?: CallOverrides): Promise<void>;
+
+    "setABStream(address)"(
+      _abStream: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     transferOwnership(
       newOwner: string,
       overrides?: CallOverrides
@@ -325,9 +390,19 @@ export interface AnotherRelay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    transferredNFT(overrides?: CallOverrides): Promise<void>;
+    transferredNFT(
+      _from: string,
+      _to: string,
+      _tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
-    "transferredNFT()"(overrides?: CallOverrides): Promise<void>;
+    "transferredNFT(address,address,uint256)"(
+      _from: string,
+      _to: string,
+      _tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     updatedDrop(overrides?: CallOverrides): Promise<void>;
 
@@ -365,10 +440,14 @@ export interface AnotherRelay extends BaseContract {
     ): Promise<BigNumber>;
 
     issuedNFT(
+      _flowRate: BigNumberish,
+      _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "issuedNFT()"(
+    "issuedNFT(int96,uint256)"(
+      _flowRate: BigNumberish,
+      _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -394,6 +473,16 @@ export interface AnotherRelay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setABStream(
+      _abStream: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "setABStream(address)"(
+      _abStream: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     transferOwnership(
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -405,10 +494,16 @@ export interface AnotherRelay extends BaseContract {
     ): Promise<BigNumber>;
 
     transferredNFT(
+      _from: string,
+      _to: string,
+      _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "transferredNFT()"(
+    "transferredNFT(address,address,uint256)"(
+      _from: string,
+      _to: string,
+      _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -441,10 +536,14 @@ export interface AnotherRelay extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     issuedNFT(
+      _flowRate: BigNumberish,
+      _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "issuedNFT()"(
+    "issuedNFT(int96,uint256)"(
+      _flowRate: BigNumberish,
+      _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -470,6 +569,16 @@ export interface AnotherRelay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    setABStream(
+      _abStream: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "setABStream(address)"(
+      _abStream: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     transferOwnership(
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -481,10 +590,16 @@ export interface AnotherRelay extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     transferredNFT(
+      _from: string,
+      _to: string,
+      _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "transferredNFT()"(
+    "transferredNFT(address,address,uint256)"(
+      _from: string,
+      _to: string,
+      _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

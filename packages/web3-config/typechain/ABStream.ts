@@ -34,7 +34,7 @@ export interface ABStreamInterface extends utils.Interface {
     "initStream(int96,uint256)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
-    "setAB_TOKEN(address)": FunctionFragment;
+    "setABToken(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "updateStream(address,address,uint256)": FunctionFragment;
   };
@@ -86,7 +86,7 @@ export interface ABStreamInterface extends utils.Interface {
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "setAB_TOKEN", values: [string]): string;
+  encodeFunctionData(functionFragment: "setABToken", values: [string]): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
@@ -131,10 +131,7 @@ export interface ABStreamInterface extends utils.Interface {
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "setAB_TOKEN",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "setABToken", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
     data: BytesLike
@@ -375,13 +372,13 @@ export interface ABStream extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setAB_TOKEN(
-      _AB_TOKEN: string,
+    setABToken(
+      _ABToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "setAB_TOKEN(address)"(
-      _AB_TOKEN: string,
+    "setABToken(address)"(
+      _ABToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -595,13 +592,13 @@ export interface ABStream extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setAB_TOKEN(
-    _AB_TOKEN: string,
+  setABToken(
+    _ABToken: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "setAB_TOKEN(address)"(
-    _AB_TOKEN: string,
+  "setABToken(address)"(
+    _ABToken: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -814,10 +811,10 @@ export interface ABStream extends BaseContract {
 
     "renounceOwnership()"(overrides?: CallOverrides): Promise<void>;
 
-    setAB_TOKEN(_AB_TOKEN: string, overrides?: CallOverrides): Promise<void>;
+    setABToken(_ABToken: string, overrides?: CallOverrides): Promise<void>;
 
-    "setAB_TOKEN(address)"(
-      _AB_TOKEN: string,
+    "setABToken(address)"(
+      _ABToken: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1025,13 +1022,13 @@ export interface ABStream extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setAB_TOKEN(
-      _AB_TOKEN: string,
+    setABToken(
+      _ABToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "setAB_TOKEN(address)"(
-      _AB_TOKEN: string,
+    "setABToken(address)"(
+      _ABToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1231,13 +1228,13 @@ export interface ABStream extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setAB_TOKEN(
-      _AB_TOKEN: string,
+    setABToken(
+      _ABToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "setAB_TOKEN(address)"(
-      _AB_TOKEN: string,
+    "setABToken(address)"(
+      _ABToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

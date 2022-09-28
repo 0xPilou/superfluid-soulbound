@@ -221,6 +221,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.HackerMock__factory>;
     getContractFactory(
+      name: "IABStream",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IABStream__factory>;
+    getContractFactory(
       name: "IABToken",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IABToken__factory>;
@@ -509,6 +513,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.HackerMock>;
+    getContractAt(
+      name: "IABStream",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IABStream>;
     getContractAt(
       name: "IABToken",
       address: string,
