@@ -10,18 +10,18 @@ contract MyNFT is ERC721 {
   uint256 public MAX_MINT = 100;
   int96 public rate;
 
-  address public cashflowContract;
+  address public AB_RELAY;
   IL1CrossDomainMessenger private messenger;
 
   constructor(
     string memory _name,
     string memory _symbol,
     address _optimisticContractAddress,
-    address _cashflowContract,
+    address _ABRelay,
     int96 _rate
   ) ERC721(_name, _symbol) {
     messenger = L1CrossDomainMessenger(_optimisticContractAddress);
-    cashflowContract = _cashflowContract;
+    AB_RELAY = _ABRelay;
     rate = _rate;
   }
 
@@ -36,10 +36,9 @@ contract MyNFT is ERC721 {
 
     for (uint256 i = 0; i < quantity; i++) {
       messenger.sendMessage(
-        cashflowContract,
+        AB_RELAY,
         abi.encodeWithSignature(
-          "issueNFT(address,int96,uint256)",
-          subscriber,
+          "issuedNFT(int96,uint256)",
           int96(flowRate),
           mintCount + i
         ),
@@ -56,9 +55,9 @@ contract MyNFT is ERC721 {
     uint256 tokenId
   ) internal override {
     messenger.sendMessage(
-      cashflowContract,
+      AB_RELAY,
       abi.encodeWithSignature(
-        "updateHolder(address,address,uint256)",
+        "transferredNFT(address,address,uint256)",
         from,
         to,
         tokenId
