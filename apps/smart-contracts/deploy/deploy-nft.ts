@@ -12,8 +12,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await getNamedAccounts();
   const { deploy } = deployments;
 
-  const ABRelay = ABRelay__factory.connect()
-
   const erc20Symbol = "NFT";
   const erc20Name = "NFT";
 
