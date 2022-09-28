@@ -10,7 +10,7 @@
     "mintSBT": "npx hardhat run scripts/mintSBT.ts --network optimismGoerli",
     "initStore": "npx hardhat run scripts/initStore.ts --network optimismGoerli",
     "deployAll": "npx hardhat deploy --network optimismGoerli && npx hardhat deploy --network goerli",
-    "initAll": "npx hardhat run scripts/initCashflow.ts --network optimismGoerli && npx hardhat run scripts/mintABT.ts --network optimismGoerli && npx hardhat run scripts/initStore.ts --network optimismGoerli"
+    "initAll": "npx hardhat run scripts/initABRelay.ts --network optimismGoerli && npx hardhat run scripts/initABStream.ts --network optimismGoerli && npx hardhat run scripts/initABToken.ts --network optimismGoerli && npx hardhat run scripts/initABStore.ts --network optimismGoerli"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.5",
