@@ -33,7 +33,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   deployments.log("");
 };
 
-func.tags = [AB_STREAM_NAME];
+func.tags = ["OPTIMISM", AB_STREAM_NAME];
 func.dependencies = [AB_RELAY_NAME];
 func.skip = async (env) => env.network.name !== "optimismGoerli";
 

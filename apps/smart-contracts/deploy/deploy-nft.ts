@@ -47,7 +47,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   deployments.log("");
 };
 
-func.tags = [name];
+func.tags = ["GOERLI", name];
 func.skip = async (env) => env.network.name !== "goerli";
 
 export default func;

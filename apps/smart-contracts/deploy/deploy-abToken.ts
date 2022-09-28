@@ -47,7 +47,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   deployments.log("");
 };
 
-func.tags = [AB_TOKEN_NAME];
+func.tags = ["OPTIMISM", AB_TOKEN_NAME];
 func.dependencies = [AB_STORE_NAME, AB_STREAM_NAME];
 func.skip = async (env) => env.network.name !== "optimismGoerli";
 
