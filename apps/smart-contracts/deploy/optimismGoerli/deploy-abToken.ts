@@ -4,7 +4,7 @@ import {
   AB_STORE_NAME,
   AB_TOKEN_NAME,
   AB_STREAM_NAME,
-} from "../deploy-constants";
+} from "../../deploy-constants";
 
 const SF_HOST_ADDRESS = "0xE40983C2476032A0915600b9472B3141aA5B5Ba9";
 const SF_CFA_ADDRESS = "0xff48668fa670A85e55A7a822b352d5ccF3E7b18C";
@@ -23,10 +23,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: [abStore.address, SF_HOST_ADDRESS, SF_CFA_ADDRESS, abStream.address],
   });
 
-  deployments.log(
-    `Contract ${AB_TOKEN_NAME} deployed at ${deployment.address} on Optimism Goerli`
-  );
-
   const abToken = await hre.ethers.getContractAt(
     AB_TOKEN_NAME,
     deployment.address
@@ -36,15 +32,18 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   deployments.log("");
   deployments.log(
-    "-------------------------------------------- CONTRACT VERIFICATION COMMAND ---------------------------------------------------"
+    "------------------------------------------------------------------------------------------------------------------------------"
   );
+  deployments.log(
+    `Contract ${AB_TOKEN_NAME} deployed at ${deployment.address} on Optimism Goerli`
+  );
+  deployments.log("");
   deployments.log(
     `npx hardhat verify --network optimismGoerli ${deployment.address} ${abStore.address} ${SF_HOST_ADDRESS} ${SF_CFA_ADDRESS} ${abStream.address}`
   );
   deployments.log(
     "------------------------------------------------------------------------------------------------------------------------------"
   );
-  deployments.log("");
 };
 
 func.tags = ["OPTIMISM", AB_TOKEN_NAME];

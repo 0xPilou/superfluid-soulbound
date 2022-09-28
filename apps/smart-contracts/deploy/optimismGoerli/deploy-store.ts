@@ -1,6 +1,6 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import { AB_STORE_NAME } from "../deploy-constants";
+import { AB_STORE_NAME } from "../../deploy-constants";
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts } = hre;
@@ -12,21 +12,21 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: [],
   });
 
+  deployments.log("");
+  deployments.log(
+    "------------------------------------------------------------------------------------------------------------------------------"
+  );
   deployments.log(
     `Contract ${AB_STORE_NAME} deployed at ${deployment.address} on Optimism Goerli`
   );
 
   deployments.log("");
   deployments.log(
-    "-------------------------------------------- CONTRACT VERIFICATION COMMAND ---------------------------------------------------"
-  );
-  deployments.log(
     `npx hardhat verify --network optimismGoerli ${deployment.address}`
   );
   deployments.log(
     "------------------------------------------------------------------------------------------------------------------------------"
   );
-  deployments.log("");
 };
 
 func.tags = ["OPTIMISM", AB_STORE_NAME];

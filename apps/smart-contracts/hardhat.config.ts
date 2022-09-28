@@ -58,6 +58,7 @@ const config: HardhatUserConfig = {
     goerli: {
       url: `https://goerli.infura.io/v3/${process.env.INFURA_ID}`,
       accounts: [`${PRIVATE_KEY}`],
+      deploy: ["deploy/goerli"],
     },
     kovan: {
       url: `https://kovan.infura.io/v3/${process.env.INFURA_ID}`,
@@ -67,6 +68,7 @@ const config: HardhatUserConfig = {
       chainId: 420,
       url: `https://opt-goerli.g.alchemy.com/v2/${process.env.OPTIMISM_GOERLI_ALCHEMY_KEY}`,
       accounts: [`${PRIVATE_KEY}`],
+      deploy: ["deploy/optimismGoerli"],
     },
     optimismKovan: {
       chainId: 69,

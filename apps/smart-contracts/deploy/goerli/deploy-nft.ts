@@ -1,7 +1,6 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import ABRelayDeployment from "web3-config/deployments/optimismGoerli/ABRelay.json";
-import { ABRelay__factory } from "web3-config";
 
 const name = "MyNFT";
 
@@ -25,15 +24,14 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       hre.ethers.utils.parseEther("100"),
     ],
   });
-
+  deployments.log("");
+  deployments.log(
+    "------------------------------------------------------------------------------------------------------------------------------"
+  );
   deployments.log(
     `Contract ${name} deployed at ${deployment.address} on Goerli`
   );
-
   deployments.log("");
-  deployments.log(
-    "-------------------------------------------- CONTRACT VERIFICATION COMMAND ---------------------------------------------------"
-  );
   deployments.log(
     `npx hardhat verify --network goerli ${
       deployment.address
@@ -44,7 +42,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   deployments.log(
     "------------------------------------------------------------------------------------------------------------------------------"
   );
-  deployments.log("");
 };
 
 func.tags = ["GOERLI", name];

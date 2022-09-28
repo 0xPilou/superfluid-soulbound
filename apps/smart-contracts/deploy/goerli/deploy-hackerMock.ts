@@ -16,24 +16,23 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     args: [L2_MESSENGER_ADDR, ABRelayDeployment.address],
   });
 
+  deployments.log("");
+  deployments.log(
+    "------------------------------------------------------------------------------------------------------------------------------"
+  );
   deployments.log(
     `Contract ${name} deployed at ${deployment.address} on Goerli`
   );
-
   deployments.log("");
-  deployments.log(
-    "-------------------------------------------- CONTRACT VERIFICATION COMMAND ---------------------------------------------------"
-  );
   deployments.log(
     `npx hardhat verify --network goerli ${deployment.address} ${L2_MESSENGER_ADDR} ${ABRelayDeployment.address}`
   );
   deployments.log(
     "------------------------------------------------------------------------------------------------------------------------------"
   );
-  deployments.log("");
 };
 
-func.tags = ["GOERLI", name];
+func.tags = [name];
 func.skip = async (env) => env.network.name !== "goerli";
 
 export default func;
