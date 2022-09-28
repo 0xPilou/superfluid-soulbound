@@ -213,10 +213,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABToken__factory>;
     getContractFactory(
-      name: "ABRelay",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ABRelay__factory>;
-    getContractFactory(
       name: "HackerMock",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.HackerMock__factory>;
@@ -503,11 +499,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ABToken>;
-    getContractAt(
-      name: "ABRelay",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ABRelay>;
     getContractAt(
       name: "HackerMock",
       address: string,
