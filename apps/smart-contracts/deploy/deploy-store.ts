@@ -15,6 +15,18 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   deployments.log(
     `Contract ${AB_STORE_NAME} deployed at ${deployment.address} on Optimism Goerli`
   );
+
+  deployments.log("");
+  deployments.log(
+    "-------------------------------------------- CONTRACT VERIFICATION COMMAND ---------------------------------------------------"
+  );
+  deployments.log(
+    `npx hardhat verify --network optimismGoerli ${deployment.address}`
+  );
+  deployments.log(
+    "------------------------------------------------------------------------------------------------------------------------------"
+  );
+  deployments.log("");
 };
 
 func.tags = [AB_STORE_NAME];

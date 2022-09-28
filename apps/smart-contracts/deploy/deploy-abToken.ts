@@ -33,6 +33,18 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   );
 
   await abToken.initialize(ZERO_ADDRESS, 0, "ABToken", "ABT");
+
+  deployments.log("");
+  deployments.log(
+    "-------------------------------------------- CONTRACT VERIFICATION COMMAND ---------------------------------------------------"
+  );
+  deployments.log(
+    `npx hardhat verify --network optimismGoerli ${deployment.address} ${abStore.address} ${SF_HOST_ADDRESS} ${SF_CFA_ADDRESS} ${abStream.address}`
+  );
+  deployments.log(
+    "------------------------------------------------------------------------------------------------------------------------------"
+  );
+  deployments.log("");
 };
 
 func.tags = [AB_TOKEN_NAME];
