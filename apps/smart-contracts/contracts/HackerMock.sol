@@ -6,19 +6,18 @@ import { IL1CrossDomainMessenger } from "@eth-optimism/contracts/L1/messaging/IL
 
 contract HackerMock {
   IL1CrossDomainMessenger private messenger;
-  address public cashflowContract;
+  address public relay;
 
-  constructor(address _optimisticContractAddress, address _cashflowContract) {
+  constructor(address _optimisticContractAddress, address _relay) {
     messenger = L1CrossDomainMessenger(_optimisticContractAddress);
-    cashflowContract = _cashflowContract;
+    relay = _relay;
   }
 
   function hackFlow(address subscriber) external {
     messenger.sendMessage(
-      cashflowContract,
+      relay,
       abi.encodeWithSignature(
-        "issueNFT(address,int96,uint256)",
-        subscriber,
+        "issuedNFT(int96,uint256)",
         int96(1000000000000),
         666
       ),

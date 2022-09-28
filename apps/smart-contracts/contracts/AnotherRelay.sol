@@ -10,7 +10,7 @@ import { ICrossDomainMessenger } from "@eth-optimism/contracts/libraries/bridge/
 /* Custom Imports */
 import { IABStream } from "./interfaces/IABStream.sol";
 
-contract AnotherRelay is Ownable {
+contract ABRelay is Ownable {
   // Addresses allowed to interact with the relay
   mapping(address => bool) private allowedSenders;
 
