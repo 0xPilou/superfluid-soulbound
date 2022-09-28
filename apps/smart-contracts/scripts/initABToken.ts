@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import hre from "hardhat";
-import CashflowDeployment from "web3-config/deployments/optimismGoerli/Cashflow.json";
+import ABStreamDeployment from "web3-config/deployments/optimismGoerli/ABStream.json";
 import ABTokenDeployment from "web3-config/deployments/optimismGoerli/ABToken.json";
 
 const main = async () => {
@@ -14,10 +14,10 @@ const main = async () => {
 
   await abt
     .connect(deployer)
-    .mint(CashflowDeployment.address, ethers.utils.parseEther("1000000000"));
+    .mint(ABStreamDeployment.address, ethers.utils.parseEther("1000000000"));
 
   console.log(
-    `Minted 1.000.000.000 ABT to Cashflow contract at ${CashflowDeployment.address}`
+    `ABToken : Minted 1.000.000.000 ABT to ABStream contract at ${ABStreamDeployment.address}`
   );
   return;
 };

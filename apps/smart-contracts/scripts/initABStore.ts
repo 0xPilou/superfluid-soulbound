@@ -11,15 +11,15 @@ const main = async () => {
     StoreDeployment.abi,
     deployer
   );
-  const store = await Store.deployed();
+  const abStore = await Store.deployed();
 
-  if ((await store.token()) != ABTokenDeployment.address) {
-    const tx = await store
+  if ((await abStore.token()) != ABTokenDeployment.address) {
+    const tx = await abStore
       .connect(deployer)
       .setToken(ABTokenDeployment.address);
     await tx.wait();
     console.log(
-      `Store Contract accepted currency set to : ${ABTokenDeployment.address}`
+      `ABStore : Accepted currency set to address : ${ABTokenDeployment.address}`
     );
   }
 
@@ -32,7 +32,7 @@ const main = async () => {
   ];
 
   for (let i = 0; i < itemIds.length; i++) {
-    let tx = await store.connect(deployer).addItem(quantities[i], prices[i]);
+    let tx = await abStore.connect(deployer).addItem(quantities[i], prices[i]);
     await tx.wait();
 
     console.log("-------------------------------------------");
