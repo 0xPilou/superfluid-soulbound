@@ -1,5 +1,5 @@
 import { chain, useAccount } from "wagmi";
-import { Cashflow__factory, getAddress } from "web3-config";
+import { ABStream__factory, getAddress } from "web3-config";
 import { request, gql } from "graphql-request";
 import { useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
@@ -12,7 +12,7 @@ export function calculateMonthlyStream(flowRate: number) {
 
 const DataView = () => {
   const { address } = useAccount();
-  const cashflowAddress = getAddress(chain.optimismGoerli.id, "Cashflow");
+  const cashflowAddress = getAddress(chain.optimismGoerli.id, "ABStream");
 
   const { data: streams = [] } = useQuery(
     ["streams", address],
@@ -48,7 +48,7 @@ const DataView = () => {
     { enabled: Boolean(address) }
   );
 
-  const { data: flow } = useContractRead(Cashflow__factory, "getFlow", {
+  const { data: flow } = useContractRead(ABStream__factory, "getFlow", {
     args: [address],
   });
 

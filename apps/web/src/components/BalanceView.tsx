@@ -11,7 +11,7 @@ const BalanceView = () => {
   });
 
   const { data: sbtxContractBalance } = useBalance({
-    addressOrName: getAddress(chain.optimismGoerli.id, "Cashflow"),
+    addressOrName: getAddress(chain.optimismGoerli.id, "ABStream"),
     watch: true,
     token: getAddress(chain.optimismGoerli.id, "ABToken"),
   });

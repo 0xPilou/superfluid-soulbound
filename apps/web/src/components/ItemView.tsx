@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { chain, useContractWrite, useContractRead } from "wagmi";
+import { chain, useContractRead } from "wagmi";
 import { getAddress, getAbi } from "web3-config";
 
 type ItemProps = {
