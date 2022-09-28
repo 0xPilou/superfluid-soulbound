@@ -9,7 +9,7 @@
     "lint": "eslint . --fix",
     "mintSBT": "npx hardhat run scripts/mintSBT.ts --network optimismGoerli",
     "initStore": "npx hardhat run scripts/initStore.ts --network optimismGoerli",
-    "deployAll": "npx hardhat deploy --network optimismGoerli && npx hardhat deploy --network goerli",
+    "deployAll": "npx hardhat deploy --network optimismGoerli --tags OPTIMISM && npx hardhat deploy --network goerli --tags GOERLI",
     "initAll": "npx hardhat run scripts/init-abRelay.ts --network optimismGoerli && npx hardhat run scripts/init-abStream.ts --network optimismGoerli && npx hardhat run scripts/init-abToken.ts --network optimismGoerli && npx hardhat run scripts/init-abStore.ts --network optimismGoerli"
   },
   "devDependencies": {
