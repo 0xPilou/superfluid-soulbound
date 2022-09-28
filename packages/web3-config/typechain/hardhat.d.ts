@@ -201,13 +201,21 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.UUPSProxiable__factory>;
     getContractFactory(
+      name: "ABStream",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ABStream__factory>;
+    getContractFactory(
       name: "ABToken",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABToken__factory>;
     getContractFactory(
-      name: "Cashflow",
+      name: "AnotherRelay",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Cashflow__factory>;
+    ): Promise<Contracts.AnotherRelay__factory>;
+    getContractFactory(
+      name: "CashflowV1",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.CashflowV1__factory>;
     getContractFactory(
       name: "HackerMock",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -477,15 +485,25 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.UUPSProxiable>;
     getContractAt(
+      name: "ABStream",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ABStream>;
+    getContractAt(
       name: "ABToken",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ABToken>;
     getContractAt(
-      name: "Cashflow",
+      name: "AnotherRelay",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.Cashflow>;
+    ): Promise<Contracts.AnotherRelay>;
+    getContractAt(
+      name: "CashflowV1",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.CashflowV1>;
     getContractAt(
       name: "HackerMock",
       address: string,
