@@ -1,23 +1,19 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import CashflowDeployment from "web3-config/deployments/optimismGoerli/Cashflow.json";
+import ABRelayDeployment from "web3-config/deployments/optimismGoerli/ABRelay.json";
 
 const name = "HackerMock";
+
+const L2_MESSENGER_ADDR = "0x5086d1eEF304eb5284A0f6720f79403b4e9bE294";
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts } = hre;
   const { deployer } = await getNamedAccounts();
   const { deploy } = deployments;
-  const cashflowOnOptimism = CashflowDeployment.address;
-
-  const domainManagerGoerli = "0x5086d1eEF304eb5284A0f6720f79403b4e9bE294";
 
   const deployment = await deploy(name, {
     from: deployer,
-    args: [
-      domainManagerGoerli,
-      cashflowOnOptimism,
-    ],
+    args: [L2_MESSENGER_ADDR, ABRelayDeployment.address],
   });
 
   deployments.log(
