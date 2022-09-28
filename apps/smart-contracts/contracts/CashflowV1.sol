@@ -32,7 +32,7 @@ error InvalidToken();
 /// @dev Thrown when the agreement is other than the Constant Flow Agreement V1
 error InvalidAgreement();
 
-contract Cashflow is SuperAppBase, Ownable {
+contract CashflowV1 is SuperAppBase, Ownable {
   // CFA library setup
   using CFAv1Library for CFAv1Library.InitData;
   CFAv1Library.InitData public cfaV1Lib;
