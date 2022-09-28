@@ -7,6 +7,9 @@ import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 /* Optimism Interface */
 import { ICrossDomainMessenger } from "@eth-optimism/contracts/libraries/bridge/ICrossDomainMessenger.sol";
 
+/* Custom Imports */
+import { IABStream } from "./interfaces/IABStream.sol";
+
 contract AnotherRelay is Ownable {
   // Addresses allowed to interact with the relay
   mapping(address => bool) private allowedSenders;
@@ -15,13 +18,13 @@ contract AnotherRelay is Ownable {
   ICrossDomainMessenger internal messenger =
     ICrossDomainMessenger(0x4200000000000000000000000000000000000007);
 
-  modifier onlyAllowed() {
-    require(
-      msg.sender == address(messenger) &&
-        allowedSenders[messenger.xDomainMessageSender()]
-    );
-    _;
-  }
+  IABStream internal abStream;
+
+  /*
+   **************************************************************************
+   *                             ONLY OWNER                                 *
+   **************************************************************************
+   */
 
   function grantAllowance(address _sender) external onlyOwner {
     allowedSenders[_sender] = true;
@@ -31,11 +34,43 @@ contract AnotherRelay is Ownable {
     allowedSenders[_sender] = false;
   }
 
-  function issuedNFT() external onlyAllowed {}
+  function setABStream(address _abStream) external onlyOwner {
+    abStream = IABStream(_abStream);
+  }
 
-  function transferredNFT() external onlyAllowed {}
+  /*
+   **************************************************************************
+   *                            ONLY ALLOWED                                *
+   **************************************************************************
+   */
+
+  function issuedNFT(int96 _flowRate, uint256 _tokenId) external onlyAllowed {
+    abStream.initStream(_flowRate, _tokenId);
+  }
+
+  function transferredNFT(
+    address _from,
+    address _to,
+    uint256 _tokenId
+  ) external onlyAllowed {
+    abStream.updateStream(_from, _to, _tokenId);
+  }
 
   function createdDrop() external onlyAllowed {}
 
   function updatedDrop() external onlyAllowed {}
+
+  /*
+   **************************************************************************
+   *                              MODIFIERS                                 *
+   **************************************************************************
+   */
+
+  modifier onlyAllowed() {
+    require(
+      msg.sender == address(messenger) &&
+        allowedSenders[messenger.xDomainMessageSender()]
+    );
+    _;
+  }
 }
