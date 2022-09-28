@@ -201,6 +201,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.UUPSProxiable__factory>;
     getContractFactory(
+      name: "ABRelay",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ABRelay__factory>;
+    getContractFactory(
       name: "ABStream",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABStream__factory>;
@@ -484,6 +488,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.UUPSProxiable>;
+    getContractAt(
+      name: "ABRelay",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ABRelay>;
     getContractAt(
       name: "ABStream",
       address: string,

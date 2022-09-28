@@ -1,7 +1,8 @@
 import MyNFTDeployment from "./deployments/goerli/MyNFT.json";
-import CashflowDeployment from "./deployments/optimismGoerli/Cashflow.json";
-import StoreDeployment from "./deployments/optimismGoerli/Store.json";
+import ABStreamDeployment from "./deployments/optimismGoerli/ABStream.json";
 import ABTokenDeployment from "./deployments/optimismGoerli/ABToken.json";
+import ABRelayDeployment from "./deployments/optimismGoerli/ABRelay.json";
+import StoreDeployment from "./deployments/optimismGoerli/Store.json";
 
 export * from "./typechain";
 import * as _typechain from "./typechain";
@@ -9,23 +10,26 @@ import { chain } from "wagmi";
 
 import {
   MyNFT__factory,
-  Cashflow__factory,
-  Store__factory,
+  ABStream__factory,
+  ABRelay__factory,
   ABToken__factory,
+  Store__factory,
 } from "./typechain";
 
 export const typechain = _typechain;
 
 export type AvailableContracts =
   | ABToken__factory["contractName"]
+  | ABRelay__factory["contractName"]
+  | ABStream__factory["contractName"]
   | Store__factory["contractName"]
-  | MyNFT__factory["contractName"]
-  | Cashflow__factory["contractName"];
+  | MyNFT__factory["contractName"];
 
 type AddressObj = Record<AvailableContracts, string>;
 
 const _myNft = new MyNFT__factory();
-const _cashflow = new Cashflow__factory();
+const _abRelay = new ABRelay__factory();
+const _abStream = new ABStream__factory();
 const _abToken = new ABToken__factory();
 const _store = new Store__factory();
 
@@ -34,7 +38,8 @@ export const Address: Record<number, Partial<AddressObj>> = {
     [_myNft.contractName]: MyNFTDeployment.address,
   },
   [chain.optimismGoerli.id]: {
-    [_cashflow.contractName]: CashflowDeployment.address,
+    [_abRelay.contractName]: ABRelayDeployment.address,
+    [_abStream.contractName]: ABStreamDeployment.address,
     [_abToken.contractName]: ABTokenDeployment.address,
     [_store.contractName]: StoreDeployment.address,
   },
@@ -52,7 +57,8 @@ export const Abi = {
     [_myNft.contractName]: MyNFTDeployment.abi,
   },
   [chain.optimismGoerli.id]: {
-    [_cashflow.contractName]: CashflowDeployment.abi,
+    [_abRelay.contractName]: ABRelayDeployment.abi,
+    [_abStream.contractName]: ABStreamDeployment.abi,
     [_abToken.contractName]: ABTokenDeployment.abi,
     [_store.contractName]: StoreDeployment.abi,
   },
