@@ -4,6 +4,9 @@ import ABStreamDeployment from "web3-config/deployments/optimismGoerli/ABStream.
 import ABTokenDeployment from "web3-config/deployments/optimismGoerli/ABToken.json";
 
 const main = async () => {
+  console.log(
+    `-------------------------------- INIT ABStream --------------------------------`
+  );
   const [deployer] = await hre.ethers.getSigners();
 
   const ABStream = new ethers.Contract(
@@ -25,6 +28,10 @@ const main = async () => {
   } else {
     console.log(`ABStream : ABToken address not updated`);
   }
+
+  console.log(
+    `------------------------------------------------------------------------------`
+  );
   return;
 };
 

@@ -4,6 +4,9 @@ import ABStreamDeployment from "web3-config/deployments/optimismGoerli/ABStream.
 import ABTokenDeployment from "web3-config/deployments/optimismGoerli/ABToken.json";
 
 const main = async () => {
+  console.log(
+    `-------------------------------- INIT ABToken --------------------------------`
+  );
   const [deployer] = await hre.ethers.getSigners();
 
   const abt = new ethers.Contract(
@@ -19,6 +22,10 @@ const main = async () => {
   console.log(
     `ABToken : Minted 1.000.000.000 ABT to ABStream contract at ${ABStreamDeployment.address}`
   );
+  console.log(
+    `------------------------------------------------------------------------------`
+  );
+
   return;
 };
 

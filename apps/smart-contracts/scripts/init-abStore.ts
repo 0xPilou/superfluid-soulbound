@@ -1,9 +1,12 @@
 import { ethers } from "ethers";
 import hre from "hardhat";
-import StoreDeployment from "web3-config/deployments/optimismGoerli/Store.json";
+import StoreDeployment from "web3-config/deployments/optimismGoerli/ABStore.json";
 import ABTokenDeployment from "web3-config/deployments/optimismGoerli/ABToken.json";
 
 const main = async () => {
+  console.log(
+    `-------------------------------- INIT ABStore --------------------------------`
+  );
   const [deployer] = await hre.ethers.getSigners();
 
   const Store = new ethers.Contract(
@@ -46,6 +49,10 @@ const main = async () => {
     console.log("   Item Quantity : ", quantities[i]);
     console.log("*******************************************");
   }
+
+  console.log(
+    `------------------------------------------------------------------------------`
+  );
 
   return;
 };
