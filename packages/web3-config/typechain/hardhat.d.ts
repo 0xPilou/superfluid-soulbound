@@ -209,6 +209,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABRelay__factory>;
     getContractFactory(
+      name: "ABStore",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ABStore__factory>;
+    getContractFactory(
       name: "ABStream",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABStream__factory>;
@@ -233,10 +237,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IABToken__factory>;
     getContractFactory(
-      name: "ICashflow",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ICashflow__factory>;
-    getContractFactory(
       name: "ISuperSoulbound",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ISuperSoulbound__factory>;
@@ -244,10 +244,6 @@ declare module "hardhat/types/runtime" {
       name: "MyNFT",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MyNFT__factory>;
-    getContractFactory(
-      name: "Store",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Store__factory>;
     getContractFactory(
       name: "SuperfluidSoulbound",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -503,6 +499,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ABRelay>;
     getContractAt(
+      name: "ABStore",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ABStore>;
+    getContractAt(
       name: "ABStream",
       address: string,
       signer?: ethers.Signer
@@ -533,11 +534,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IABToken>;
     getContractAt(
-      name: "ICashflow",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ICashflow>;
-    getContractAt(
       name: "ISuperSoulbound",
       address: string,
       signer?: ethers.Signer
@@ -547,11 +543,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.MyNFT>;
-    getContractAt(
-      name: "Store",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Store>;
     getContractAt(
       name: "SuperfluidSoulbound",
       address: string,

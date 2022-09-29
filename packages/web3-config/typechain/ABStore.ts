@@ -17,8 +17,8 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export interface StoreInterface extends utils.Interface {
-  contractName: "Store";
+export interface ABStoreInterface extends utils.Interface {
+  contractName: "ABStore";
   functions: {
     "addItem(uint256,uint256)": FunctionFragment;
     "balanceOf(address,uint256)": FunctionFragment;
@@ -235,13 +235,13 @@ export type UpdatedInventoryEvent = TypedEvent<
 export type UpdatedInventoryEventFilter =
   TypedEventFilter<UpdatedInventoryEvent>;
 
-export interface Store extends BaseContract {
-  contractName: "Store";
+export interface ABStore extends BaseContract {
+  contractName: "ABStore";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: StoreInterface;
+  interface: ABStoreInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
