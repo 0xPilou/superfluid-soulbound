@@ -8,7 +8,7 @@ import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 /* Custom Imports */
 import { IABToken } from "./interfaces/IABToken.sol";
 
-contract Store is ERC1155, Ownable {
+contract ABStore is ERC1155, Ownable {
   uint256 public nbItems = 0;
 
   address public token;
