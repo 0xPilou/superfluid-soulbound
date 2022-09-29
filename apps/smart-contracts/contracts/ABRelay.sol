@@ -19,8 +19,8 @@ contract ABRelay is Ownable {
   ICrossDomainMessenger internal messenger =
     ICrossDomainMessenger(0x4200000000000000000000000000000000000007);
 
-  IABStream internal abStream;
-  IABRegistry internal abRegistry;
+  IABStream internal AB_STREAM;
+  IABRegistry internal AB_REGISTRY;
 
   /*
    **************************************************************************
@@ -37,11 +37,11 @@ contract ABRelay is Ownable {
   }
 
   function setABStream(address _abStream) external onlyOwner {
-    abStream = IABStream(_abStream);
+    AB_STREAM = IABStream(_abStream);
   }
 
   function setABRegistry(address _abRegistry) external onlyOwner {
-    abRegistry = IABRegistry(_abRegistry);
+    AB_REGISTRY = IABRegistry(_abRegistry);
   }
 
   /*
@@ -55,9 +55,9 @@ contract ABRelay is Ownable {
     address _to,
     uint256 _dropId
   ) external onlyAllowed {
-    abStream.updateStream(_from, _to);
-    abRegistry.decrementUserBalance(_from, _dropId);
-    abRegistry.incrementUserBalance(_to, _dropId);
+    AB_STREAM.updateStream(_from, _to);
+    AB_REGISTRY.decrementUserBalance(_from, _dropId);
+    AB_REGISTRY.incrementUserBalance(_to, _dropId);
   }
 
   function createdDrop() external onlyAllowed {}

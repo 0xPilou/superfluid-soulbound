@@ -32,6 +32,7 @@ contract ABStream is SuperAppBase, Ownable {
   /// @dev Anotherblock Super Token streamed from this contract
   ISuperSoulbound internal AB_TOKEN;
 
+  /// @dev Address of Anotherblock Registry (used to store data incoming from L1 txs)
   IABRegistry internal AB_REGISTRY;
 
   /// @dev Address of Anotherblock Relay (used to control the streams destination based on L1 messages)
