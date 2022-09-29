@@ -17,7 +17,7 @@ const ItemView = (props: ItemProps) => {
     // watch: true,
   });
 
-  const handleSelectItem = (position) => {
+  const handleSelectItem = (position: number) => {
     const updatedCart = props.cart.map((item, index) =>
       index === position ? !item : item
     );
