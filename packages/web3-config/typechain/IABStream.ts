@@ -4,7 +4,6 @@
 import {
   BaseContract,
   BigNumber,
-  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -23,9 +22,8 @@ export interface IABStreamInterface extends utils.Interface {
     "getABRelay()": FunctionFragment;
     "getABToken()": FunctionFragment;
     "getFlow(address)": FunctionFragment;
-    "initStream(int96,uint256)": FunctionFragment;
     "setABToken(address)": FunctionFragment;
-    "updateStream(address,address,uint256)": FunctionFragment;
+    "updateStream(address,address)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -37,20 +35,15 @@ export interface IABStreamInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "getFlow", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "initStream",
-    values: [BigNumberish, BigNumberish]
-  ): string;
   encodeFunctionData(functionFragment: "setABToken", values: [string]): string;
   encodeFunctionData(
     functionFragment: "updateStream",
-    values: [string, string, BigNumberish]
+    values: [string, string]
   ): string;
 
   decodeFunctionResult(functionFragment: "getABRelay", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getABToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getFlow", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "initStream", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setABToken", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "updateStream",
@@ -120,18 +113,6 @@ export interface IABStream extends BaseContract {
       }
     >;
 
-    initStream(
-      flowRate: BigNumberish,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "initStream(int96,uint256)"(
-      flowRate: BigNumberish,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     setABToken(
       _ABToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -145,14 +126,12 @@ export interface IABStream extends BaseContract {
     updateStream(
       previousReceiver: string,
       newReceiver: string,
-      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "updateStream(address,address,uint256)"(
+    "updateStream(address,address)"(
       previousReceiver: string,
       newReceiver: string,
-      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
@@ -189,18 +168,6 @@ export interface IABStream extends BaseContract {
     }
   >;
 
-  initStream(
-    flowRate: BigNumberish,
-    tokenId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "initStream(int96,uint256)"(
-    flowRate: BigNumberish,
-    tokenId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   setABToken(
     _ABToken: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -214,14 +181,12 @@ export interface IABStream extends BaseContract {
   updateStream(
     previousReceiver: string,
     newReceiver: string,
-    tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "updateStream(address,address,uint256)"(
+  "updateStream(address,address)"(
     previousReceiver: string,
     newReceiver: string,
-    tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -258,18 +223,6 @@ export interface IABStream extends BaseContract {
       }
     >;
 
-    initStream(
-      flowRate: BigNumberish,
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "initStream(int96,uint256)"(
-      flowRate: BigNumberish,
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     setABToken(_ABToken: string, overrides?: CallOverrides): Promise<void>;
 
     "setABToken(address)"(
@@ -280,14 +233,12 @@ export interface IABStream extends BaseContract {
     updateStream(
       previousReceiver: string,
       newReceiver: string,
-      tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "updateStream(address,address,uint256)"(
+    "updateStream(address,address)"(
       previousReceiver: string,
       newReceiver: string,
-      tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -310,18 +261,6 @@ export interface IABStream extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    initStream(
-      flowRate: BigNumberish,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "initStream(int96,uint256)"(
-      flowRate: BigNumberish,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     setABToken(
       _ABToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -335,14 +274,12 @@ export interface IABStream extends BaseContract {
     updateStream(
       previousReceiver: string,
       newReceiver: string,
-      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "updateStream(address,address,uint256)"(
+    "updateStream(address,address)"(
       previousReceiver: string,
       newReceiver: string,
-      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
@@ -366,18 +303,6 @@ export interface IABStream extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    initStream(
-      flowRate: BigNumberish,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "initStream(int96,uint256)"(
-      flowRate: BigNumberish,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     setABToken(
       _ABToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -391,14 +316,12 @@ export interface IABStream extends BaseContract {
     updateStream(
       previousReceiver: string,
       newReceiver: string,
-      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "updateStream(address,address,uint256)"(
+    "updateStream(address,address)"(
       previousReceiver: string,
       newReceiver: string,
-      tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

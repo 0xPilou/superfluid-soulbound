@@ -17,6 +17,18 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
+export declare namespace ABStream {
+  export type ConditionStruct = {
+    dropIds: BigNumberish[];
+    quantities: BigNumberish[];
+  };
+
+  export type ConditionStructOutput = [BigNumber[], BigNumber[]] & {
+    dropIds: BigNumber[];
+    quantities: BigNumber[];
+  };
+}
+
 export interface ABStreamInterface extends utils.Interface {
   contractName: "ABStream";
   functions: {
@@ -27,6 +39,7 @@ export interface ABStreamInterface extends utils.Interface {
     "beforeAgreementCreated(address,address,bytes32,bytes,bytes)": FunctionFragment;
     "beforeAgreementTerminated(address,address,bytes32,bytes,bytes)": FunctionFragment;
     "beforeAgreementUpdated(address,address,bytes32,bytes,bytes)": FunctionFragment;
+    "boosts(uint256)": FunctionFragment;
     "cfaV1Lib()": FunctionFragment;
     "getABRelay()": FunctionFragment;
     "getABToken()": FunctionFragment;
@@ -36,7 +49,7 @@ export interface ABStreamInterface extends utils.Interface {
     "setABToken(address)": FunctionFragment;
     "setBaseFlow(int96)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "updateStream(address,address,uint256)": FunctionFragment;
+    "updateStream(address,address)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -64,6 +77,10 @@ export interface ABStreamInterface extends utils.Interface {
     functionFragment: "beforeAgreementUpdated",
     values: [string, string, BytesLike, BytesLike, BytesLike]
   ): string;
+  encodeFunctionData(
+    functionFragment: "boosts",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "cfaV1Lib", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getABRelay",
@@ -90,7 +107,7 @@ export interface ABStreamInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "updateStream",
-    values: [string, string, BigNumberish]
+    values: [string, string]
   ): string;
 
   decodeFunctionResult(
@@ -118,6 +135,7 @@ export interface ABStreamInterface extends utils.Interface {
     functionFragment: "beforeAgreementUpdated",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "boosts", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "cfaV1Lib", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getABRelay", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getABToken", data: BytesLike): Result;
@@ -302,6 +320,26 @@ export interface ABStream extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    boosts(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [ABStream.ConditionStructOutput, BigNumber] & {
+        condition: ABStream.ConditionStructOutput;
+        increase: BigNumber;
+      }
+    >;
+
+    "boosts(uint256)"(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [ABStream.ConditionStructOutput, BigNumber] & {
+        condition: ABStream.ConditionStructOutput;
+        increase: BigNumber;
+      }
+    >;
+
     cfaV1Lib(
       overrides?: CallOverrides
     ): Promise<[string, string] & { host: string; cfa: string }>;
@@ -385,16 +423,14 @@ export interface ABStream extends BaseContract {
     ): Promise<ContractTransaction>;
 
     updateStream(
-      previousReceiver: string,
-      newReceiver: string,
-      tokenId: BigNumberish,
+      _previousReceiver: string,
+      _newReceiver: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "updateStream(address,address,uint256)"(
-      previousReceiver: string,
-      newReceiver: string,
-      tokenId: BigNumberish,
+    "updateStream(address,address)"(
+      _previousReceiver: string,
+      _newReceiver: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
@@ -517,6 +553,26 @@ export interface ABStream extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  boosts(
+    arg0: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<
+    [ABStream.ConditionStructOutput, BigNumber] & {
+      condition: ABStream.ConditionStructOutput;
+      increase: BigNumber;
+    }
+  >;
+
+  "boosts(uint256)"(
+    arg0: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<
+    [ABStream.ConditionStructOutput, BigNumber] & {
+      condition: ABStream.ConditionStructOutput;
+      increase: BigNumber;
+    }
+  >;
+
   cfaV1Lib(
     overrides?: CallOverrides
   ): Promise<[string, string] & { host: string; cfa: string }>;
@@ -600,16 +656,14 @@ export interface ABStream extends BaseContract {
   ): Promise<ContractTransaction>;
 
   updateStream(
-    previousReceiver: string,
-    newReceiver: string,
-    tokenId: BigNumberish,
+    _previousReceiver: string,
+    _newReceiver: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "updateStream(address,address,uint256)"(
-    previousReceiver: string,
-    newReceiver: string,
-    tokenId: BigNumberish,
+  "updateStream(address,address)"(
+    _previousReceiver: string,
+    _newReceiver: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -732,6 +786,26 @@ export interface ABStream extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
+    boosts(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [ABStream.ConditionStructOutput, BigNumber] & {
+        condition: ABStream.ConditionStructOutput;
+        increase: BigNumber;
+      }
+    >;
+
+    "boosts(uint256)"(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [ABStream.ConditionStructOutput, BigNumber] & {
+        condition: ABStream.ConditionStructOutput;
+        increase: BigNumber;
+      }
+    >;
+
     cfaV1Lib(
       overrides?: CallOverrides
     ): Promise<[string, string] & { host: string; cfa: string }>;
@@ -808,16 +882,14 @@ export interface ABStream extends BaseContract {
     ): Promise<void>;
 
     updateStream(
-      previousReceiver: string,
-      newReceiver: string,
-      tokenId: BigNumberish,
+      _previousReceiver: string,
+      _newReceiver: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "updateStream(address,address,uint256)"(
-      previousReceiver: string,
-      newReceiver: string,
-      tokenId: BigNumberish,
+    "updateStream(address,address)"(
+      _previousReceiver: string,
+      _newReceiver: string,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -952,6 +1024,13 @@ export interface ABStream extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    boosts(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
+
+    "boosts(uint256)"(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     cfaV1Lib(overrides?: CallOverrides): Promise<BigNumber>;
 
     "cfaV1Lib()"(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1014,16 +1093,14 @@ export interface ABStream extends BaseContract {
     ): Promise<BigNumber>;
 
     updateStream(
-      previousReceiver: string,
-      newReceiver: string,
-      tokenId: BigNumberish,
+      _previousReceiver: string,
+      _newReceiver: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "updateStream(address,address,uint256)"(
-      previousReceiver: string,
-      newReceiver: string,
-      tokenId: BigNumberish,
+    "updateStream(address,address)"(
+      _previousReceiver: string,
+      _newReceiver: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
@@ -1147,6 +1224,16 @@ export interface ABStream extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    boosts(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "boosts(uint256)"(
+      arg0: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     cfaV1Lib(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "cfaV1Lib()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -1212,16 +1299,14 @@ export interface ABStream extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     updateStream(
-      previousReceiver: string,
-      newReceiver: string,
-      tokenId: BigNumberish,
+      _previousReceiver: string,
+      _newReceiver: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "updateStream(address,address,uint256)"(
-      previousReceiver: string,
-      newReceiver: string,
-      tokenId: BigNumberish,
+    "updateStream(address,address)"(
+      _previousReceiver: string,
+      _newReceiver: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

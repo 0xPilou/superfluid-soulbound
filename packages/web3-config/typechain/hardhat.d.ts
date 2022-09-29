@@ -201,6 +201,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.UUPSProxiable__factory>;
     getContractFactory(
+      name: "ABRegistry",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ABRegistry__factory>;
+    getContractFactory(
       name: "ABRelay",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABRelay__factory>;
@@ -216,6 +220,10 @@ declare module "hardhat/types/runtime" {
       name: "HackerMock",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.HackerMock__factory>;
+    getContractFactory(
+      name: "IABRegistry",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IABRegistry__factory>;
     getContractFactory(
       name: "IABStream",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -485,6 +493,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.UUPSProxiable>;
     getContractAt(
+      name: "ABRegistry",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ABRegistry>;
+    getContractAt(
       name: "ABRelay",
       address: string,
       signer?: ethers.Signer
@@ -504,6 +517,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.HackerMock>;
+    getContractAt(
+      name: "IABRegistry",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IABRegistry>;
     getContractAt(
       name: "IABStream",
       address: string,

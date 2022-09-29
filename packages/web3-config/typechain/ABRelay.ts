@@ -25,6 +25,7 @@ export interface ABRelayInterface extends utils.Interface {
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "revokeAllowance(address)": FunctionFragment;
+    "setABRegistry(address)": FunctionFragment;
     "setABStream(address)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "transferredNFT(address,address,uint256)": FunctionFragment;
@@ -46,6 +47,10 @@ export interface ABRelayInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "revokeAllowance",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setABRegistry",
     values: [string]
   ): string;
   encodeFunctionData(functionFragment: "setABStream", values: [string]): string;
@@ -77,6 +82,10 @@ export interface ABRelayInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "revokeAllowance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setABRegistry",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -179,6 +188,16 @@ export interface ABRelay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setABRegistry(
+      _abRegistry: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "setABRegistry(address)"(
+      _abRegistry: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setABStream(
       _abStream: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -202,14 +221,14 @@ export interface ABRelay extends BaseContract {
     transferredNFT(
       _from: string,
       _to: string,
-      _tokenId: BigNumberish,
+      _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     "transferredNFT(address,address,uint256)"(
       _from: string,
       _to: string,
-      _tokenId: BigNumberish,
+      _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -262,6 +281,16 @@ export interface ABRelay extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setABRegistry(
+    _abRegistry: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "setABRegistry(address)"(
+    _abRegistry: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setABStream(
     _abStream: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -285,14 +314,14 @@ export interface ABRelay extends BaseContract {
   transferredNFT(
     _from: string,
     _to: string,
-    _tokenId: BigNumberish,
+    _dropId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   "transferredNFT(address,address,uint256)"(
     _from: string,
     _to: string,
-    _tokenId: BigNumberish,
+    _dropId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -331,6 +360,16 @@ export interface ABRelay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setABRegistry(
+      _abRegistry: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "setABRegistry(address)"(
+      _abRegistry: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setABStream(_abStream: string, overrides?: CallOverrides): Promise<void>;
 
     "setABStream(address)"(
@@ -351,14 +390,14 @@ export interface ABRelay extends BaseContract {
     transferredNFT(
       _from: string,
       _to: string,
-      _tokenId: BigNumberish,
+      _dropId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
     "transferredNFT(address,address,uint256)"(
       _from: string,
       _to: string,
-      _tokenId: BigNumberish,
+      _dropId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -419,6 +458,16 @@ export interface ABRelay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setABRegistry(
+      _abRegistry: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "setABRegistry(address)"(
+      _abRegistry: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setABStream(
       _abStream: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -442,14 +491,14 @@ export interface ABRelay extends BaseContract {
     transferredNFT(
       _from: string,
       _to: string,
-      _tokenId: BigNumberish,
+      _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     "transferredNFT(address,address,uint256)"(
       _from: string,
       _to: string,
-      _tokenId: BigNumberish,
+      _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -503,6 +552,16 @@ export interface ABRelay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    setABRegistry(
+      _abRegistry: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "setABRegistry(address)"(
+      _abRegistry: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     setABStream(
       _abStream: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -526,14 +585,14 @@ export interface ABRelay extends BaseContract {
     transferredNFT(
       _from: string,
       _to: string,
-      _tokenId: BigNumberish,
+      _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "transferredNFT(address,address,uint256)"(
       _from: string,
       _to: string,
-      _tokenId: BigNumberish,
+      _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

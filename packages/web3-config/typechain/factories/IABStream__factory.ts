@@ -70,24 +70,6 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "int96",
-        name: "flowRate",
-        type: "int96",
-      },
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-    ],
-    name: "initStream",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "address",
         name: "_ABToken",
         type: "address",
@@ -109,11 +91,6 @@ const _abi = [
         internalType: "address",
         name: "newReceiver",
         type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
       },
     ],
     name: "updateStream",
