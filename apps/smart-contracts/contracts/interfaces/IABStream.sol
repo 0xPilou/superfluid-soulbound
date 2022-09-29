@@ -2,13 +2,7 @@
 pragma solidity ^0.8.16;
 
 interface IABStream {
-  function initStream(int96 flowRate, uint256 tokenId) external;
-
-  function updateStream(
-    address previousReceiver,
-    address newReceiver,
-    uint256 tokenId
-  ) external;
+  function updateStream(address previousReceiver, address newReceiver) external;
 
   function setABToken(address _ABToken) external;
 
