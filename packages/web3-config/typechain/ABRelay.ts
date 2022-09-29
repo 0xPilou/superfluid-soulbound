@@ -22,7 +22,6 @@ export interface ABRelayInterface extends utils.Interface {
   functions: {
     "createdDrop()": FunctionFragment;
     "grantAllowance(address)": FunctionFragment;
-    "issuedNFT(int96,uint256)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "revokeAllowance(address)": FunctionFragment;
@@ -39,10 +38,6 @@ export interface ABRelayInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "grantAllowance",
     values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "issuedNFT",
-    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -75,7 +70,6 @@ export interface ABRelayInterface extends utils.Interface {
     functionFragment: "grantAllowance",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "issuedNFT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
@@ -163,18 +157,6 @@ export interface ABRelay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    issuedNFT(
-      _flowRate: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "issuedNFT(int96,uint256)"(
-      _flowRate: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     "owner()"(overrides?: CallOverrides): Promise<[string]>;
@@ -258,18 +240,6 @@ export interface ABRelay extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  issuedNFT(
-    _flowRate: BigNumberish,
-    _tokenId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "issuedNFT(int96,uint256)"(
-    _flowRate: BigNumberish,
-    _tokenId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   owner(overrides?: CallOverrides): Promise<string>;
 
   "owner()"(overrides?: CallOverrides): Promise<string>;
@@ -343,18 +313,6 @@ export interface ABRelay extends BaseContract {
 
     "grantAllowance(address)"(
       _sender: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    issuedNFT(
-      _flowRate: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "issuedNFT(int96,uint256)"(
-      _flowRate: BigNumberish,
-      _tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -439,18 +397,6 @@ export interface ABRelay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    issuedNFT(
-      _flowRate: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "issuedNFT(int96,uint256)"(
-      _flowRate: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     "owner()"(overrides?: CallOverrides): Promise<BigNumber>;
@@ -532,18 +478,6 @@ export interface ABRelay extends BaseContract {
 
     "grantAllowance(address)"(
       _sender: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    issuedNFT(
-      _flowRate: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "issuedNFT(int96,uint256)"(
-      _flowRate: BigNumberish,
-      _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

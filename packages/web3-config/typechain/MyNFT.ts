@@ -30,7 +30,6 @@ export interface MyNFTInterface extends utils.Interface {
     "mintNft(address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "rate()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -64,7 +63,6 @@ export interface MyNFTInterface extends utils.Interface {
     functionFragment: "ownerOf",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "rate", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom",
     values: [string, string, BigNumberish]
@@ -103,7 +101,6 @@ export interface MyNFTInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "mintNft", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "rate", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom",
     data: BytesLike
@@ -262,10 +259,6 @@ export interface MyNFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    rate(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    "rate()"(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     "safeTransferFrom(address,address,uint256)"(
       from: string,
       to: string,
@@ -408,10 +401,6 @@ export interface MyNFT extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  rate(overrides?: CallOverrides): Promise<BigNumber>;
-
-  "rate()"(overrides?: CallOverrides): Promise<BigNumber>;
-
   "safeTransferFrom(address,address,uint256)"(
     from: string,
     to: string,
@@ -550,10 +539,6 @@ export interface MyNFT extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
-
-    rate(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "rate()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -733,10 +718,6 @@ export interface MyNFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    rate(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "rate()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     "safeTransferFrom(address,address,uint256)"(
       from: string,
       to: string,
@@ -885,10 +866,6 @@ export interface MyNFT extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    rate(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "rate()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,

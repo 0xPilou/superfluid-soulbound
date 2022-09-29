@@ -23,18 +23,18 @@ export interface ABStreamInterface extends utils.Interface {
     "afterAgreementCreated(address,address,bytes32,bytes,bytes,bytes)": FunctionFragment;
     "afterAgreementTerminated(address,address,bytes32,bytes,bytes,bytes)": FunctionFragment;
     "afterAgreementUpdated(address,address,bytes32,bytes,bytes,bytes)": FunctionFragment;
+    "baseFlow()": FunctionFragment;
     "beforeAgreementCreated(address,address,bytes32,bytes,bytes)": FunctionFragment;
     "beforeAgreementTerminated(address,address,bytes32,bytes,bytes)": FunctionFragment;
     "beforeAgreementUpdated(address,address,bytes32,bytes,bytes)": FunctionFragment;
     "cfaV1Lib()": FunctionFragment;
-    "flowRates(uint256)": FunctionFragment;
     "getABRelay()": FunctionFragment;
     "getABToken()": FunctionFragment;
     "getFlow(address)": FunctionFragment;
-    "initStream(int96,uint256)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setABToken(address)": FunctionFragment;
+    "setBaseFlow(int96)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "updateStream(address,address,uint256)": FunctionFragment;
   };
@@ -51,6 +51,7 @@ export interface ABStreamInterface extends utils.Interface {
     functionFragment: "afterAgreementUpdated",
     values: [string, string, BytesLike, BytesLike, BytesLike, BytesLike]
   ): string;
+  encodeFunctionData(functionFragment: "baseFlow", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "beforeAgreementCreated",
     values: [string, string, BytesLike, BytesLike, BytesLike]
@@ -65,10 +66,6 @@ export interface ABStreamInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "cfaV1Lib", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "flowRates",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "getABRelay",
     values?: undefined
   ): string;
@@ -77,16 +74,16 @@ export interface ABStreamInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "getFlow", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "initStream",
-    values: [BigNumberish, BigNumberish]
-  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "setABToken", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "setBaseFlow",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
@@ -108,6 +105,7 @@ export interface ABStreamInterface extends utils.Interface {
     functionFragment: "afterAgreementUpdated",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "baseFlow", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "beforeAgreementCreated",
     data: BytesLike
@@ -121,17 +119,19 @@ export interface ABStreamInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "cfaV1Lib", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "flowRates", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getABRelay", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getABToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getFlow", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "initStream", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setABToken", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setBaseFlow",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
     data: BytesLike
@@ -244,6 +244,10 @@ export interface ABStream extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    baseFlow(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    "baseFlow()"(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     beforeAgreementCreated(
       arg0: string,
       arg1: string,
@@ -306,16 +310,6 @@ export interface ABStream extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string, string] & { host: string; cfa: string }>;
 
-    flowRates(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    "flowRates(uint256)"(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     getABRelay(overrides?: CallOverrides): Promise<[string]>;
 
     "getABRelay()"(overrides?: CallOverrides): Promise<[string]>;
@@ -348,18 +342,6 @@ export interface ABStream extends BaseContract {
       }
     >;
 
-    initStream(
-      flowRate: BigNumberish,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "initStream(int96,uint256)"(
-      flowRate: BigNumberish,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     "owner()"(overrides?: CallOverrides): Promise<[string]>;
@@ -379,6 +361,16 @@ export interface ABStream extends BaseContract {
 
     "setABToken(address)"(
       _ABToken: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setBaseFlow(
+      _baseFlow: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "setBaseFlow(int96)"(
+      _baseFlow: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -467,6 +459,10 @@ export interface ABStream extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  baseFlow(overrides?: CallOverrides): Promise<BigNumber>;
+
+  "baseFlow()"(overrides?: CallOverrides): Promise<BigNumber>;
+
   beforeAgreementCreated(
     arg0: string,
     arg1: string,
@@ -529,13 +525,6 @@ export interface ABStream extends BaseContract {
     overrides?: CallOverrides
   ): Promise<[string, string] & { host: string; cfa: string }>;
 
-  flowRates(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-  "flowRates(uint256)"(
-    arg0: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
   getABRelay(overrides?: CallOverrides): Promise<string>;
 
   "getABRelay()"(overrides?: CallOverrides): Promise<string>;
@@ -568,18 +557,6 @@ export interface ABStream extends BaseContract {
     }
   >;
 
-  initStream(
-    flowRate: BigNumberish,
-    tokenId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "initStream(int96,uint256)"(
-    flowRate: BigNumberish,
-    tokenId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   owner(overrides?: CallOverrides): Promise<string>;
 
   "owner()"(overrides?: CallOverrides): Promise<string>;
@@ -599,6 +576,16 @@ export interface ABStream extends BaseContract {
 
   "setABToken(address)"(
     _ABToken: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setBaseFlow(
+    _baseFlow: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "setBaseFlow(int96)"(
+    _baseFlow: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -687,6 +674,10 @@ export interface ABStream extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
+    baseFlow(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "baseFlow()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     beforeAgreementCreated(
       arg0: string,
       arg1: string,
@@ -749,16 +740,6 @@ export interface ABStream extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string, string] & { host: string; cfa: string }>;
 
-    flowRates(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "flowRates(uint256)"(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     getABRelay(overrides?: CallOverrides): Promise<string>;
 
     "getABRelay()"(overrides?: CallOverrides): Promise<string>;
@@ -791,18 +772,6 @@ export interface ABStream extends BaseContract {
       }
     >;
 
-    initStream(
-      flowRate: BigNumberish,
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "initStream(int96,uint256)"(
-      flowRate: BigNumberish,
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     owner(overrides?: CallOverrides): Promise<string>;
 
     "owner()"(overrides?: CallOverrides): Promise<string>;
@@ -815,6 +784,16 @@ export interface ABStream extends BaseContract {
 
     "setABToken(address)"(
       _ABToken: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setBaseFlow(
+      _baseFlow: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "setBaseFlow(int96)"(
+      _baseFlow: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -915,6 +894,10 @@ export interface ABStream extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    baseFlow(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "baseFlow()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     beforeAgreementCreated(
       arg0: string,
       arg1: string,
@@ -973,16 +956,6 @@ export interface ABStream extends BaseContract {
 
     "cfaV1Lib()"(overrides?: CallOverrides): Promise<BigNumber>;
 
-    flowRates(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "flowRates(uint256)"(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     getABRelay(overrides?: CallOverrides): Promise<BigNumber>;
 
     "getABRelay()"(overrides?: CallOverrides): Promise<BigNumber>;
@@ -996,18 +969,6 @@ export interface ABStream extends BaseContract {
     "getFlow(address)"(
       _receiver: string,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    initStream(
-      flowRate: BigNumberish,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "initStream(int96,uint256)"(
-      flowRate: BigNumberish,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1029,6 +990,16 @@ export interface ABStream extends BaseContract {
 
     "setABToken(address)"(
       _ABToken: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setBaseFlow(
+      _baseFlow: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "setBaseFlow(int96)"(
+      _baseFlow: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1118,6 +1089,10 @@ export interface ABStream extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    baseFlow(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "baseFlow()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     beforeAgreementCreated(
       arg0: string,
       arg1: string,
@@ -1176,16 +1151,6 @@ export interface ABStream extends BaseContract {
 
     "cfaV1Lib()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    flowRates(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "flowRates(uint256)"(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     getABRelay(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "getABRelay()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -1202,18 +1167,6 @@ export interface ABStream extends BaseContract {
     "getFlow(address)"(
       _receiver: string,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    initStream(
-      flowRate: BigNumberish,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "initStream(int96,uint256)"(
-      flowRate: BigNumberish,
-      tokenId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -1235,6 +1188,16 @@ export interface ABStream extends BaseContract {
 
     "setABToken(address)"(
       _ABToken: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setBaseFlow(
+      _baseFlow: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "setBaseFlow(int96)"(
+      _baseFlow: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
