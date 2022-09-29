@@ -52,36 +52,13 @@ contract ABStream is SuperAppBase, Ownable {
 
   Boost[] public boosts;
 
-  function _getUserBoost(address _user) internal returns (int96) {
-    int96 totalBoost = 0;
-    for (uint256 i = 0; i < boosts.length; ++i) {
-      if (_isConditionSatisfied(_user, boosts[i].condition)) {
-        totalBoost += boosts[i].increase;
-      }
-    }
-    return totalBoost;
-  }
-
-  function _isConditionSatisfied(address _user, Condition condition)
-    internal
-    returns (boolean)
-  {
-    for (uint256 i = 0; i < condition.dropIds.length; ++i) {
-      if (
-        AB_REGISTRY.getUserBalancePerDrop(_user, condition.dropIds[i]) <
-        condition.quantities[i]
-      ) return false;
-    }
-    return true;
-  }
-
   constructor(
     ISuperfluid _host,
     address _relay,
     address _registry,
     int96 _baseFlow
   ) {
-    if (_baseFlow <= 0 || _host == address(0) || _relay == address(0))
+    if (_baseFlow <= 0 || address(_host) == address(0) || _relay == address(0))
       revert INVALID_PARAMETER();
 
     cfaV1Lib = CFAv1Library.InitData({
@@ -181,6 +158,29 @@ contract ABStream is SuperAppBase, Ownable {
       _to
     );
     return outFlowRate;
+  }
+
+  function _getUserBoost(address _user) internal returns (int96) {
+    int96 totalBoost = 0;
+    for (uint256 i = 0; i < boosts.length; ++i) {
+      if (_isConditionSatisfied(_user, boosts[i].condition)) {
+        totalBoost += boosts[i].increase;
+      }
+    }
+    return totalBoost;
+  }
+
+  function _isConditionSatisfied(address _user, Condition memory condition)
+    internal
+    returns (bool)
+  {
+    for (uint256 i = 0; i < condition.dropIds.length; ++i) {
+      if (
+        AB_REGISTRY.getUserBalancePerDrop(_user, condition.dropIds[i]) <
+        condition.quantities[i]
+      ) return false;
+    }
+    return true;
   }
 
   /**************************************************************************
