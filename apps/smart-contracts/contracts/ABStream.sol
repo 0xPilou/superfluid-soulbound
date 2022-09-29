@@ -15,6 +15,7 @@ import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 
 /* Custom Imports */
 import { ISuperSoulbound } from "./interfaces/ISuperSoulbound.sol";
+import { IABRegistry } from "./interfaces/IABRegistry.sol";
 
 /// @dev Thrown when the caller is not authorized to call the function
 error FORBIDDEN();
@@ -31,19 +32,57 @@ contract ABStream is SuperAppBase, Ownable {
   /// @dev Anotherblock Super Token streamed from this contract
   ISuperSoulbound internal AB_TOKEN;
 
+  IABRegistry internal AB_REGISTRY;
+
   /// @dev Address of Anotherblock Relay (used to control the streams destination based on L1 messages)
   address internal AB_RELAY;
 
   /// @dev Base Flow amount
   int96 public baseFlow;
 
+  struct Condition {
+    uint256[] dropIds;
+    uint256[] quantities;
+  }
+
+  struct Boost {
+    Condition condition;
+    int96 increase;
+  }
+
+  Boost[] public boosts;
+
+  function _getUserBoost(address _user) internal returns (int96) {
+    int96 totalBoost = 0;
+    for (uint256 i = 0; i < boosts.length; ++i) {
+      if (_isConditionSatisfied(_user, boosts[i].condition)) {
+        totalBoost += boosts[i].increase;
+      }
+    }
+    return totalBoost;
+  }
+
+  function _isConditionSatisfied(address _user, Condition condition)
+    internal
+    returns (boolean)
+  {
+    for (uint256 i = 0; i < condition.dropIds.length; ++i) {
+      if (
+        AB_REGISTRY.getUserBalancePerDrop(_user, condition.dropIds[i]) <
+        condition.quantities[i]
+      ) return false;
+    }
+    return true;
+  }
+
   constructor(
     ISuperfluid _host,
     address _relay,
+    address _registry,
     int96 _baseFlow
   ) {
-    if (_baseFlow <= 0) revert INVALID_PARAMETER();
-    if (address(_host) == address(0)) revert INVALID_PARAMETER();
+    if (_baseFlow <= 0 || _host == address(0) || _relay == address(0))
+      revert INVALID_PARAMETER();
 
     cfaV1Lib = CFAv1Library.InitData({
       host: _host,
@@ -58,14 +97,14 @@ contract ABStream is SuperAppBase, Ownable {
       )
     });
 
+    AB_REGISTRY = IABRegistry(_registry);
     AB_RELAY = _relay;
     baseFlow = _baseFlow;
   }
 
-  function updateStream(
-    address _previousReceiver,
-    address _newReceiver,
-  ) external {
+  function updateStream(address _previousReceiver, address _newReceiver)
+    external
+  {
     if (msg.sender != AB_RELAY) revert FORBIDDEN();
     AB_TOKEN.setAllowedId(_newReceiver);
     _reduceFlow(_previousReceiver);
