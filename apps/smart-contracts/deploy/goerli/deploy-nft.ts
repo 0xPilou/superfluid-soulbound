@@ -21,7 +21,6 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
       erc20Symbol,
       L2_MESSENGER_ADDR,
       ABRelayDeployment.address,
-      hre.ethers.utils.parseEther("100"),
     ],
   });
   deployments.log("");
@@ -33,11 +32,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   );
   deployments.log("");
   deployments.log(
-    `npx hardhat verify --network goerli ${
-      deployment.address
-    } ${erc20Name} ${erc20Symbol} ${L2_MESSENGER_ADDR} ${
-      ABRelayDeployment.address
-    } ${hre.ethers.utils.parseEther("100")}`
+    `npx hardhat verify --network goerli ${deployment.address} ${erc20Name} ${erc20Symbol} ${L2_MESSENGER_ADDR} ${ABRelayDeployment.address} `
   );
   deployments.log(
     "------------------------------------------------------------------------------------------------------------------------------"

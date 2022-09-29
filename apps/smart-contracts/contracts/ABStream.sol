@@ -25,25 +25,31 @@ error INVALID_PARAMETER();
 contract ABStream is SuperAppBase, Ownable {
   using CFAv1Library for CFAv1Library.InitData;
 
-  // CFA library
+  /// @dev Superfluid Constant Flow Agreement library
   CFAv1Library.InitData public cfaV1Lib;
 
-  /// @dev Super token that may be streamed to this contract
+  /// @dev Anotherblock Super Token streamed from this contract
   ISuperSoulbound internal AB_TOKEN;
 
   /// @dev Address of Anotherblock Relay (used to control the streams destination based on L1 messages)
   address internal AB_RELAY;
 
-  mapping(uint256 => int96) public flowRates;
+  /// @dev Base Flow amount
+  int96 public baseFlow;
 
-  constructor(ISuperfluid host, address relay) {
-    assert(address(host) != address(0));
+  constructor(
+    ISuperfluid _host,
+    address _relay,
+    int96 _baseFlow
+  ) {
+    if (_baseFlow <= 0) revert INVALID_PARAMETER();
+    if (address(_host) == address(0)) revert INVALID_PARAMETER();
 
     cfaV1Lib = CFAv1Library.InitData({
-      host: host,
+      host: _host,
       cfa: IConstantFlowAgreementV1(
         address(
-          host.getAgreementClass(
+          _host.getAgreementClass(
             keccak256(
               "org.superfluid-finance.agreements.ConstantFlowAgreement.v1"
             )
@@ -52,23 +58,18 @@ contract ABStream is SuperAppBase, Ownable {
       )
     });
 
-    AB_RELAY = relay;
-  }
-
-  function initStream(int96 flowRate, uint256 tokenId) external {
-    if (msg.sender != AB_RELAY) revert FORBIDDEN();
-    _initStream(flowRate, tokenId);
+    AB_RELAY = _relay;
+    baseFlow = _baseFlow;
   }
 
   function updateStream(
-    address previousReceiver,
-    address newReceiver,
-    uint256 tokenId
+    address _previousReceiver,
+    address _newReceiver,
   ) external {
     if (msg.sender != AB_RELAY) revert FORBIDDEN();
-    AB_TOKEN.setAllowedId(newReceiver);
-    _reduceFlow(previousReceiver, flowRates[tokenId]);
-    _increaseFlow(newReceiver, flowRates[tokenId]);
+    AB_TOKEN.setAllowedId(_newReceiver);
+    _reduceFlow(_previousReceiver);
+    _increaseFlow(_newReceiver);
   }
 
   function getABToken() external view returns (address) {
@@ -101,46 +102,36 @@ contract ABStream is SuperAppBase, Ownable {
    *                              INTERNAL
    *************************************************************************/
 
-  function _initStream(int96 _flowRate, uint256 _tokenId) internal {
-    if (_flowRate <= 0) revert INVALID_PARAMETER();
-    flowRates[_tokenId] = _flowRate;
-  }
+  function _increaseFlow(address _to) internal {
+    if (_to == address(0)) return;
 
-  //this will increase the flow or create it
-  function _increaseFlow(address to, int96 flowRate) internal {
-    if (to == address(0)) return;
-
-    int96 outFlowRate = _getOutflow(to);
+    int96 outFlowRate = _getOutflow(_to);
 
     if (outFlowRate == 0) {
-      cfaV1Lib.createFlow(to, ISuperToken(address(AB_TOKEN)), flowRate);
+      cfaV1Lib.createFlow(_to, ISuperToken(address(AB_TOKEN)), baseFlow);
     } else {
-      // increase the outflow by flowRates[tokenId]
       cfaV1Lib.updateFlow(
-        to,
+        _to,
         ISuperToken(address(AB_TOKEN)),
-        outFlowRate + flowRate
+        outFlowRate + baseFlow
       );
     }
   }
 
-  function _reduceFlow(address to, int96 flowRate) internal {
-    if (to == address(this)) return;
+  function _reduceFlow(address _from) internal {
+    if (_from == address(this)) return;
 
-    int96 outFlowRate = _getOutflow(to);
+    int96 outFlowRate = _getOutflow(_from);
 
-    if (outFlowRate == flowRate) {
-      cfaV1Lib.deleteFlow(address(this), to, ISuperToken(address(AB_TOKEN)));
-    } else if (outFlowRate > flowRate) {
-      // reduce the outflow by flowRate;
-      // shouldn't overflow, because we just checked that it was bigger.
+    if (outFlowRate == baseFlow) {
+      cfaV1Lib.deleteFlow(address(this), _from, ISuperToken(address(AB_TOKEN)));
+    } else if (outFlowRate > baseFlow) {
       cfaV1Lib.updateFlow(
-        to,
+        _from,
         ISuperToken(address(AB_TOKEN)),
-        outFlowRate - flowRate
+        outFlowRate - baseFlow
       );
     }
-    // won't do anything if outFlowRate < flowRate
   }
 
   //returns 0 if stream doesn't exist
@@ -160,6 +151,11 @@ contract ABStream is SuperAppBase, Ownable {
   function setABToken(address _ABToken) external onlyOwner {
     if (_ABToken == address(0)) revert INVALID_PARAMETER();
     AB_TOKEN = ISuperSoulbound(_ABToken);
+  }
+
+  function setBaseFlow(int96 _baseFlow) external onlyOwner {
+    if (_baseFlow <= 0) revert INVALID_PARAMETER();
+    baseFlow = _baseFlow;
   }
 }
 

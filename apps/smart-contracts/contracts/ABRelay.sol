@@ -44,16 +44,12 @@ contract ABRelay is Ownable {
    **************************************************************************
    */
 
-  function issuedNFT(int96 _flowRate, uint256 _tokenId) external onlyAllowed {
-    abStream.initStream(_flowRate, _tokenId);
-  }
-
   function transferredNFT(
     address _from,
     address _to,
     uint256 _tokenId
   ) external onlyAllowed {
-    abStream.updateStream(_from, _to, _tokenId);
+    abStream.updateStream(_from, _to);
   }
 
   function createdDrop() external onlyAllowed {}

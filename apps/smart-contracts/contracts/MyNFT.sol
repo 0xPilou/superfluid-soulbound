@@ -8,7 +8,6 @@ import { IL1CrossDomainMessenger } from "@eth-optimism/contracts/L1/messaging/IL
 contract MyNFT is ERC721 {
   uint256 public mintCount = 0;
   uint256 public MAX_MINT = 100;
-  int96 public rate;
 
   address public AB_RELAY;
   IL1CrossDomainMessenger private messenger;
@@ -17,12 +16,10 @@ contract MyNFT is ERC721 {
     string memory _name,
     string memory _symbol,
     address _optimisticContractAddress,
-    address _ABRelay,
-    int96 _rate
+    address _ABRelay
   ) ERC721(_name, _symbol) {
     messenger = L1CrossDomainMessenger(_optimisticContractAddress);
     AB_RELAY = _ABRelay;
-    rate = _rate;
   }
 
   uint256 private constant DENOMINATOR = 1e6;
@@ -30,20 +27,7 @@ contract MyNFT is ERC721 {
   function mintNft(address subscriber, uint256 quantity) external {
     require(mintCount + quantity <= MAX_MINT, "not enought to mint");
 
-    uint256 procentage = (quantity * DENOMINATOR) / MAX_MINT;
-
-    int256 flowRate = (rate * int256(procentage)) / int256(DENOMINATOR);
-
     for (uint256 i = 0; i < quantity; i++) {
-      messenger.sendMessage(
-        AB_RELAY,
-        abi.encodeWithSignature(
-          "issuedNFT(int96,uint256)",
-          int96(flowRate),
-          mintCount + i
-        ),
-        10000000
-      );
       _safeMint(subscriber, mintCount + i);
     }
     mintCount += quantity;

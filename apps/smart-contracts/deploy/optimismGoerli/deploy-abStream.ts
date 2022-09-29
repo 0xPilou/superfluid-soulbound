@@ -13,7 +13,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const deployment = await deploy(AB_STREAM_NAME, {
     from: deployer,
-    args: [SF_HOST_ADDRESS, abRelay.address],
+    args: [SF_HOST_ADDRESS, abRelay.address, hre.ethers.utils.parseEther("1")],
   });
   deployments.log("");
   deployments.log(
@@ -25,7 +25,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   deployments.log("");
 
   deployments.log(
-    `npx hardhat verify --network optimismGoerli ${deployment.address} ${SF_HOST_ADDRESS} ${abRelay.address}`
+    `npx hardhat verify --network optimismGoerli ${
+      deployment.address
+    } ${SF_HOST_ADDRESS} ${abRelay.address} ${hre.ethers.utils.parseEther("1")}`
   );
   deployments.log(
     "------------------------------------------------------------------------------------------------------------------------------"
