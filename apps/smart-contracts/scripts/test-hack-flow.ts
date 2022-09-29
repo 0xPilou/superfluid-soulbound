@@ -1,6 +1,5 @@
 import { ethers } from "ethers";
 import hre from "hardhat";
-import CashflowDeployment from "web3-config/deployments/optimismGoerli/Cashflow.json";
 import HackerMockDeployment from "web3-config/deployments/goerli/HackerMock.json";
 
 const main = async () => {
@@ -17,7 +16,7 @@ const main = async () => {
     .hackFlow("0x18CCC193FeBDAf93A2C5e24E306E72a77012C429");
 
   console.log(
-    `Flow Hacked to address : 0x18CCC193FeBDAf93A2C5e24E306E72a77012C429`
+    `Attempted to hack the flow and direct it to to address : 0x18CCC193FeBDAf93A2C5e24E306E72a77012C429`
   );
   return;
 };
