@@ -55,7 +55,7 @@ export interface ABDropManagerInterface extends utils.Interface {
   functions: {
     "create(address,address,address,uint256,uint256,uint256,uint256,uint256[4],bytes32)": FunctionFragment;
     "drops(uint256)": FunctionFragment;
-    "initialize(address)": FunctionFragment;
+    "initialize(address,address,address)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setMerkleRoot(uint256,bytes32)": FunctionFragment;
@@ -84,7 +84,10 @@ export interface ABDropManagerInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(functionFragment: "drops", values: [BigNumberish]): string;
-  encodeFunctionData(functionFragment: "initialize", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "initialize",
+    values: [string, string, string]
+  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -313,11 +316,15 @@ export interface ABDropManager extends BaseContract {
 
     initialize(
       _treasury: string,
+      _messenger: string,
+      _relay: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "initialize(address)"(
+    "initialize(address,address,address)"(
       _treasury: string,
+      _messenger: string,
+      _relay: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -516,11 +523,15 @@ export interface ABDropManager extends BaseContract {
 
   initialize(
     _treasury: string,
+    _messenger: string,
+    _relay: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "initialize(address)"(
+  "initialize(address,address,address)"(
     _treasury: string,
+    _messenger: string,
+    _relay: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -717,10 +728,17 @@ export interface ABDropManager extends BaseContract {
       }
     >;
 
-    initialize(_treasury: string, overrides?: CallOverrides): Promise<void>;
-
-    "initialize(address)"(
+    initialize(
       _treasury: string,
+      _messenger: string,
+      _relay: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "initialize(address,address,address)"(
+      _treasury: string,
+      _messenger: string,
+      _relay: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -882,11 +900,15 @@ export interface ABDropManager extends BaseContract {
 
     initialize(
       _treasury: string,
+      _messenger: string,
+      _relay: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "initialize(address)"(
+    "initialize(address,address,address)"(
       _treasury: string,
+      _messenger: string,
+      _relay: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1038,11 +1060,15 @@ export interface ABDropManager extends BaseContract {
 
     initialize(
       _treasury: string,
+      _messenger: string,
+      _relay: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "initialize(address)"(
+    "initialize(address,address,address)"(
       _treasury: string,
+      _messenger: string,
+      _relay: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

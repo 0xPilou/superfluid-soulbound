@@ -67,7 +67,6 @@ export type { IABStream } from "./IABStream";
 export type { IABToken } from "./IABToken";
 export type { IERC721AB } from "./IERC721AB";
 export type { ISuperSoulbound } from "./ISuperSoulbound";
-export type { MyNFT } from "./MyNFT";
 export type { SuperfluidSoulbound } from "./SuperfluidSoulbound";
 export type { SuperSoulbound } from "./SuperSoulbound";
 
@@ -137,6 +136,5 @@ export { IABStream__factory } from "./factories/IABStream__factory";
 export { IABToken__factory } from "./factories/IABToken__factory";
 export { IERC721AB__factory } from "./factories/IERC721AB__factory";
 export { ISuperSoulbound__factory } from "./factories/ISuperSoulbound__factory";
-export { MyNFT__factory } from "./factories/MyNFT__factory";
 export { SuperfluidSoulbound__factory } from "./factories/SuperfluidSoulbound__factory";
 export { SuperSoulbound__factory } from "./factories/SuperSoulbound__factory";
