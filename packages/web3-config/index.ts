@@ -1,4 +1,5 @@
-import MyNFTDeployment from "./deployments/goerli/MyNFT.json";
+import ABNFTDeployment from "./deployments/goerli/ABNFT.json";
+import ABDropManagerDeployment from "./deployments/goerli/ABDropManager.json";
 import ABRegistryDeployment from "./deployments/optimismGoerli/ABRegistry.json";
 import ABRelayDeployment from "./deployments/optimismGoerli/ABRelay.json";
 import ABStoreDeployment from "./deployments/optimismGoerli/ABStore.json";
@@ -10,7 +11,8 @@ import * as _typechain from "./typechain";
 import { chain } from "wagmi";
 
 import {
-  MyNFT__factory,
+  ABDropManager__factory,
+  ABNFT__factory,
   ABRegistry__factory,
   ABRelay__factory,
   ABStore__factory,
@@ -21,25 +23,28 @@ import {
 export const typechain = _typechain;
 
 export type AvailableContracts =
+  | ABDropManager__factory["contractName"]
+  | ABNFT__factory["contractName"]
   | ABRegistry__factory["contractName"]
   | ABRelay__factory["contractName"]
   | ABStore__factory["contractName"]
   | ABStream__factory["contractName"]
-  | ABToken__factory["contractName"]
-  | MyNFT__factory["contractName"];
+  | ABToken__factory["contractName"];
 
 type AddressObj = Record<AvailableContracts, string>;
 
+const _abDropManager = new ABDropManager__factory();
+const _abNft = new ABNFT__factory();
 const _abRegistry = new ABRegistry__factory();
 const _abRelay = new ABRelay__factory();
 const _abStore = new ABStore__factory();
 const _abStream = new ABStream__factory();
 const _abToken = new ABToken__factory();
-const _myNft = new MyNFT__factory();
 
 export const Address: Record<number, Partial<AddressObj>> = {
   [chain.goerli.id]: {
-    [_myNft.contractName]: MyNFTDeployment.address,
+    [_abDropManager.contractName]: ABDropManagerDeployment.address,
+    [_abNft.contractName]: ABNFTDeployment.address,
   },
   [chain.optimismGoerli.id]: {
     [_abRegistry.contractName]: ABRegistryDeployment.address,
@@ -52,7 +57,8 @@ export const Address: Record<number, Partial<AddressObj>> = {
 
 export const Abi = {
   [chain.goerli.id]: {
-    [_myNft.contractName]: MyNFTDeployment.abi,
+    [_abDropManager.contractName]: ABDropManagerDeployment.abi,
+    [_abNft.contractName]: ABNFTDeployment.abi,
   },
   [chain.optimismGoerli.id]: {
     [_abRegistry.contractName]: ABRegistryDeployment.abi,
