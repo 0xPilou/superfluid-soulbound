@@ -60,9 +60,8 @@ contract ABStream is SuperAppBase, Ownable {
     ISuperfluid _host,
     address _relay,
     address _registry,
-    int96 _baseFlow
   ) {
-    if (_baseFlow <= 0 || address(_host) == address(0) || _relay == address(0))
+    if (address(_host) == address(0) || _relay == address(0))
       revert INVALID_PARAMETER();
 
     cfaV1Lib = CFAv1Library.InitData({
