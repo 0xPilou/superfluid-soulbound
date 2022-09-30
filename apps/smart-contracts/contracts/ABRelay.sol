@@ -55,9 +55,8 @@ contract ABRelay is Ownable {
     address _to,
     uint256 _dropId
   ) external onlyAllowed {
-    AB_STREAM.updateStream(_from, _to);
-    AB_REGISTRY.decrementUserBalance(_from, _dropId);
-    AB_REGISTRY.incrementUserBalance(_to, _dropId);
+    AB_REGISTRY.updateBalance(_from, _to, _dropId);
+    AB_STREAM.updateStream(_from, _to, _dropId);
   }
 
   function createdDrop() external onlyAllowed {}

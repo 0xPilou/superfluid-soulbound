@@ -21,14 +21,14 @@ contract ABRegistry is Ownable {
     AB_RELAY = _relay;
   }
 
-  function incrementUserBalance(address _user, uint256 _dropId) external {
+  function updateBalance(
+    address _from,
+    address _to,
+    uint256 _dropId
+  ) external {
     if (msg.sender != AB_RELAY) revert FORBIDDEN();
-    userBalancePerDrop[_user][_dropId] += 1;
-  }
-
-  function decrementUserBalance(address _user, uint256 _dropId) external {
-    if (msg.sender != AB_RELAY) revert FORBIDDEN();
-    userBalancePerDrop[_user][_dropId] -= 1;
+    if (_from != address(0)) userBalancePerDrop[_from][_dropId] -= 1;
+    if (_to != address(0)) userBalancePerDrop[_to][_dropId] += 1;
   }
 
   function getUserBalancePerDrop(address _user, uint256 _dropId)
