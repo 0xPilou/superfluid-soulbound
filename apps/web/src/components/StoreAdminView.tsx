@@ -15,8 +15,8 @@ function StoreAdminView() {
   };
   const { write: addItem } = useContractWrite({
     mode: "recklesslyUnprepared",
-    addressOrName: getAddress(chain.optimismGoerli.id, "Store"),
-    contractInterface: getAbi(chain.optimismGoerli.id, "Store"),
+    addressOrName: getAddress(chain.optimismGoerli.id, "ABStore"),
+    contractInterface: getAbi(chain.optimismGoerli.id, "ABStore"),
     functionName: "addItem",
   });
 

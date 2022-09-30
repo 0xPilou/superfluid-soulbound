@@ -28,15 +28,15 @@ function getItemQty(cart: any[]): number[] {
 
 const StoreView = () => {
   const { data: nbItems } = useContractRead({
-    addressOrName: getAddress(chain.optimismGoerli.id, "Store"),
-    contractInterface: getAbi(chain.optimismGoerli.id, "Store"),
+    addressOrName: getAddress(chain.optimismGoerli.id, "ABStore"),
+    contractInterface: getAbi(chain.optimismGoerli.id, "ABStore"),
     functionName: "nbItems",
   });
 
   const { write: purchase } = useContractWrite({
     mode: "recklesslyUnprepared",
-    addressOrName: getAddress(chain.optimismGoerli.id, "Store"),
-    contractInterface: getAbi(chain.optimismGoerli.id, "Store"),
+    addressOrName: getAddress(chain.optimismGoerli.id, "ABStore"),
+    contractInterface: getAbi(chain.optimismGoerli.id, "ABStore"),
     functionName: "purchase",
   });
 

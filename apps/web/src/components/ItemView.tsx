@@ -10,8 +10,8 @@ type ItemProps = {
 
 const ItemView = (props: ItemProps) => {
   const { data: itemDetails } = useContractRead({
-    addressOrName: getAddress(chain.optimismGoerli.id, "Store"),
-    contractInterface: getAbi(chain.optimismGoerli.id, "Store"),
+    addressOrName: getAddress(chain.optimismGoerli.id, "ABStore"),
+    contractInterface: getAbi(chain.optimismGoerli.id, "ABStore"),
     functionName: "items",
     args: [props.id],
     // watch: true,
