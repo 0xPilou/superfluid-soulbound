@@ -35,7 +35,7 @@ pragma solidity ^0.8.4;
 
 import "./ERC721AB.sol";
 
-contract Another721 is ERC721AB {
+contract ABNFT is ERC721AB {
   // Base Token URI
   string private baseTokenURI;
 
