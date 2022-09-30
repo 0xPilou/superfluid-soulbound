@@ -221,6 +221,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABErrors__factory>;
     getContractFactory(
+      name: "ABNFT",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ABNFT__factory>;
+    getContractFactory(
       name: "ABRegistry",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABRegistry__factory>;
@@ -241,10 +245,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABToken__factory>;
     getContractFactory(
-      name: "Another721",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Another721__factory>;
-    getContractFactory(
       name: "ERC721AB",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721AB__factory>;
@@ -252,10 +252,6 @@ declare module "hardhat/types/runtime" {
       name: "ERC721ABErrors",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721ABErrors__factory>;
-    getContractFactory(
-      name: "HackerMock",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.HackerMock__factory>;
     getContractFactory(
       name: "IABDropManager",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -550,6 +546,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ABErrors>;
     getContractAt(
+      name: "ABNFT",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ABNFT>;
+    getContractAt(
       name: "ABRegistry",
       address: string,
       signer?: ethers.Signer
@@ -575,11 +576,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ABToken>;
     getContractAt(
-      name: "Another721",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Another721>;
-    getContractAt(
       name: "ERC721AB",
       address: string,
       signer?: ethers.Signer
@@ -589,11 +585,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ERC721ABErrors>;
-    getContractAt(
-      name: "HackerMock",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.HackerMock>;
     getContractAt(
       name: "IABDropManager",
       address: string,
