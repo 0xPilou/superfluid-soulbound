@@ -59,7 +59,7 @@ contract ABStream is SuperAppBase, Ownable {
   constructor(
     ISuperfluid _host,
     address _relay,
-    address _registry,
+    address _registry
   ) {
     if (address(_host) == address(0) || _relay == address(0))
       revert INVALID_PARAMETER();
