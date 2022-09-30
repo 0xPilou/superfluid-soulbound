@@ -83,6 +83,24 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "int96",
+        name: "_baseFlow",
+        type: "int96",
+      },
+      {
+        internalType: "uint256",
+        name: "_dropId",
+        type: "uint256",
+      },
+    ],
+    name: "setBaseFlow",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "previousReceiver",
         type: "address",
@@ -91,6 +109,11 @@ const _abi = [
         internalType: "address",
         name: "newReceiver",
         type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "dropId",
+        type: "uint256",
       },
     ],
     name: "updateStream",

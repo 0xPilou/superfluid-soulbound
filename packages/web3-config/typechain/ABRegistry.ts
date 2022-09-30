@@ -20,24 +20,15 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface ABRegistryInterface extends utils.Interface {
   contractName: "ABRegistry";
   functions: {
-    "decrementUserBalance(address,uint256)": FunctionFragment;
     "getUserBalancePerDrop(address,uint256)": FunctionFragment;
-    "incrementUserBalance(address,uint256)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
+    "updateBalance(address,address,uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "decrementUserBalance",
-    values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "getUserBalancePerDrop",
-    values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "incrementUserBalance",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
@@ -49,17 +40,13 @@ export interface ABRegistryInterface extends utils.Interface {
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
+  encodeFunctionData(
+    functionFragment: "updateBalance",
+    values: [string, string, BigNumberish]
+  ): string;
 
   decodeFunctionResult(
-    functionFragment: "decrementUserBalance",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "getUserBalancePerDrop",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "incrementUserBalance",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
@@ -69,6 +56,10 @@ export interface ABRegistryInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "updateBalance",
     data: BytesLike
   ): Result;
 
@@ -115,18 +106,6 @@ export interface ABRegistry extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    decrementUserBalance(
-      _user: string,
-      _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "decrementUserBalance(address,uint256)"(
-      _user: string,
-      _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     getUserBalancePerDrop(
       _user: string,
       _dropId: BigNumberish,
@@ -134,18 +113,6 @@ export interface ABRegistry extends BaseContract {
     ): Promise<ContractTransaction>;
 
     "getUserBalancePerDrop(address,uint256)"(
-      _user: string,
-      _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    incrementUserBalance(
-      _user: string,
-      _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "incrementUserBalance(address,uint256)"(
       _user: string,
       _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -172,19 +139,21 @@ export interface ABRegistry extends BaseContract {
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    updateBalance(
+      _from: string,
+      _to: string,
+      _dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "updateBalance(address,address,uint256)"(
+      _from: string,
+      _to: string,
+      _dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
-
-  decrementUserBalance(
-    _user: string,
-    _dropId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "decrementUserBalance(address,uint256)"(
-    _user: string,
-    _dropId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   getUserBalancePerDrop(
     _user: string,
@@ -193,18 +162,6 @@ export interface ABRegistry extends BaseContract {
   ): Promise<ContractTransaction>;
 
   "getUserBalancePerDrop(address,uint256)"(
-    _user: string,
-    _dropId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  incrementUserBalance(
-    _user: string,
-    _dropId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "incrementUserBalance(address,uint256)"(
     _user: string,
     _dropId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -232,19 +189,21 @@ export interface ABRegistry extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  updateBalance(
+    _from: string,
+    _to: string,
+    _dropId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "updateBalance(address,address,uint256)"(
+    _from: string,
+    _to: string,
+    _dropId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
-    decrementUserBalance(
-      _user: string,
-      _dropId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "decrementUserBalance(address,uint256)"(
-      _user: string,
-      _dropId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     getUserBalancePerDrop(
       _user: string,
       _dropId: BigNumberish,
@@ -256,18 +215,6 @@ export interface ABRegistry extends BaseContract {
       _dropId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    incrementUserBalance(
-      _user: string,
-      _dropId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "incrementUserBalance(address,uint256)"(
-      _user: string,
-      _dropId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -286,6 +233,20 @@ export interface ABRegistry extends BaseContract {
       newOwner: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    updateBalance(
+      _from: string,
+      _to: string,
+      _dropId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "updateBalance(address,address,uint256)"(
+      _from: string,
+      _to: string,
+      _dropId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {
@@ -300,18 +261,6 @@ export interface ABRegistry extends BaseContract {
   };
 
   estimateGas: {
-    decrementUserBalance(
-      _user: string,
-      _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "decrementUserBalance(address,uint256)"(
-      _user: string,
-      _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     getUserBalancePerDrop(
       _user: string,
       _dropId: BigNumberish,
@@ -319,18 +268,6 @@ export interface ABRegistry extends BaseContract {
     ): Promise<BigNumber>;
 
     "getUserBalancePerDrop(address,uint256)"(
-      _user: string,
-      _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    incrementUserBalance(
-      _user: string,
-      _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "incrementUserBalance(address,uint256)"(
       _user: string,
       _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -357,21 +294,23 @@ export interface ABRegistry extends BaseContract {
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    updateBalance(
+      _from: string,
+      _to: string,
+      _dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "updateBalance(address,address,uint256)"(
+      _from: string,
+      _to: string,
+      _dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    decrementUserBalance(
-      _user: string,
-      _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "decrementUserBalance(address,uint256)"(
-      _user: string,
-      _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     getUserBalancePerDrop(
       _user: string,
       _dropId: BigNumberish,
@@ -379,18 +318,6 @@ export interface ABRegistry extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     "getUserBalancePerDrop(address,uint256)"(
-      _user: string,
-      _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    incrementUserBalance(
-      _user: string,
-      _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "incrementUserBalance(address,uint256)"(
       _user: string,
       _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -415,6 +342,20 @@ export interface ABRegistry extends BaseContract {
 
     "transferOwnership(address)"(
       newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    updateBalance(
+      _from: string,
+      _to: string,
+      _dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "updateBalance(address,address,uint256)"(
+      _from: string,
+      _to: string,
+      _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

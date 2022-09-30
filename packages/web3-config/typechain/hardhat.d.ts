@@ -109,6 +109,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721__factory>;
     getContractFactory(
+      name: "ERC721Enumerable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721Enumerable__factory>;
+    getContractFactory(
+      name: "IERC721Enumerable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC721Enumerable__factory>;
+    getContractFactory(
       name: "IERC721Metadata",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC721Metadata__factory>;
@@ -136,6 +144,10 @@ declare module "hardhat/types/runtime" {
       name: "ERC165",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC165__factory>;
+    getContractFactory(
+      name: "ERC165Storage",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC165Storage__factory>;
     getContractFactory(
       name: "IERC165",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -201,6 +213,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.UUPSProxiable__factory>;
     getContractFactory(
+      name: "ABDropManager",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ABDropManager__factory>;
+    getContractFactory(
+      name: "ABErrors",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ABErrors__factory>;
+    getContractFactory(
       name: "ABRegistry",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABRegistry__factory>;
@@ -221,9 +241,25 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABToken__factory>;
     getContractFactory(
+      name: "Another721",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Another721__factory>;
+    getContractFactory(
+      name: "ERC721AB",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721AB__factory>;
+    getContractFactory(
+      name: "ERC721ABErrors",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721ABErrors__factory>;
+    getContractFactory(
       name: "HackerMock",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.HackerMock__factory>;
+    getContractFactory(
+      name: "IABDropManager",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IABDropManager__factory>;
     getContractFactory(
       name: "IABRegistry",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -236,6 +272,10 @@ declare module "hardhat/types/runtime" {
       name: "IABToken",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IABToken__factory>;
+    getContractFactory(
+      name: "IERC721AB",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC721AB__factory>;
     getContractFactory(
       name: "ISuperSoulbound",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -374,6 +414,16 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ERC721>;
     getContractAt(
+      name: "ERC721Enumerable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721Enumerable>;
+    getContractAt(
+      name: "IERC721Enumerable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721Enumerable>;
+    getContractAt(
       name: "IERC721Metadata",
       address: string,
       signer?: ethers.Signer
@@ -408,6 +458,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ERC165>;
+    getContractAt(
+      name: "ERC165Storage",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC165Storage>;
     getContractAt(
       name: "IERC165",
       address: string,
@@ -489,6 +544,16 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.UUPSProxiable>;
     getContractAt(
+      name: "ABDropManager",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ABDropManager>;
+    getContractAt(
+      name: "ABErrors",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ABErrors>;
+    getContractAt(
       name: "ABRegistry",
       address: string,
       signer?: ethers.Signer
@@ -514,10 +579,30 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ABToken>;
     getContractAt(
+      name: "Another721",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Another721>;
+    getContractAt(
+      name: "ERC721AB",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721AB>;
+    getContractAt(
+      name: "ERC721ABErrors",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721ABErrors>;
+    getContractAt(
       name: "HackerMock",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.HackerMock>;
+    getContractAt(
+      name: "IABDropManager",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IABDropManager>;
     getContractAt(
       name: "IABRegistry",
       address: string,
@@ -533,6 +618,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IABToken>;
+    getContractAt(
+      name: "IERC721AB",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721AB>;
     getContractAt(
       name: "ISuperSoulbound",
       address: string,

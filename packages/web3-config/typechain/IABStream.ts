@@ -4,6 +4,7 @@
 import {
   BaseContract,
   BigNumber,
+  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -23,7 +24,8 @@ export interface IABStreamInterface extends utils.Interface {
     "getABToken()": FunctionFragment;
     "getFlow(address)": FunctionFragment;
     "setABToken(address)": FunctionFragment;
-    "updateStream(address,address)": FunctionFragment;
+    "setBaseFlow(int96,uint256)": FunctionFragment;
+    "updateStream(address,address,uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -37,14 +39,22 @@ export interface IABStreamInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "getFlow", values: [string]): string;
   encodeFunctionData(functionFragment: "setABToken", values: [string]): string;
   encodeFunctionData(
+    functionFragment: "setBaseFlow",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "updateStream",
-    values: [string, string]
+    values: [string, string, BigNumberish]
   ): string;
 
   decodeFunctionResult(functionFragment: "getABRelay", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getABToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getFlow", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setABToken", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setBaseFlow",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "updateStream",
     data: BytesLike
@@ -123,15 +133,29 @@ export interface IABStream extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    updateStream(
-      previousReceiver: string,
-      newReceiver: string,
+    setBaseFlow(
+      _baseFlow: BigNumberish,
+      _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "updateStream(address,address)"(
+    "setBaseFlow(int96,uint256)"(
+      _baseFlow: BigNumberish,
+      _dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    updateStream(
       previousReceiver: string,
       newReceiver: string,
+      dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "updateStream(address,address,uint256)"(
+      previousReceiver: string,
+      newReceiver: string,
+      dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
@@ -178,15 +202,29 @@ export interface IABStream extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  updateStream(
-    previousReceiver: string,
-    newReceiver: string,
+  setBaseFlow(
+    _baseFlow: BigNumberish,
+    _dropId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "updateStream(address,address)"(
+  "setBaseFlow(int96,uint256)"(
+    _baseFlow: BigNumberish,
+    _dropId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  updateStream(
     previousReceiver: string,
     newReceiver: string,
+    dropId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "updateStream(address,address,uint256)"(
+    previousReceiver: string,
+    newReceiver: string,
+    dropId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -230,15 +268,29 @@ export interface IABStream extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    updateStream(
-      previousReceiver: string,
-      newReceiver: string,
+    setBaseFlow(
+      _baseFlow: BigNumberish,
+      _dropId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "updateStream(address,address)"(
+    "setBaseFlow(int96,uint256)"(
+      _baseFlow: BigNumberish,
+      _dropId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    updateStream(
       previousReceiver: string,
       newReceiver: string,
+      dropId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "updateStream(address,address,uint256)"(
+      previousReceiver: string,
+      newReceiver: string,
+      dropId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -271,15 +323,29 @@ export interface IABStream extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    updateStream(
-      previousReceiver: string,
-      newReceiver: string,
+    setBaseFlow(
+      _baseFlow: BigNumberish,
+      _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "updateStream(address,address)"(
+    "setBaseFlow(int96,uint256)"(
+      _baseFlow: BigNumberish,
+      _dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    updateStream(
       previousReceiver: string,
       newReceiver: string,
+      dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "updateStream(address,address,uint256)"(
+      previousReceiver: string,
+      newReceiver: string,
+      dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
@@ -313,15 +379,29 @@ export interface IABStream extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    updateStream(
-      previousReceiver: string,
-      newReceiver: string,
+    setBaseFlow(
+      _baseFlow: BigNumberish,
+      _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "updateStream(address,address)"(
+    "setBaseFlow(int96,uint256)"(
+      _baseFlow: BigNumberish,
+      _dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    updateStream(
       previousReceiver: string,
       newReceiver: string,
+      dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "updateStream(address,address,uint256)"(
+      previousReceiver: string,
+      newReceiver: string,
+      dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

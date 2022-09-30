@@ -4,23 +4,18 @@
 
 import { Contract, Signer, utils } from "ethers";
 import { Provider } from "@ethersproject/providers";
-import type { IABRegistry, IABRegistryInterface } from "../IABRegistry";
+import type { IERC721AB, IERC721ABInterface } from "../IERC721AB";
 
 const _abi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_user",
-        type: "address",
-      },
-      {
         internalType: "uint256",
-        name: "_dropId",
+        name: "_tokenId",
         type: "uint256",
       },
     ],
-    name: "getUserBalancePerDrop",
+    name: "dropIdPerToken",
     outputs: [
       {
         internalType: "uint256",
@@ -29,6 +24,38 @@ const _abi = [
       },
     ],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_anotherblock",
+        type: "address",
+      },
+    ],
+    name: "setAnotherblock",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_owner",
+        type: "address",
+      },
+    ],
+    name: "tokensOfOwner",
+    outputs: [
+      {
+        internalType: "uint256[]",
+        name: "",
+        type: "uint256[]",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -45,26 +72,26 @@ const _abi = [
       },
       {
         internalType: "uint256",
-        name: "_dropId",
+        name: "_tokenId",
         type: "uint256",
       },
     ],
-    name: "updateBalance",
+    name: "transferFrom",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
 ];
 
-export class IABRegistry__factory {
+export class IERC721AB__factory {
   static readonly abi = _abi;
-  static createInterface(): IABRegistryInterface {
-    return new utils.Interface(_abi) as IABRegistryInterface;
+  static createInterface(): IERC721ABInterface {
+    return new utils.Interface(_abi) as IERC721ABInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): IABRegistry {
-    return new Contract(address, _abi, signerOrProvider) as IABRegistry;
+  ): IERC721AB {
+    return new Contract(address, _abi, signerOrProvider) as IERC721AB;
   }
 }
