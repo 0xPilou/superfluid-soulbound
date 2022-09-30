@@ -30,33 +30,21 @@ const main = async () => {
   );
   const abDropManager = await ABDropManager.deployed();
 
-  let createTx = await abDropManager.create(
-    ZERO_ADDRESS,
-    deployer,
-    ABNFTDeployment.address,
-    hre.ethers.utils.parseEther(DROP_0_PRICE),
-    DROP_0_SUPPLY,
-    SHARE_PER_TOKEN,
-    RIGHTHOLDER_FEE,
-    SALES_INFO,
-    EMPTY_MERKLE
-  );
+  const tx0 = await abDropManager
+    .connect(deployer)
+    .create(
+      ZERO_ADDRESS,
+      deployer.address,
+      ABNFTDeployment.address,
+      hre.ethers.utils.parseEther(DROP_0_PRICE),
+      DROP_0_SUPPLY,
+      SHARE_PER_TOKEN,
+      RIGHTHOLDER_FEE,
+      SALES_INFO,
+      EMPTY_MERKLE
+    );
 
-  await createTx.wait();
-
-  createTx = await abDropManager.create(
-    ZERO_ADDRESS,
-    deployer,
-    ABNFTDeployment.address,
-    hre.ethers.utils.parseEther(DROP_1_PRICE),
-    DROP_1_SUPPLY,
-    SHARE_PER_TOKEN,
-    RIGHTHOLDER_FEE,
-    SALES_INFO,
-    EMPTY_MERKLE
-  );
-
-  await createTx.wait();
+  await tx0.wait();
 
   console.log(`Drop #0 Created : `);
   console.log(`     - Supply : ${DROP_0_SUPPLY} `);
@@ -64,6 +52,20 @@ const main = async () => {
 
   console.log(`***********************************`);
 
+  const tx1 = await abDropManager
+    .connect(deployer)
+    .create(
+      ZERO_ADDRESS,
+      deployer.address,
+      ABNFTDeployment.address,
+      hre.ethers.utils.parseEther(DROP_1_PRICE),
+      DROP_1_SUPPLY,
+      SHARE_PER_TOKEN,
+      RIGHTHOLDER_FEE,
+      SALES_INFO,
+      EMPTY_MERKLE
+    );
+  await tx1.wait();
   console.log(`Drop #1 Created : `);
   console.log(`     - Supply : ${DROP_1_SUPPLY} `);
   console.log(`     - Price : ${DROP_1_PRICE} `);
