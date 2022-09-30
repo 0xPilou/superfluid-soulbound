@@ -15,7 +15,7 @@ const DROP_1_SUPPLY = 50;
 const SHARE_PER_TOKEN = 20000;
 const RIGHTHOLDER_FEE = 1000000;
 
-const SALES_INFO = [1, 1, 1, 1];
+const SALES_INFO = [50, 1, 50, 1];
 
 const main = async () => {
   console.log(
