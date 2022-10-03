@@ -10,5 +10,6 @@ interface IABRegistry {
 
   function getUserBalancePerDrop(address _user, uint256 _dropId)
     external
+    view
     returns (uint256);
 }

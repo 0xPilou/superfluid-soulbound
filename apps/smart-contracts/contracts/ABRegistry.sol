@@ -33,6 +33,7 @@ contract ABRegistry is Ownable {
 
   function getUserBalancePerDrop(address _user, uint256 _dropId)
     external
+    view
     returns (uint256)
   {
     return userBalancePerDrop[_user][_dropId];
