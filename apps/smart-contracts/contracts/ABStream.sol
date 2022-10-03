@@ -56,6 +56,8 @@ contract ABStream is SuperAppBase, Ownable {
 
   Boost[] public boosts;
 
+  uint256 public nbBoost = 0;
+
   constructor(
     ISuperfluid _host,
     address _relay,
@@ -136,7 +138,7 @@ contract ABStream is SuperAppBase, Ownable {
     if (_to == address(0)) return;
 
     int96 currentFlow = _getOutflow(_to);
-    int96 newUserBoost = _getUserBoost(_to);
+    int96 newUserBoost = this.getUserBoost(_to);
 
     int96 newFlow = currentFlow +
       baseFlowPerDrop[_dropId] +
@@ -155,7 +157,7 @@ contract ABStream is SuperAppBase, Ownable {
     if (_from == address(this)) return;
 
     int96 currentFlow = _getOutflow(_from);
-    int96 newUserBoost = _getUserBoost(_from);
+    int96 newUserBoost = this.getUserBoost(_from);
 
     int96 newFlow = currentFlow -
       baseFlowPerDrop[_dropId] +
@@ -180,9 +182,9 @@ contract ABStream is SuperAppBase, Ownable {
     return outFlowRate;
   }
 
-  function _getUserBoost(address _user) internal view returns (int96) {
+  function getUserBoost(address _user) external view returns (int96) {
     int96 totalBoost = 0;
-    for (uint256 i = 0; i < boosts.length; ++i) {
+    for (uint256 i = 0; i < nbBoost; ++i) {
       if (_isConditionSatisfied(_user, boosts[i].condition)) {
         totalBoost += boosts[i].increase;
       }
@@ -231,6 +233,7 @@ contract ABStream is SuperAppBase, Ownable {
     if (_dropIds.length != _quantities.length) revert INVALID_PARAMETER();
     if (_increase <= 0) revert INVALID_PARAMETER();
     boosts.push(Boost(Condition(_dropIds, _quantities), _increase));
+    nbBoost++;
   }
 
   function updateBoost(uint256 _boostId, int96 _increase) external onlyOwner {

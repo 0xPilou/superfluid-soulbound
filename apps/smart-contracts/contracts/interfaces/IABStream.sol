@@ -16,6 +16,8 @@ interface IABStream {
 
   function getABRelay() external view returns (address);
 
+  function getUserBoost(address _user) external view returns (int96);
+
   function getFlow(address _receiver)
     external
     view
