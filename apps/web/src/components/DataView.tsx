@@ -1,9 +1,10 @@
 import { chain, useAccount } from "wagmi";
-import { ABStream__factory, getAddress } from "web3-config";
+import { ABStream__factory, getAbi, getAddress } from "web3-config";
 import { request, gql } from "graphql-request";
 import { useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
-import { useContractRead } from "wagmi-lfg";
+import { useContractRead } from "wagmi";
+import BoostView from "./BoostView";
 
 export function calculateMonthlyStream(flowRate: number) {
   const stream = flowRate * (86400 * 30);
@@ -13,6 +14,12 @@ export function calculateMonthlyStream(flowRate: number) {
 const DataView = () => {
   const { address } = useAccount();
   const cashflowAddress = getAddress(chain.optimismGoerli.id, "ABStream");
+
+  const { data: nbBoosts } = useContractRead({
+    addressOrName: getAddress(chain.optimismGoerli.id, "ABStream"),
+    contractInterface: getAbi(chain.optimismGoerli.id, "ABStream"),
+    functionName: "nbBoost",
+  });
 
   const { data: streams = [] } = useQuery(
     ["streams", address],
@@ -48,9 +55,19 @@ const DataView = () => {
     { enabled: Boolean(address) }
   );
 
-  const { data: flow } = useContractRead(ABStream__factory, "getFlow", {
+  const { data: flow } = useContractRead({
+    addressOrName: getAddress(chain.optimismGoerli.id, "ABStream"),
+    contractInterface: getAbi(chain.optimismGoerli.id, "ABStream"),
+    functionName: "getFlow",
     args: [address],
   });
+
+  let boostIds = [];
+  if (nbBoosts) {
+    for (let i = 0; i < nbBoosts.toNumber(); i++) {
+      boostIds.push(i);
+    }
+  }
 
   const flowRate = flow && flow[1];
 
@@ -81,6 +98,18 @@ const DataView = () => {
           <div>{+ethers.utils.formatEther(flowRate) * 86400} ABT / day</div>
           <div>
             {+ethers.utils.formatEther(flowRate) * (86400 * 30)} ABT / month
+          </div>
+        </>
+      )}
+      {nbBoosts && (
+        <>
+          <h2>Boosts Data :</h2>
+          <h3>Number of Boost : {nbBoosts.toNumber()}</h3>
+
+          <div style={{ display: "flex" }}>
+            {boostIds.map((key, item) => (
+              <BoostView key={key} id={item} />
+            ))}
           </div>
         </>
       )}

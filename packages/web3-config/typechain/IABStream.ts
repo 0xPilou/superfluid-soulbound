@@ -23,6 +23,7 @@ export interface IABStreamInterface extends utils.Interface {
     "getABRelay()": FunctionFragment;
     "getABToken()": FunctionFragment;
     "getFlow(address)": FunctionFragment;
+    "getUserBoost(address)": FunctionFragment;
     "setABToken(address)": FunctionFragment;
     "setBaseFlow(int96,uint256)": FunctionFragment;
     "updateStream(address,address,uint256)": FunctionFragment;
@@ -37,6 +38,10 @@ export interface IABStreamInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "getFlow", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "getUserBoost",
+    values: [string]
+  ): string;
   encodeFunctionData(functionFragment: "setABToken", values: [string]): string;
   encodeFunctionData(
     functionFragment: "setBaseFlow",
@@ -50,6 +55,10 @@ export interface IABStreamInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "getABRelay", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getABToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getFlow", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getUserBoost",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "setABToken", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setBaseFlow",
@@ -123,6 +132,16 @@ export interface IABStream extends BaseContract {
       }
     >;
 
+    getUserBoost(
+      _user: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    "getUserBoost(address)"(
+      _user: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     setABToken(
       _ABToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -191,6 +210,13 @@ export interface IABStream extends BaseContract {
       owedDeposit: BigNumber;
     }
   >;
+
+  getUserBoost(_user: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+  "getUserBoost(address)"(
+    _user: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   setABToken(
     _ABToken: string,
@@ -261,6 +287,13 @@ export interface IABStream extends BaseContract {
       }
     >;
 
+    getUserBoost(_user: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    "getUserBoost(address)"(
+      _user: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     setABToken(_ABToken: string, overrides?: CallOverrides): Promise<void>;
 
     "setABToken(address)"(
@@ -310,6 +343,13 @@ export interface IABStream extends BaseContract {
 
     "getFlow(address)"(
       _receiver: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getUserBoost(_user: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    "getUserBoost(address)"(
+      _user: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -366,6 +406,16 @@ export interface IABStream extends BaseContract {
 
     "getFlow(address)"(
       _receiver: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getUserBoost(
+      _user: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "getUserBoost(address)"(
+      _user: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

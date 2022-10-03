@@ -45,6 +45,8 @@ export interface ABStreamInterface extends utils.Interface {
     "getABRelay()": FunctionFragment;
     "getABToken()": FunctionFragment;
     "getFlow(address)": FunctionFragment;
+    "getUserBoost(address)": FunctionFragment;
+    "nbBoost()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setABRegistry(address)": FunctionFragment;
@@ -102,6 +104,11 @@ export interface ABStreamInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "getFlow", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "getUserBoost",
+    values: [string]
+  ): string;
+  encodeFunctionData(functionFragment: "nbBoost", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -164,6 +171,11 @@ export interface ABStreamInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "getABRelay", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getABToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getFlow", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getUserBoost",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "nbBoost", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
@@ -426,6 +438,20 @@ export interface ABStream extends BaseContract {
         owedDeposit: BigNumber;
       }
     >;
+
+    getUserBoost(
+      _user: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    "getUserBoost(address)"(
+      _user: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    nbBoost(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    "nbBoost()"(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -710,6 +736,17 @@ export interface ABStream extends BaseContract {
     }
   >;
 
+  getUserBoost(_user: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+  "getUserBoost(address)"(
+    _user: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  nbBoost(overrides?: CallOverrides): Promise<BigNumber>;
+
+  "nbBoost()"(overrides?: CallOverrides): Promise<BigNumber>;
+
   owner(overrides?: CallOverrides): Promise<string>;
 
   "owner()"(overrides?: CallOverrides): Promise<string>;
@@ -993,6 +1030,17 @@ export interface ABStream extends BaseContract {
       }
     >;
 
+    getUserBoost(_user: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    "getUserBoost(address)"(
+      _user: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    nbBoost(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "nbBoost()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     owner(overrides?: CallOverrides): Promise<string>;
 
     "owner()"(overrides?: CallOverrides): Promise<string>;
@@ -1243,6 +1291,17 @@ export interface ABStream extends BaseContract {
       _receiver: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    getUserBoost(_user: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    "getUserBoost(address)"(
+      _user: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    nbBoost(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "nbBoost()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1499,6 +1558,20 @@ export interface ABStream extends BaseContract {
       _receiver: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    getUserBoost(
+      _user: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "getUserBoost(address)"(
+      _user: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    nbBoost(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "nbBoost()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

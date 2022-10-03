@@ -71,6 +71,25 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
+        name: "_user",
+        type: "address",
+      },
+    ],
+    name: "getUserBoost",
+    outputs: [
+      {
+        internalType: "int96",
+        name: "",
+        type: "int96",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "_ABToken",
         type: "address",
       },
