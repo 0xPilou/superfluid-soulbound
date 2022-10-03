@@ -1,6 +1,6 @@
 import DropView from "./DropView";
 const MintView = () => {
-  const drops = [0, 1, 2, 3, 4];
+  const drops = [0, 1];
 
   return (
     <div style={{ display: "flex" }}>

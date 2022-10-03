@@ -1,10 +1,11 @@
-import { chain, useAccount } from "wagmi";
+import { chain, useAccount, useContractWrite } from "wagmi";
 import { ABStream__factory, getAbi, getAddress } from "web3-config";
 import { request, gql } from "graphql-request";
 import { useQuery } from "@tanstack/react-query";
 import { ethers } from "ethers";
 import { useContractRead } from "wagmi";
 import BoostView from "./BoostView";
+import { useState } from "react";
 
 export function calculateMonthlyStream(flowRate: number) {
   const stream = flowRate * (86400 * 30);
@@ -15,10 +16,46 @@ const DataView = () => {
   const { address } = useAccount();
   const cashflowAddress = getAddress(chain.optimismGoerli.id, "ABStream");
 
+  const [dropIds, setDropIds] = useState<number[]>([]);
+  const [dropId, setDropId] = useState(1);
+
+  const [amounts, setAmounts] = useState<number[]>([]);
+  const [amount, setAmount] = useState(1);
+
+  const [increase, setIncrease] = useState(1);
+
+  const handleChangeIncrease = (event) => {
+    setIncrease(event.target.value);
+  };
+
+  const handleChangeDropId = (event) => {
+    setDropId(event.target.value);
+  };
+
+  const handleChangeAmount = (event) => {
+    setAmount(event.target.value);
+  };
+
+  const handleAddCondition = () => {
+    setDropIds(dropIds.concat(dropId));
+    setAmounts(amounts.concat(amount));
+  };
+
+  const handleClearCondition = () => {
+    setDropIds([]);
+    setAmounts([]);
+  };
+
   const { data: nbBoosts } = useContractRead({
     addressOrName: getAddress(chain.optimismGoerli.id, "ABStream"),
     contractInterface: getAbi(chain.optimismGoerli.id, "ABStream"),
     functionName: "nbBoost",
+  });
+  const { write: addBoost } = useContractWrite({
+    mode: "recklesslyUnprepared",
+    addressOrName: getAddress(chain.optimismGoerli.id, "ABStream"),
+    contractInterface: getAbi(chain.optimismGoerli.id, "ABStream"),
+    functionName: "addBoost",
   });
 
   const { data: streams = [] } = useQuery(
@@ -101,9 +138,9 @@ const DataView = () => {
           </div>
         </>
       )}
+      <h2>Boosts Data :</h2>
       {nbBoosts && (
         <>
-          <h2>Boosts Data :</h2>
           <h3>Number of Boost : {nbBoosts.toNumber()}</h3>
 
           <div style={{ display: "flex" }}>
@@ -113,6 +150,54 @@ const DataView = () => {
           </div>
         </>
       )}
+      <h3>Add Boost :</h3>
+      <div>
+        <label>Condition :</label>
+        <input
+          value={dropId}
+          onChange={handleChangeDropId}
+          placeholder="Drop Id"
+        />
+        <input
+          value={amount}
+          onChange={handleChangeAmount}
+          placeholder="Amount"
+        />
+        <button
+          onClick={() => {
+            handleAddCondition();
+          }}
+        >
+          Add Condition
+        </button>
+      </div>
+      <div>Current Condition : </div>
+      <div>--- Drop IDs : {dropIds.toString()}</div>
+      <div>--- Amounts : {amounts.toString()}</div>
+      <button
+        onClick={() => {
+          handleClearCondition();
+        }}
+      >
+        Clean Condition
+      </button>
+      <div>
+        <label>Increase :</label>
+        <input value={increase} onChange={handleChangeIncrease} />
+      </div>
+      <button
+        onClick={() => {
+          addBoost({
+            recklesslySetUnpreparedArgs: [
+              dropIds,
+              amounts,
+              ethers.utils.parseEther(increase.toString()),
+            ],
+          });
+        }}
+      >
+        Add Boost
+      </button>
     </div>
   );
 };
