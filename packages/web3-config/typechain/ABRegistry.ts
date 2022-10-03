@@ -109,14 +109,14 @@ export interface ABRegistry extends BaseContract {
     getUserBalancePerDrop(
       _user: string,
       _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     "getUserBalancePerDrop(address,uint256)"(
       _user: string,
       _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
@@ -158,14 +158,14 @@ export interface ABRegistry extends BaseContract {
   getUserBalancePerDrop(
     _user: string,
     _dropId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   "getUserBalancePerDrop(address,uint256)"(
     _user: string,
     _dropId: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -264,13 +264,13 @@ export interface ABRegistry extends BaseContract {
     getUserBalancePerDrop(
       _user: string,
       _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     "getUserBalancePerDrop(address,uint256)"(
       _user: string,
       _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
@@ -314,13 +314,13 @@ export interface ABRegistry extends BaseContract {
     getUserBalancePerDrop(
       _user: string,
       _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     "getUserBalancePerDrop(address,uint256)"(
       _user: string,
       _dropId: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;

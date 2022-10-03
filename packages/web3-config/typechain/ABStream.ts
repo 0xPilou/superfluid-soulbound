@@ -32,6 +32,7 @@ export declare namespace ABStream {
 export interface ABStreamInterface extends utils.Interface {
   contractName: "ABStream";
   functions: {
+    "addBoost(uint256[],uint256[],int96)": FunctionFragment;
     "afterAgreementCreated(address,address,bytes32,bytes,bytes,bytes)": FunctionFragment;
     "afterAgreementTerminated(address,address,bytes32,bytes,bytes,bytes)": FunctionFragment;
     "afterAgreementUpdated(address,address,bytes32,bytes,bytes,bytes)": FunctionFragment;
@@ -51,9 +52,14 @@ export interface ABStreamInterface extends utils.Interface {
     "setABToken(address)": FunctionFragment;
     "setBaseFlow(int96,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
+    "updateBoost(uint256,int96)": FunctionFragment;
     "updateStream(address,address,uint256)": FunctionFragment;
   };
 
+  encodeFunctionData(
+    functionFragment: "addBoost",
+    values: [BigNumberish[], BigNumberish[], BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "afterAgreementCreated",
     values: [string, string, BytesLike, BytesLike, BytesLike, BytesLike]
@@ -116,10 +122,15 @@ export interface ABStreamInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
+    functionFragment: "updateBoost",
+    values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "updateStream",
     values: [string, string, BigNumberish]
   ): string;
 
+  decodeFunctionResult(functionFragment: "addBoost", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "afterAgreementCreated",
     data: BytesLike
@@ -173,6 +184,10 @@ export interface ABStreamInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "updateBoost",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "updateStream",
     data: BytesLike
   ): Result;
@@ -220,6 +235,20 @@ export interface ABStream extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    addBoost(
+      _dropIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      _increase: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "addBoost(uint256[],uint256[],int96)"(
+      _dropIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      _increase: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     afterAgreementCreated(
       arg0: string,
       arg1: string,
@@ -462,6 +491,18 @@ export interface ABStream extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    updateBoost(
+      _boostId: BigNumberish,
+      _increase: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "updateBoost(uint256,int96)"(
+      _boostId: BigNumberish,
+      _increase: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     updateStream(
       _previousReceiver: string,
       _newReceiver: string,
@@ -476,6 +517,20 @@ export interface ABStream extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
+
+  addBoost(
+    _dropIds: BigNumberish[],
+    _quantities: BigNumberish[],
+    _increase: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "addBoost(uint256[],uint256[],int96)"(
+    _dropIds: BigNumberish[],
+    _quantities: BigNumberish[],
+    _increase: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   afterAgreementCreated(
     arg0: string,
@@ -719,6 +774,18 @@ export interface ABStream extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  updateBoost(
+    _boostId: BigNumberish,
+    _increase: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "updateBoost(uint256,int96)"(
+    _boostId: BigNumberish,
+    _increase: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   updateStream(
     _previousReceiver: string,
     _newReceiver: string,
@@ -734,6 +801,20 @@ export interface ABStream extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    addBoost(
+      _dropIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      _increase: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "addBoost(uint256[],uint256[],int96)"(
+      _dropIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      _increase: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     afterAgreementCreated(
       arg0: string,
       arg1: string,
@@ -966,6 +1047,18 @@ export interface ABStream extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    updateBoost(
+      _boostId: BigNumberish,
+      _increase: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "updateBoost(uint256,int96)"(
+      _boostId: BigNumberish,
+      _increase: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     updateStream(
       _previousReceiver: string,
       _newReceiver: string,
@@ -993,6 +1086,20 @@ export interface ABStream extends BaseContract {
   };
 
   estimateGas: {
+    addBoost(
+      _dropIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      _increase: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "addBoost(uint256[],uint256[],int96)"(
+      _dropIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      _increase: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     afterAgreementCreated(
       arg0: string,
       arg1: string,
@@ -1201,6 +1308,18 @@ export interface ABStream extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    updateBoost(
+      _boostId: BigNumberish,
+      _increase: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "updateBoost(uint256,int96)"(
+      _boostId: BigNumberish,
+      _increase: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     updateStream(
       _previousReceiver: string,
       _newReceiver: string,
@@ -1217,6 +1336,20 @@ export interface ABStream extends BaseContract {
   };
 
   populateTransaction: {
+    addBoost(
+      _dropIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      _increase: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "addBoost(uint256[],uint256[],int96)"(
+      _dropIds: BigNumberish[],
+      _quantities: BigNumberish[],
+      _increase: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     afterAgreementCreated(
       arg0: string,
       arg1: string,
@@ -1428,6 +1561,18 @@ export interface ABStream extends BaseContract {
 
     "transferOwnership(address)"(
       newOwner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    updateBoost(
+      _boostId: BigNumberish,
+      _increase: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "updateBoost(uint256,int96)"(
+      _boostId: BigNumberish,
+      _increase: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
