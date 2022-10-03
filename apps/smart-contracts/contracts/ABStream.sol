@@ -171,7 +171,7 @@ contract ABStream is SuperAppBase, Ownable {
   }
 
   //returns 0 if stream doesn't exist
-  function _getOutflow(address _to) internal returns (int96) {
+  function _getOutflow(address _to) internal view returns (int96) {
     (, int96 outFlowRate, , ) = cfaV1Lib.cfa.getFlow(
       ISuperToken(address(AB_TOKEN)),
       address(this),
@@ -180,7 +180,7 @@ contract ABStream is SuperAppBase, Ownable {
     return outFlowRate;
   }
 
-  function _getUserBoost(address _user) internal returns (int96) {
+  function _getUserBoost(address _user) internal view returns (int96) {
     int96 totalBoost = 0;
     for (uint256 i = 0; i < boosts.length; ++i) {
       if (_isConditionSatisfied(_user, boosts[i].condition)) {
@@ -192,6 +192,7 @@ contract ABStream is SuperAppBase, Ownable {
 
   function _isConditionSatisfied(address _user, Condition memory condition)
     internal
+    view
     returns (bool)
   {
     for (uint256 i = 0; i < condition.dropIds.length; ++i) {
@@ -221,27 +222,23 @@ contract ABStream is SuperAppBase, Ownable {
     if (_ABRelay == address(0)) revert INVALID_PARAMETER();
     AB_RELAY = _ABRelay;
   }
+
+  function addBoost(
+    uint256[] memory _dropIds,
+    uint256[] memory _quantities,
+    int96 _increase
+  ) external onlyOwner {
+    if (_dropIds.length != _quantities.length) revert INVALID_PARAMETER();
+    if (_increase <= 0) revert INVALID_PARAMETER();
+    boosts.push(Boost(Condition(_dropIds, _quantities), _increase));
+  }
+
+  function updateBoost(uint256 _boostId, int96 _increase) external onlyOwner {
+    if (_boostId > boosts.length) revert INVALID_PARAMETER();
+    boosts[_boostId].increase = _increase;
+  }
 }
 
 /**************************************************************************
  *                              TO BE DISCUSSED
  *************************************************************************/
-
-// NEEDED ?
-// function editNFT(
-//   uint256 tokenId,
-//   int96 flowRate,
-//   address receiver
-// ) external {
-//   require(flowRate >= 0, "flowRate must be positive!");
-
-//   if (flowRate == 0) {
-//     // subtract previous flowrate
-//     _reduceFlow(receiver, flowRates[tokenId]);
-//   } else {
-//     // add new flowRate
-//     _increaseFlow(receiver, flowRate - flowRates[tokenId]);
-//   }
-
-//   flowRates[tokenId] = flowRate;
-// }
