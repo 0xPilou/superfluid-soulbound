@@ -5,6 +5,7 @@ import StoreView from "../components/StoreView";
 import BalanceView from "../components/BalanceView";
 import MintView from "../components/MintView";
 import DataView from "../components/DataView";
+import BoostDataView from "../components/BoostDataView";
 
 const Page = () => {
   const { chain: activeChain } = useNetwork();
@@ -43,6 +44,7 @@ const Page = () => {
               <BalanceView />
               <StoreView />
               <DataView />
+              <BoostDataView />
             </>
           )}
           {isGoerli && <MintView />}
