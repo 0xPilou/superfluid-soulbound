@@ -46,9 +46,11 @@ export interface ABStreamInterface extends utils.Interface {
     "getABToken()": FunctionFragment;
     "getFlow(address)": FunctionFragment;
     "getUserBoost(address)": FunctionFragment;
+    "grantSpecialBoost(address,int96)": FunctionFragment;
     "nbBoost()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
+    "revokeSpecialBoost(address,int96)": FunctionFragment;
     "setABRegistry(address)": FunctionFragment;
     "setABRelay(address)": FunctionFragment;
     "setABToken(address)": FunctionFragment;
@@ -108,11 +110,19 @@ export interface ABStreamInterface extends utils.Interface {
     functionFragment: "getUserBoost",
     values: [string]
   ): string;
+  encodeFunctionData(
+    functionFragment: "grantSpecialBoost",
+    values: [string, BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "nbBoost", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "revokeSpecialBoost",
+    values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "setABRegistry",
@@ -175,10 +185,18 @@ export interface ABStreamInterface extends utils.Interface {
     functionFragment: "getUserBoost",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "grantSpecialBoost",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "nbBoost", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "revokeSpecialBoost",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -449,6 +467,18 @@ export interface ABStream extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    grantSpecialBoost(
+      _to: string,
+      _specialBoost: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "grantSpecialBoost(address,int96)"(
+      _to: string,
+      _specialBoost: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     nbBoost(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     "nbBoost()"(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -462,6 +492,18 @@ export interface ABStream extends BaseContract {
     ): Promise<ContractTransaction>;
 
     "renounceOwnership()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    revokeSpecialBoost(
+      _from: string,
+      _specialBoost: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "revokeSpecialBoost(address,int96)"(
+      _from: string,
+      _specialBoost: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -743,6 +785,18 @@ export interface ABStream extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  grantSpecialBoost(
+    _to: string,
+    _specialBoost: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "grantSpecialBoost(address,int96)"(
+    _to: string,
+    _specialBoost: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   nbBoost(overrides?: CallOverrides): Promise<BigNumber>;
 
   "nbBoost()"(overrides?: CallOverrides): Promise<BigNumber>;
@@ -756,6 +810,18 @@ export interface ABStream extends BaseContract {
   ): Promise<ContractTransaction>;
 
   "renounceOwnership()"(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  revokeSpecialBoost(
+    _from: string,
+    _specialBoost: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "revokeSpecialBoost(address,int96)"(
+    _from: string,
+    _specialBoost: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -1037,6 +1103,18 @@ export interface ABStream extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    grantSpecialBoost(
+      _to: string,
+      _specialBoost: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "grantSpecialBoost(address,int96)"(
+      _to: string,
+      _specialBoost: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     nbBoost(overrides?: CallOverrides): Promise<BigNumber>;
 
     "nbBoost()"(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1048,6 +1126,18 @@ export interface ABStream extends BaseContract {
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     "renounceOwnership()"(overrides?: CallOverrides): Promise<void>;
+
+    revokeSpecialBoost(
+      _from: string,
+      _specialBoost: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "revokeSpecialBoost(address,int96)"(
+      _from: string,
+      _specialBoost: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     setABRegistry(
       _ABRegistry: string,
@@ -1299,6 +1389,18 @@ export interface ABStream extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    grantSpecialBoost(
+      _to: string,
+      _specialBoost: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "grantSpecialBoost(address,int96)"(
+      _to: string,
+      _specialBoost: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     nbBoost(overrides?: CallOverrides): Promise<BigNumber>;
 
     "nbBoost()"(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1312,6 +1414,18 @@ export interface ABStream extends BaseContract {
     ): Promise<BigNumber>;
 
     "renounceOwnership()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    revokeSpecialBoost(
+      _from: string,
+      _specialBoost: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "revokeSpecialBoost(address,int96)"(
+      _from: string,
+      _specialBoost: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1569,6 +1683,18 @@ export interface ABStream extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    grantSpecialBoost(
+      _to: string,
+      _specialBoost: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "grantSpecialBoost(address,int96)"(
+      _to: string,
+      _specialBoost: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     nbBoost(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "nbBoost()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -1582,6 +1708,18 @@ export interface ABStream extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     "renounceOwnership()"(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    revokeSpecialBoost(
+      _from: string,
+      _specialBoost: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "revokeSpecialBoost(address,int96)"(
+      _from: string,
+      _specialBoost: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
