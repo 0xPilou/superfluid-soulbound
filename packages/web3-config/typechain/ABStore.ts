@@ -9,6 +9,7 @@ import {
   CallOverrides,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -20,7 +21,7 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface ABStoreInterface extends utils.Interface {
   contractName: "ABStore";
   functions: {
-    "addItem(uint256,uint256)": FunctionFragment;
+    "addItem(uint256,uint256,uint256)": FunctionFragment;
     "balanceOf(address,uint256)": FunctionFragment;
     "balanceOfBatch(address[],uint256[])": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
@@ -35,15 +36,14 @@ export interface ABStoreInterface extends utils.Interface {
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setToken(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
-    "token()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "updateItem(uint256,uint256,uint256)": FunctionFragment;
+    "updateItem(uint256,uint256,uint256,uint256)": FunctionFragment;
     "uri(uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: "addItem",
-    values: [BigNumberish, BigNumberish]
+    values: [BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "balanceOf",
@@ -89,14 +89,13 @@ export interface ABStoreInterface extends utils.Interface {
     functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
-  encodeFunctionData(functionFragment: "token", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "updateItem",
-    values: [BigNumberish, BigNumberish, BigNumberish]
+    values: [BigNumberish, BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "uri", values: [BigNumberish]): string;
 
@@ -136,7 +135,6 @@ export interface ABStoreInterface extends utils.Interface {
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "token", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
     data: BytesLike
@@ -152,7 +150,7 @@ export interface ABStoreInterface extends utils.Interface {
     "TransferBatch(address,address,address,uint256[],uint256[])": EventFragment;
     "TransferSingle(address,address,address,uint256,uint256)": EventFragment;
     "URI(string,uint256)": EventFragment;
-    "UpdatedInventory(uint256,uint256,uint256)": EventFragment;
+    "UpdatedInventory(uint256,uint256,uint256,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
@@ -228,8 +226,13 @@ export type URIEvent = TypedEvent<
 export type URIEventFilter = TypedEventFilter<URIEvent>;
 
 export type UpdatedInventoryEvent = TypedEvent<
-  [BigNumber, BigNumber, BigNumber],
-  { itemId: BigNumber; quantity: BigNumber; price: BigNumber }
+  [BigNumber, BigNumber, BigNumber, BigNumber],
+  {
+    itemId: BigNumber;
+    quantity: BigNumber;
+    priceABT: BigNumber;
+    priceETH: BigNumber;
+  }
 >;
 
 export type UpdatedInventoryEventFilter =
@@ -265,13 +268,15 @@ export interface ABStore extends BaseContract {
   functions: {
     addItem(
       _quantity: BigNumberish,
-      _price: BigNumberish,
+      _priceABT: BigNumberish,
+      _priceETH: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "addItem(uint256,uint256)"(
+    "addItem(uint256,uint256,uint256)"(
       _quantity: BigNumberish,
-      _price: BigNumberish,
+      _priceABT: BigNumberish,
+      _priceETH: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -315,14 +320,22 @@ export interface ABStore extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber] & { quantity: BigNumber; price: BigNumber }
+      [BigNumber, BigNumber, BigNumber] & {
+        quantity: BigNumber;
+        priceABT: BigNumber;
+        priceETH: BigNumber;
+      }
     >;
 
     "items(uint256)"(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber] & { quantity: BigNumber; price: BigNumber }
+      [BigNumber, BigNumber, BigNumber] & {
+        quantity: BigNumber;
+        priceABT: BigNumber;
+        priceETH: BigNumber;
+      }
     >;
 
     nbItems(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -336,13 +349,13 @@ export interface ABStore extends BaseContract {
     purchase(
       _itemIds: BigNumberish[],
       _quantities: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     "purchase(uint256[],uint256[])"(
       _itemIds: BigNumberish[],
       _quantities: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     redeem(
@@ -414,12 +427,12 @@ export interface ABStore extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setToken(
-      _token: string,
+      _abToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     "setToken(address)"(
-      _token: string,
+      _abToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -432,10 +445,6 @@ export interface ABStore extends BaseContract {
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
-
-    token(overrides?: CallOverrides): Promise<[string]>;
-
-    "token()"(overrides?: CallOverrides): Promise<[string]>;
 
     transferOwnership(
       newOwner: string,
@@ -450,14 +459,16 @@ export interface ABStore extends BaseContract {
     updateItem(
       _itemId: BigNumberish,
       _quantity: BigNumberish,
-      _price: BigNumberish,
+      _priceABT: BigNumberish,
+      _priceETH: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "updateItem(uint256,uint256,uint256)"(
+    "updateItem(uint256,uint256,uint256,uint256)"(
       _itemId: BigNumberish,
       _quantity: BigNumberish,
-      _price: BigNumberish,
+      _priceABT: BigNumberish,
+      _priceETH: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -471,13 +482,15 @@ export interface ABStore extends BaseContract {
 
   addItem(
     _quantity: BigNumberish,
-    _price: BigNumberish,
+    _priceABT: BigNumberish,
+    _priceETH: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "addItem(uint256,uint256)"(
+  "addItem(uint256,uint256,uint256)"(
     _quantity: BigNumberish,
-    _price: BigNumberish,
+    _priceABT: BigNumberish,
+    _priceETH: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -521,14 +534,22 @@ export interface ABStore extends BaseContract {
     arg0: BigNumberish,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, BigNumber] & { quantity: BigNumber; price: BigNumber }
+    [BigNumber, BigNumber, BigNumber] & {
+      quantity: BigNumber;
+      priceABT: BigNumber;
+      priceETH: BigNumber;
+    }
   >;
 
   "items(uint256)"(
     arg0: BigNumberish,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, BigNumber] & { quantity: BigNumber; price: BigNumber }
+    [BigNumber, BigNumber, BigNumber] & {
+      quantity: BigNumber;
+      priceABT: BigNumber;
+      priceETH: BigNumber;
+    }
   >;
 
   nbItems(overrides?: CallOverrides): Promise<BigNumber>;
@@ -542,13 +563,13 @@ export interface ABStore extends BaseContract {
   purchase(
     _itemIds: BigNumberish[],
     _quantities: BigNumberish[],
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   "purchase(uint256[],uint256[])"(
     _itemIds: BigNumberish[],
     _quantities: BigNumberish[],
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   redeem(
@@ -620,12 +641,12 @@ export interface ABStore extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setToken(
-    _token: string,
+    _abToken: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   "setToken(address)"(
-    _token: string,
+    _abToken: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -638,10 +659,6 @@ export interface ABStore extends BaseContract {
     interfaceId: BytesLike,
     overrides?: CallOverrides
   ): Promise<boolean>;
-
-  token(overrides?: CallOverrides): Promise<string>;
-
-  "token()"(overrides?: CallOverrides): Promise<string>;
 
   transferOwnership(
     newOwner: string,
@@ -656,14 +673,16 @@ export interface ABStore extends BaseContract {
   updateItem(
     _itemId: BigNumberish,
     _quantity: BigNumberish,
-    _price: BigNumberish,
+    _priceABT: BigNumberish,
+    _priceETH: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "updateItem(uint256,uint256,uint256)"(
+  "updateItem(uint256,uint256,uint256,uint256)"(
     _itemId: BigNumberish,
     _quantity: BigNumberish,
-    _price: BigNumberish,
+    _priceABT: BigNumberish,
+    _priceETH: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -677,13 +696,15 @@ export interface ABStore extends BaseContract {
   callStatic: {
     addItem(
       _quantity: BigNumberish,
-      _price: BigNumberish,
+      _priceABT: BigNumberish,
+      _priceETH: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "addItem(uint256,uint256)"(
+    "addItem(uint256,uint256,uint256)"(
       _quantity: BigNumberish,
-      _price: BigNumberish,
+      _priceABT: BigNumberish,
+      _priceETH: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -727,14 +748,22 @@ export interface ABStore extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber] & { quantity: BigNumber; price: BigNumber }
+      [BigNumber, BigNumber, BigNumber] & {
+        quantity: BigNumber;
+        priceABT: BigNumber;
+        priceETH: BigNumber;
+      }
     >;
 
     "items(uint256)"(
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber] & { quantity: BigNumber; price: BigNumber }
+      [BigNumber, BigNumber, BigNumber] & {
+        quantity: BigNumber;
+        priceABT: BigNumber;
+        priceETH: BigNumber;
+      }
     >;
 
     nbItems(overrides?: CallOverrides): Promise<BigNumber>;
@@ -821,10 +850,10 @@ export interface ABStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setToken(_token: string, overrides?: CallOverrides): Promise<void>;
+    setToken(_abToken: string, overrides?: CallOverrides): Promise<void>;
 
     "setToken(address)"(
-      _token: string,
+      _abToken: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -837,10 +866,6 @@ export interface ABStore extends BaseContract {
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    token(overrides?: CallOverrides): Promise<string>;
-
-    "token()"(overrides?: CallOverrides): Promise<string>;
 
     transferOwnership(
       newOwner: string,
@@ -855,14 +880,16 @@ export interface ABStore extends BaseContract {
     updateItem(
       _itemId: BigNumberish,
       _quantity: BigNumberish,
-      _price: BigNumberish,
+      _priceABT: BigNumberish,
+      _priceETH: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "updateItem(uint256,uint256,uint256)"(
+    "updateItem(uint256,uint256,uint256,uint256)"(
       _itemId: BigNumberish,
       _quantity: BigNumberish,
-      _price: BigNumberish,
+      _priceABT: BigNumberish,
+      _priceETH: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -953,28 +980,32 @@ export interface ABStore extends BaseContract {
     ): URIEventFilter;
     URI(value?: null, id?: BigNumberish | null): URIEventFilter;
 
-    "UpdatedInventory(uint256,uint256,uint256)"(
+    "UpdatedInventory(uint256,uint256,uint256,uint256)"(
       itemId?: null,
       quantity?: null,
-      price?: null
+      priceABT?: null,
+      priceETH?: null
     ): UpdatedInventoryEventFilter;
     UpdatedInventory(
       itemId?: null,
       quantity?: null,
-      price?: null
+      priceABT?: null,
+      priceETH?: null
     ): UpdatedInventoryEventFilter;
   };
 
   estimateGas: {
     addItem(
       _quantity: BigNumberish,
-      _price: BigNumberish,
+      _priceABT: BigNumberish,
+      _priceETH: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "addItem(uint256,uint256)"(
+    "addItem(uint256,uint256,uint256)"(
       _quantity: BigNumberish,
-      _price: BigNumberish,
+      _priceABT: BigNumberish,
+      _priceETH: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1032,13 +1063,13 @@ export interface ABStore extends BaseContract {
     purchase(
       _itemIds: BigNumberish[],
       _quantities: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     "purchase(uint256[],uint256[])"(
       _itemIds: BigNumberish[],
       _quantities: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     redeem(
@@ -1110,12 +1141,12 @@ export interface ABStore extends BaseContract {
     ): Promise<BigNumber>;
 
     setToken(
-      _token: string,
+      _abToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     "setToken(address)"(
-      _token: string,
+      _abToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1128,10 +1159,6 @@ export interface ABStore extends BaseContract {
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    token(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "token()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     transferOwnership(
       newOwner: string,
@@ -1146,14 +1173,16 @@ export interface ABStore extends BaseContract {
     updateItem(
       _itemId: BigNumberish,
       _quantity: BigNumberish,
-      _price: BigNumberish,
+      _priceABT: BigNumberish,
+      _priceETH: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "updateItem(uint256,uint256,uint256)"(
+    "updateItem(uint256,uint256,uint256,uint256)"(
       _itemId: BigNumberish,
       _quantity: BigNumberish,
-      _price: BigNumberish,
+      _priceABT: BigNumberish,
+      _priceETH: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1168,13 +1197,15 @@ export interface ABStore extends BaseContract {
   populateTransaction: {
     addItem(
       _quantity: BigNumberish,
-      _price: BigNumberish,
+      _priceABT: BigNumberish,
+      _priceETH: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "addItem(uint256,uint256)"(
+    "addItem(uint256,uint256,uint256)"(
       _quantity: BigNumberish,
-      _price: BigNumberish,
+      _priceABT: BigNumberish,
+      _priceETH: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1235,13 +1266,13 @@ export interface ABStore extends BaseContract {
     purchase(
       _itemIds: BigNumberish[],
       _quantities: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "purchase(uint256[],uint256[])"(
       _itemIds: BigNumberish[],
       _quantities: BigNumberish[],
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     redeem(
@@ -1313,12 +1344,12 @@ export interface ABStore extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setToken(
-      _token: string,
+      _abToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "setToken(address)"(
-      _token: string,
+      _abToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1331,10 +1362,6 @@ export interface ABStore extends BaseContract {
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    token(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "token()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transferOwnership(
       newOwner: string,
@@ -1349,14 +1376,16 @@ export interface ABStore extends BaseContract {
     updateItem(
       _itemId: BigNumberish,
       _quantity: BigNumberish,
-      _price: BigNumberish,
+      _priceABT: BigNumberish,
+      _priceETH: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "updateItem(uint256,uint256,uint256)"(
+    "updateItem(uint256,uint256,uint256,uint256)"(
       _itemId: BigNumberish,
       _quantity: BigNumberish,
-      _price: BigNumberish,
+      _priceABT: BigNumberish,
+      _priceETH: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

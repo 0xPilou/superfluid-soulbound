@@ -11,19 +11,26 @@ import { IABToken } from "./interfaces/IABToken.sol";
 contract ABStore is ERC1155, Ownable {
   uint256 public nbItems = 0;
 
-  address public token;
+  IABToken internal AB_TOKEN;
 
   struct Item {
     uint256 quantity;
-    uint256 price;
+    uint256 priceABT;
+    uint256 priceETH;
   }
   error OutOfStock();
   error IncorrectItem();
   error IncorrectParameters();
+  error IncorrectETHSent();
 
   mapping(uint256 => Item) public items;
 
-  event UpdatedInventory(uint256 itemId, uint256 quantity, uint256 price);
+  event UpdatedInventory(
+    uint256 itemId,
+    uint256 quantity,
+    uint256 priceABT,
+    uint256 priceETH
+  );
   event Purchased(address buyer, uint256[] itemIds, uint256[] quantities);
   event Redeemed(address buyer, uint256[] itemIds, uint256[] quantities);
 
@@ -35,16 +42,21 @@ contract ABStore is ERC1155, Ownable {
 
   function purchase(uint256[] memory _itemIds, uint256[] memory _quantities)
     external
+    payable
   {
     if (_itemIds.length != _quantities.length) revert IncorrectParameters();
-    uint256 totalPrice = 0;
+    uint256 totalPriceAB = 0;
+    uint256 totalPriceETH = 0;
     for (uint256 i = 0; i < _itemIds.length; ++i) {
       Item storage item = items[_itemIds[i]];
       if (item.quantity < _quantities[i]) revert OutOfStock();
       item.quantity -= _quantities[i];
-      totalPrice += _quantities[i] * item.price;
+      totalPriceAB += _quantities[i] * item.priceABT;
+      totalPriceETH += _quantities[i] * item.priceETH;
     }
-    IABToken(token).burn(msg.sender, totalPrice);
+
+    if (msg.value != totalPriceETH) revert IncorrectETHSent();
+    AB_TOKEN.burn(msg.sender, totalPriceAB);
     _mintBatch(msg.sender, _itemIds, _quantities, "");
 
     emit Purchased(msg.sender, _itemIds, _quantities);
@@ -62,14 +74,19 @@ contract ABStore is ERC1155, Ownable {
    *                              ONLY OWNER
    *************************************************************************/
 
-  function addItem(uint256 _quantity, uint256 _price) external onlyOwner {
+  function addItem(
+    uint256 _quantity,
+    uint256 _priceABT,
+    uint256 _priceETH
+  ) external onlyOwner {
     Item memory item;
     item.quantity = _quantity;
-    item.price = _price;
+    item.priceABT = _priceABT;
+    item.priceETH = _priceETH;
 
     items[nbItems] = item;
 
-    emit UpdatedInventory(nbItems, _quantity, _price);
+    emit UpdatedInventory(nbItems, _quantity, _priceABT, _priceETH);
 
     nbItems++;
   }
@@ -77,21 +94,22 @@ contract ABStore is ERC1155, Ownable {
   function updateItem(
     uint256 _itemId,
     uint256 _quantity,
-    uint256 _price
+    uint256 _priceABT,
+    uint256 _priceETH
   ) external onlyOwner {
     if (_itemId >= nbItems) revert IncorrectItem();
 
     Item memory item;
     item.quantity = _quantity;
-    item.price = _price;
-
+    item.priceABT = _priceABT;
+    item.priceETH = _priceETH;
     items[_itemId] = item;
 
-    emit UpdatedInventory(_itemId, _quantity, _price);
+    emit UpdatedInventory(nbItems, _quantity, _priceABT, _priceETH);
   }
 
-  function setToken(address _token) external onlyOwner {
-    require(_token != address(0), "zero address");
-    token = _token;
+  function setToken(address _abToken) external onlyOwner {
+    require(_abToken != address(0), "zero address");
+    AB_TOKEN = IABToken(_abToken);
   }
 }
