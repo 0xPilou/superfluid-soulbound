@@ -14,6 +14,11 @@ import { FixedSizeData } from "@superfluid-finance/ethereum-contracts/contracts/
 /* Openzeppelin Contracts */
 import { SafeCast } from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 
+/// @dev Constant Flow Agreement registration key, used to get the address from the host.
+bytes32 constant CFA_ID = keccak256(
+  "org.superfluid-finance.agreements.ConstantFlowAgreement.v1"
+);
+
 /**
  * @title Superfluid compatible Soulbound Token implementation
  *
@@ -60,15 +65,8 @@ abstract contract SuperfluidSoulbound is ISuperfluidToken {
   error NOT_CFA_AGREEMENT();
   error NOT_ADMIN();
 
-  address private CFA_ADDRESS;
-
-  constructor(
-    ISuperfluid host,
-    address cfa,
-    address admin
-  ) {
+  constructor(ISuperfluid host, address admin) {
     _host = host;
-    CFA_ADDRESS = cfa;
     _admin = admin;
   }
 
@@ -254,7 +252,8 @@ abstract contract SuperfluidSoulbound is ISuperfluidToken {
     override
   {
     address agreementClass = msg.sender;
-    if (agreementClass != CFA_ADDRESS) revert NOT_CFA_AGREEMENT();
+    if (agreementClass != address(_host.getAgreementClass(CFA_ID)))
+      revert NOT_CFA_AGREEMENT();
     bytes32 slot = keccak256(abi.encode("AgreementData", agreementClass, id));
     if (FixedSizeData.hasData(slot, data.length)) {
       revert SuperfluidErrors.ALREADY_EXISTS(
@@ -281,7 +280,8 @@ abstract contract SuperfluidSoulbound is ISuperfluidToken {
     override
   {
     address agreementClass = msg.sender;
-    if (agreementClass != CFA_ADDRESS) revert NOT_CFA_AGREEMENT();
+    if (agreementClass != address(_host.getAgreementClass(CFA_ID)))
+      revert NOT_CFA_AGREEMENT();
     if (!this.isAllowed(id)) {
       revert NOT_STREAMABLE();
     }
@@ -296,7 +296,8 @@ abstract contract SuperfluidSoulbound is ISuperfluidToken {
     override
   {
     address agreementClass = msg.sender;
-    if (agreementClass != CFA_ADDRESS) revert NOT_CFA_AGREEMENT();
+    if (agreementClass != address(_host.getAgreementClass(CFA_ID)))
+      revert NOT_CFA_AGREEMENT();
     bytes32 slot = keccak256(abi.encode("AgreementData", agreementClass, id));
     if (!FixedSizeData.hasData(slot, dataLength)) {
       revert SuperfluidErrors.DOES_NOT_EXIST(

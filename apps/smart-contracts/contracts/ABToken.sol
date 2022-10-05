@@ -13,9 +13,8 @@ contract ABToken is SuperSoulbound, AccessControl {
   constructor(
     address _store,
     address _host,
-    address _cfa,
     address _admin
-  ) SuperSoulbound(_host, _cfa, _admin) {
+  ) SuperSoulbound(_host, _admin) {
     store = _store;
     _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
     _grantRole(MINTER, msg.sender);

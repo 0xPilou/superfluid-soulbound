@@ -7,7 +7,6 @@ import {
 } from "../../deploy-constants";
 
 const SF_HOST_ADDRESS = "0xE40983C2476032A0915600b9472B3141aA5B5Ba9";
-const SF_CFA_ADDRESS = "0xff48668fa670A85e55A7a822b352d5ccF3E7b18C";
 const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
@@ -20,7 +19,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const deployment = await deploy(AB_TOKEN_NAME, {
     from: deployer,
-    args: [abStore.address, SF_HOST_ADDRESS, SF_CFA_ADDRESS, abStream.address],
+    args: [abStore.address, SF_HOST_ADDRESS, abStream.address],
   });
 
   const abToken = await hre.ethers.getContractAt(
@@ -39,7 +38,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   );
   deployments.log("");
   deployments.log(
-    `npx hardhat verify --network optimismGoerli ${deployment.address} ${abStore.address} ${SF_HOST_ADDRESS} ${SF_CFA_ADDRESS} ${abStream.address}`
+    `npx hardhat verify --network optimismGoerli ${deployment.address} ${abStore.address} ${SF_HOST_ADDRESS} ${abStream.address}`
   );
   deployments.log(
     "------------------------------------------------------------------------------------------------------------------------------"
