@@ -39,6 +39,7 @@ export interface ABStoreInterface extends utils.Interface {
     "transferOwnership(address)": FunctionFragment;
     "updateItem(uint256,uint256,uint256,uint256)": FunctionFragment;
     "uri(uint256)": FunctionFragment;
+    "withdraw(address)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -98,6 +99,7 @@ export interface ABStoreInterface extends utils.Interface {
     values: [BigNumberish, BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "uri", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "withdraw", values: [string]): string;
 
   decodeFunctionResult(functionFragment: "addItem", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
@@ -141,6 +143,7 @@ export interface ABStoreInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "updateItem", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "uri", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
   events: {
     "ApprovalForAll(address,address,bool)": EventFragment;
@@ -427,12 +430,12 @@ export interface ABStore extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setToken(
-      _abToken: string,
+      _ABToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     "setToken(address)"(
-      _abToken: string,
+      _ABToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -478,6 +481,16 @@ export interface ABStore extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    withdraw(
+      _treasury: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "withdraw(address)"(
+      _treasury: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
 
   addItem(
@@ -641,12 +654,12 @@ export interface ABStore extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setToken(
-    _abToken: string,
+    _ABToken: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   "setToken(address)"(
-    _abToken: string,
+    _ABToken: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -692,6 +705,16 @@ export interface ABStore extends BaseContract {
     arg0: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  withdraw(
+    _treasury: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "withdraw(address)"(
+    _treasury: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   callStatic: {
     addItem(
@@ -850,10 +873,10 @@ export interface ABStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setToken(_abToken: string, overrides?: CallOverrides): Promise<void>;
+    setToken(_ABToken: string, overrides?: CallOverrides): Promise<void>;
 
     "setToken(address)"(
-      _abToken: string,
+      _ABToken: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -899,6 +922,13 @@ export interface ABStore extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    withdraw(_treasury: string, overrides?: CallOverrides): Promise<void>;
+
+    "withdraw(address)"(
+      _treasury: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {
@@ -1141,12 +1171,12 @@ export interface ABStore extends BaseContract {
     ): Promise<BigNumber>;
 
     setToken(
-      _abToken: string,
+      _ABToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     "setToken(address)"(
-      _abToken: string,
+      _ABToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1191,6 +1221,16 @@ export interface ABStore extends BaseContract {
     "uri(uint256)"(
       arg0: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    withdraw(
+      _treasury: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "withdraw(address)"(
+      _treasury: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
@@ -1344,12 +1384,12 @@ export interface ABStore extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setToken(
-      _abToken: string,
+      _ABToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "setToken(address)"(
-      _abToken: string,
+      _ABToken: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1397,6 +1437,16 @@ export interface ABStore extends BaseContract {
     "uri(uint256)"(
       arg0: BigNumberish,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    withdraw(
+      _treasury: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "withdraw(address)"(
+      _treasury: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

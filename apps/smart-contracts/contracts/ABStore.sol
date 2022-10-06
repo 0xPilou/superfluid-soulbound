@@ -208,4 +208,17 @@ contract ABStore is ERC1155, Ownable {
     if (_ABToken == address(0)) revert INVALID_PARAMETER();
     AB_TOKEN = IABToken(_ABToken);
   }
+
+  /**
+   * @notice
+   *  Withdraw Ether from this contract to the given address
+   *
+   * @dev
+   *  Only the contract owner can perform this operation
+   *
+   * @param _treasury Anotherblock Treasury Address
+   */
+  function withdraw(address _treasury) external onlyOwner {
+    payable(_treasury).transfer(address(this).balance);
+  }
 }
