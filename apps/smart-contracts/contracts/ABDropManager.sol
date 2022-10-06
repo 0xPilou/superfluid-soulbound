@@ -410,7 +410,7 @@ contract ABDropManager is
       )
     );
 
-    int256 baseFlow = int256(_tokenInfo.price) * 10;
+    int256 baseFlow = (int256(_tokenInfo.price) * 10) / 86400;
     messenger.sendMessage(
       relay,
       abi.encodeWithSignature(
