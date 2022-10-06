@@ -1,3 +1,4 @@
+import { BigNumber, ethers } from "ethers";
 import { useState } from "react";
 import { chain, useContractRead, useContractWrite } from "wagmi";
 import { getAddress, getAbi } from "web3-config";
@@ -24,6 +25,20 @@ function getItemQty(cart: any[]): number[] {
     }
   });
   return qtyArray;
+}
+
+function getTotalETH(cart: any[]): BigNumber {
+  let totalETH: BigNumber = BigNumber.from("0");
+  for (let item in getItemIds(cart)) {
+    const { data: itemDetails } = useContractRead({
+      addressOrName: getAddress(chain.optimismGoerli.id, "ABStore"),
+      contractInterface: getAbi(chain.optimismGoerli.id, "ABStore"),
+      functionName: "items",
+      args: [item],
+    });
+    totalETH.add(itemDetails!.priceETH);
+  }
+  return totalETH;
 }
 
 const StoreView = () => {
@@ -68,6 +83,9 @@ const StoreView = () => {
                       getItemIds(cart),
                       getItemQty(cart),
                     ],
+                    recklesslySetUnpreparedOverrides: {
+                      value: getTotalETH(cart),
+                    },
                   });
                 }}
               >

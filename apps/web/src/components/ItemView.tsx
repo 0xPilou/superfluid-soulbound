@@ -14,7 +14,6 @@ const ItemView = (props: ItemProps) => {
     contractInterface: getAbi(chain.optimismGoerli.id, "ABStore"),
     functionName: "items",
     args: [props.id],
-    // watch: true,
   });
 
   const handleSelectItem = (position: number) => {
@@ -36,8 +35,12 @@ const ItemView = (props: ItemProps) => {
       {itemDetails && (
         <>
           <h3>
-            Price : {ethers.utils.formatEther(itemDetails!.price!.toString())}{" "}
-            ABT
+            Price ABT:{" "}
+            {ethers.utils.formatEther(itemDetails!.priceAB!.toString())} ABT
+          </h3>
+          <h3>
+            Price ETH:{" "}
+            {ethers.utils.formatEther(itemDetails!.priceETH!.toString())} ETH
           </h3>
           <h3>Quantity : {itemDetails!.quantity.toNumber()} units</h3>
           <input
