@@ -109,7 +109,7 @@ const BoostDataView = () => {
         <h4>Condition :</h4>
         <div>
           <input onChange={handleChangeDropId} placeholder="Drop Id" />
-          <input onChange={handleChangeAmount} placeholder="Amount" />
+          <input onChange={handleChangeAmount} placeholder="Quantity" />
           <button
             onClick={() => {
               handleAddCondition();
@@ -131,7 +131,7 @@ const BoostDataView = () => {
       <div>
         <h4>Increase :</h4>
         <div>
-          <input onChange={handleChangeIncrease} placeholder="ABT / second" />
+          <input onChange={handleChangeIncrease} placeholder="ABT / day" />
         </div>
       </div>
       <button
@@ -140,7 +140,7 @@ const BoostDataView = () => {
             recklesslySetUnpreparedArgs: [
               dropIds,
               amounts,
-              ethers.utils.parseEther(increase.toString()),
+              ethers.utils.parseEther(increase.toString()).div(86400),
             ],
           });
         }}
@@ -151,13 +151,13 @@ const BoostDataView = () => {
       <div>
         <h4>Grant Boost :</h4>
         <input onChange={handleChangeAddressGrant} placeholder="User Address" />
-        <input onChange={handleChangeIncreaseGrant} placeholder="Increase" />
+        <input onChange={handleChangeIncreaseGrant} placeholder="ABT/day" />
         <button
           onClick={() => {
             grantSpecialBoost({
               recklesslySetUnpreparedArgs: [
                 addressGrant,
-                ethers.utils.parseEther(increaseGrant.toString()),
+                ethers.utils.parseEther(increaseGrant.toString()).div(86400),
               ],
             });
           }}
@@ -171,13 +171,13 @@ const BoostDataView = () => {
           onChange={handleChangeAddressRevoke}
           placeholder="User Address"
         />
-        <input onChange={handleChangeIncreaseRevoke} placeholder="Increase" />
+        <input onChange={handleChangeIncreaseRevoke} placeholder="ABT/day" />
         <button
           onClick={() => {
             revokeSpecialBoost({
               recklesslySetUnpreparedArgs: [
                 addressRevoke,
-                ethers.utils.parseEther(increaseRevoke.toString()),
+                ethers.utils.parseEther(increaseRevoke.toString()).div(86400),
               ],
             });
           }}

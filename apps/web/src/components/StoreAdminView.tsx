@@ -23,14 +23,9 @@ function StoreAdminView() {
   return (
     <div>
       <h3>Store Admin Function :</h3>
-      <div>
-        <label>Quantity :</label>
-        <input value={quantity} onChange={handleChangeQuantity} />
-      </div>
-      <div>
-        <label>Price :</label>
-        <input value={price} onChange={handleChangePrice} />
-      </div>
+      <h4>Add Item :</h4>
+      <input onChange={handleChangeQuantity} placeholder="Supply" />
+      <input onChange={handleChangePrice} placeholder="Price" />
       <button
         onClick={() => {
           addItem({
@@ -41,7 +36,7 @@ function StoreAdminView() {
           });
         }}
       >
-        Add Item
+        ADD
       </button>
     </div>
   );

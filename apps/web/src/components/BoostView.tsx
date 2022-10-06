@@ -23,11 +23,12 @@ const BoostView = (props: BoostProps) => {
       {boost && (
         <>
           <h3>Condition : </h3>
-          <h3>---- Drop IDs : {boost.condition[0].toString()}</h3>
-          <h3>---- Amounts : {boost.condition[1].toString()}</h3>
+          <h3>----- Drop ID : {boost.condition[0].toString()}</h3>
+          <h3>---- Quantity : {boost.condition[1].toString()}</h3>
           <h3>
-            Increase : {ethers.utils.formatEther(boost.increase.toString())} ABT
-            / second
+            Increase :{" "}
+            {ethers.utils.formatEther(boost.increase.mul(86400).toString())} ABT
+            / day
           </h3>
         </>
       )}

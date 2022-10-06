@@ -21,7 +21,7 @@ const BalanceView = () => {
       <h1>Balances 💰 </h1>
       <div style={{ display: "flex" }}>
         <div style={{ marginLeft: "5%", marginRight: "5%" }}>
-          <h2>Cashflow Contract : </h2>
+          <h2>Streaming Contract : </h2>
           <p>{sbtxContractBalance?.formatted || null} ABT</p>
         </div>
         <div style={{ marginLeft: "5%", marginRight: "5%" }}>
