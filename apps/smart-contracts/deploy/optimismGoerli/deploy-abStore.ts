@@ -7,9 +7,10 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await getNamedAccounts();
   const { deploy } = deployments;
 
+  const URI = "testURI";
   const deployment = await deploy(AB_STORE_NAME, {
     from: deployer,
-    args: [],
+    args: [URI],
   });
 
   deployments.log("");
@@ -22,7 +23,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   deployments.log("");
   deployments.log(
-    `npx hardhat verify --network optimismGoerli ${deployment.address}`
+    `npx hardhat verify --network optimismGoerli ${deployment.address} ${URI}`
   );
   deployments.log(
     "------------------------------------------------------------------------------------------------------------------------------"
