@@ -36,7 +36,7 @@ const ItemView = (props: ItemProps) => {
         <>
           <h3>
             Price ABT:{" "}
-            {ethers.utils.formatEther(itemDetails!.priceAB!.toString())} ABT
+            {ethers.utils.formatEther(itemDetails!.priceABT!.toString())} ABT
           </h3>
           <h3>
             Price ETH:{" "}
