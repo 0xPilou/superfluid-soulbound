@@ -16,35 +16,48 @@ const main = async () => {
   );
   const abStore = await Store.deployed();
 
-  if ((await abStore.token()) != ABTokenDeployment.address) {
-    const tx = await abStore
-      .connect(deployer)
-      .setToken(ABTokenDeployment.address);
-    await tx.wait();
-    console.log(
-      `ABStore : Accepted currency set to address : ${ABTokenDeployment.address}`
-    );
-  }
+  const tx = await abStore
+    .connect(deployer)
+    .setToken(ABTokenDeployment.address);
+  await tx.wait();
+  console.log(
+    `ABStore : Accepted currency set to address : ${ABTokenDeployment.address}`
+  );
 
   let itemIds = [0, 1, 2];
   let quantities = [100, 50, 10];
-  let prices = [
-    ethers.utils.parseEther("10"),
-    ethers.utils.parseEther("100"),
-    ethers.utils.parseEther("1000"),
+  let pricesAB = [
+    ethers.utils.parseEther("0.001"),
+    ethers.utils.parseEther("0.01"),
+    ethers.utils.parseEther("0.1"),
+  ];
+
+  let pricesETH = [
+    ethers.utils.parseEther("0.001"),
+    ethers.utils.parseEther("0.01"),
+    ethers.utils.parseEther("0.1"),
   ];
 
   for (let i = 0; i < itemIds.length; i++) {
-    let tx = await abStore.connect(deployer).addItem(quantities[i], prices[i]);
+    let tx = await abStore
+      .connect(deployer)
+      .addItem(quantities[i], pricesAB[i], pricesETH[i]);
     await tx.wait();
 
     console.log("-------------------------------------------");
     console.log("Item Added : ");
     console.log("-------------------------------------------");
     console.log("   Item Id       : ", itemIds[i]);
+    console.log("   Item Price    : ");
     console.log(
-      "   Item Price    : ",
-      ethers.utils.formatEther(prices[i].toString())
+      "       - ",
+      ethers.utils.formatEther(pricesAB[i].toString()),
+      "ABT"
+    );
+    console.log(
+      "       - ",
+      ethers.utils.formatEther(pricesETH[i].toString()),
+      "ETH"
     );
     console.log("   Item Quantity : ", quantities[i]);
     console.log("*******************************************");
