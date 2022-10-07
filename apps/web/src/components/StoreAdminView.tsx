@@ -4,11 +4,15 @@ import { chain, useContractWrite } from "wagmi";
 import { ethers } from "ethers";
 
 function StoreAdminView() {
-  const [price, setPrice] = useState(1);
+  const [priceABT, setPriceABT] = useState(1);
+  const [priceETH, setPriceETH] = useState(1);
   const [quantity, setQuantity] = useState(1);
 
-  const handleChangePrice = (event) => {
-    setPrice(event.target.value);
+  const handleChangePriceABT = (event) => {
+    setPriceABT(event.target.value);
+  };
+  const handleChangePriceETH = (event) => {
+    setPriceETH(event.target.value);
   };
   const handleChangeQuantity = (event) => {
     setQuantity(event.target.value);
@@ -25,13 +29,15 @@ function StoreAdminView() {
       <h3>Store Admin Function :</h3>
       <h4>Add Item :</h4>
       <input onChange={handleChangeQuantity} placeholder="Supply" />
-      <input onChange={handleChangePrice} placeholder="Price" />
+      <input onChange={handleChangePriceABT} placeholder="Price ABT" />
+      <input onChange={handleChangePriceETH} placeholder="Price ETH" />
       <button
         onClick={() => {
           addItem({
             recklesslySetUnpreparedArgs: [
               quantity,
-              ethers.utils.parseEther(price.toString()),
+              ethers.utils.parseEther(priceABT.toString()),
+              ethers.utils.parseEther(priceETH.toString()),
             ],
           });
         }}

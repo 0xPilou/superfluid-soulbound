@@ -1,7 +1,12 @@
 import { BigNumber, ethers } from "ethers";
 import { useState } from "react";
-import { chain, useContractRead, useContractWrite } from "wagmi";
-import { getAddress, getAbi } from "web3-config";
+import {
+  chain,
+  useContractRead,
+  useContractReads,
+  useContractWrite,
+} from "wagmi";
+import { getAddress, getAbi, ABStore__factory } from "web3-config";
 import ItemView from "./ItemView";
 import StoreAdminView from "./StoreAdminView";
 
@@ -27,19 +32,23 @@ function getItemQty(cart: any[]): number[] {
   return qtyArray;
 }
 
-function getTotalETH(cart: any[]): BigNumber {
+function getTotalETH(cart: any[], ethPrices: any[]): BigNumber {
   let totalETH: BigNumber = BigNumber.from("0");
-  for (let item in getItemIds(cart)) {
-    const { data: itemDetails } = useContractRead({
-      addressOrName: getAddress(chain.optimismGoerli.id, "ABStore"),
-      contractInterface: getAbi(chain.optimismGoerli.id, "ABStore"),
-      functionName: "items",
-      args: [item],
-    });
-    totalETH.add(itemDetails!.priceETH);
-  }
+  cart.forEach((element, index) => {
+    if (element === true) {
+      console.log(ethPrices[index][1]);
+      totalETH = totalETH.add(ethPrices[index][1]);
+    }
+  });
   return totalETH;
 }
+
+type ContractsParam = {
+  addressOrName: string;
+  contractInterface: any;
+  functionName: string;
+  args: any;
+}[];
 
 const StoreView = () => {
   const { data: nbItems } = useContractRead({
@@ -63,9 +72,24 @@ const StoreView = () => {
   }
   const [cart, setCart] = useState(new Array(itemIds.length).fill(false));
 
+  let contractParam: ContractsParam = [];
+
+  for (let item in itemIds) {
+    contractParam.push({
+      addressOrName: getAddress(chain.optimismGoerli.id, "ABStore"),
+      contractInterface: getAbi(chain.optimismGoerli.id, "ABStore"),
+      functionName: "items",
+      args: [item],
+    });
+  }
+
+  const { data: ethPrices } = useContractReads({
+    contracts: contractParam,
+  });
+
   return (
     <>
-      {nbItems && (
+      {nbItems && ethPrices && (
         <div style={{ marginBottom: "5%" }}>
           <h1>Store 🛒</h1>
           <div>
@@ -84,7 +108,7 @@ const StoreView = () => {
                       getItemQty(cart),
                     ],
                     recklesslySetUnpreparedOverrides: {
-                      value: getTotalETH(cart),
+                      value: getTotalETH(cart, ethPrices),
                     },
                   });
                 }}
