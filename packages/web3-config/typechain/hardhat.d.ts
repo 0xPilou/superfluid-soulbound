@@ -245,6 +245,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABToken__factory>;
     getContractFactory(
+      name: "ABWrapper",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ABWrapper__factory>;
+    getContractFactory(
       name: "ERC721AB",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721AB__factory>;
@@ -575,6 +579,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ABToken>;
+    getContractAt(
+      name: "ABWrapper",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ABWrapper>;
     getContractAt(
       name: "ERC721AB",
       address: string,
