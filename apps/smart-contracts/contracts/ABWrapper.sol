@@ -2,36 +2,28 @@
 pragma solidity ^0.8.4;
 
 /* Openzeppelin Contract */
-import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import { ERC721, IERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
 
 /* Optimism Contracts */
 import { L1CrossDomainMessenger } from "@eth-optimism/contracts/L1/messaging/L1CrossDomainMessenger.sol";
 import { IL1CrossDomainMessenger } from "@eth-optimism/contracts/L1/messaging/IL1CrossDomainMessenger.sol";
 
-/* Custom Imports */
-import { IABDropManager } from "./interfaces/IABDropManager.sol";
-import { IERC721AB } from "./interfaces/IERC721AB.sol";
-import { ERC721ABErrors } from "./ERC721ABErrors.sol";
-
-contract ABWrapper is ERC721, ERC721ABErrors, Ownable {
-  // AB Drop Manager address
-  address public dropManager;
+contract ABWrapper is ERC721, Ownable {
+  // Drop Identifier
+  uint256 public dropId;
 
   // AB Relay Address
   address private relay;
 
   // Underlying ERC-721 token address
-  address private underlying;
+  address public underlying;
 
   // L1 to L2 Messenger Contract
   IL1CrossDomainMessenger private messenger;
 
-  // Drop Identifier
-  uint256 private dropId;
-
-  // Denominator used to calculate fees
-  uint256 private constant DENOMINATOR = 1e6;
+  // Base Token URI
+  string private baseTokenURI;
 
   /**
    * @notice
@@ -44,15 +36,19 @@ contract ABWrapper is ERC721, ERC721ABErrors, Ownable {
    * @param _symbol : symbol / ticker of the NFT contract
    **/
   constructor(
+    uint256 _dropId,
     address _messenger,
     address _relay,
     address _underlying,
+    string memory _baseUri,
     string memory _name,
     string memory _symbol
   ) ERC721(_name, _symbol) {
+    dropId = _dropId;
     messenger = L1CrossDomainMessenger(_messenger);
     relay = _relay;
     underlying = _underlying;
+    baseTokenURI = _baseUri;
   }
 
   //     ______     __                        __   ______                 __  _
@@ -76,7 +72,7 @@ contract ABWrapper is ERC721, ERC721ABErrors, Ownable {
    * @notice
    *  Unwrap the corresponding AB NFT token ID into its underlying token of the same ID
    *
-   * @param _tokenId : token identifier to be wrapped
+   * @param _tokenId : token identifier to be unwrapped
    */
   function unwrap(uint256 _tokenId) external {
     IERC721(address(this)).transferFrom(msg.sender, address(this), _tokenId);
@@ -84,6 +80,7 @@ contract ABWrapper is ERC721, ERC721ABErrors, Ownable {
     _burn(_tokenId);
   }
 
+  //
   //     ____        __         ____                              ______                 __  _
   //    / __ \____  / /_  __   / __ \_      ______  ___  _____   / ____/_  ______  _____/ /_(_)___  ____  _____
   //   / / / / __ \/ / / / /  / / / / | /| / / __ \/ _ \/ ___/  / /_  / / / / __ \/ ___/ __/ / __ \/ __ \/ ___/
@@ -93,20 +90,13 @@ contract ABWrapper is ERC721, ERC721ABErrors, Ownable {
 
   /**
    * @notice
-   *  Update dropManager address
+   *  Update the Base URI
    *  Only the contract owner can perform this operation
    *
-   * @param _dropManager : new dropManager address
+   * @param _newBaseURI : new base URI
    */
-  function setDropManager(address _dropManager) external onlyOwner {
-    // Check that the new address corresponds to IABDropManager interface
-    if (
-      !ERC165Checker.supportsInterface(
-        _dropManager,
-        type(IABDropManager).interfaceId
-      )
-    ) revert IncorrectInterface();
-    dropManager = _dropManager;
+  function setBaseURI(string calldata _newBaseURI) external onlyOwner {
+    baseTokenURI = _newBaseURI;
   }
 
   //     ____      __                        __   ______                 __  _
@@ -114,6 +104,16 @@ contract ABWrapper is ERC721, ERC721ABErrors, Ownable {
   //    / // __ \/ __/ _ \/ ___/ __ \/ __ `/ /  / /_  / / / / __ \/ ___/ __/ / __ \/ __ \/ ___/
   //  _/ // / / / /_/  __/ /  / / / / /_/ / /  / __/ / /_/ / / / / /__/ /_/ / /_/ / / / (__  )
   // /___/_/ /_/\__/\___/_/  /_/ /_/\__,_/_/  /_/    \__,_/_/ /_/\___/\__/_/\____/_/ /_/____/
+
+  /**
+   * @notice
+   *  Returns the base URI
+   *
+   * @return baseTokenURI base token URI state
+   */
+  function _baseURI() internal view virtual override returns (string memory) {
+    return baseTokenURI;
+  }
 
   /**
    * @dev See {ERC721-beforeTokenTransfer}.
@@ -132,7 +132,7 @@ contract ABWrapper is ERC721, ERC721ABErrors, Ownable {
         _to,
         dropId
       ),
-      10000001
+      10000000
     );
   }
 }
