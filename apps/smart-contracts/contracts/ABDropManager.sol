@@ -47,6 +47,7 @@ import { IL1CrossDomainMessenger } from "@eth-optimism/contracts/L1/messaging/IL
 import "./interfaces/IABDropManager.sol";
 import "./interfaces/IERC721AB.sol";
 import "./ABErrors.sol";
+import "./ABWrapper.sol";
 
 contract ABDropManager is
   Initializable,
@@ -71,6 +72,9 @@ contract ABDropManager is
 
   // Event emitted upon Drop creation
   event DropCreated(uint256 dropId);
+
+  // Event emitted upon Drop creation from live NFT
+  event DropCreatedFromLiveNFT(uint256 dropId, address wrapper);
 
   // Event emitted upon Drop update
   event DropUpdated(uint256 dropId);
@@ -240,6 +244,43 @@ contract ABDropManager is
       TokenInfo(_price, _supply, _royaltySharePerToken),
       SaleInfo(_salesInfo[0], _salesInfo[1], _salesInfo[2], _salesInfo[3]),
       _merkle
+    );
+  }
+
+  /**
+   * @notice
+   *  Create a Drop from an existing NFT contract
+   *  Only the contract owner can perform this operation
+   *
+   * @param _currencyPayout : address of the currency used for the royalty payout (zero-address if ETH)
+   * @param _owner : right holder address
+   * @param _nft : NFT contract address
+   * @param _baseFlow : number of AB Token to be streamed per day (in wei)
+   * @param _baseUri : token base URI
+   * @param _name : name of the new NFT Wrapper contract
+   * @param _symbol : symbol / ticker of the new NFT Wrapper contract
+   */
+  function createFromLive(
+    address _currencyPayout,
+    address _owner,
+    address _nft,
+    uint256 _baseFlow,
+    string memory _baseUri,
+    string memory _name,
+    string memory _symbol
+  ) external onlyOwner {
+    // Ensure right holder address is not the zero address
+    if (_owner == address(0)) revert ZeroAddress();
+
+    // Create the drop
+    _createDropFromLiveNFT(
+      _currencyPayout,
+      _owner,
+      _nft,
+      _baseFlow,
+      _baseUri,
+      _name,
+      _symbol
     );
   }
 
@@ -418,11 +459,101 @@ contract ABDropManager is
         int96(baseFlow),
         totalDrop
       ),
-      10000001
+      10000000
     );
 
     // Emit Drop Creation event
     emit DropCreated(totalDrop);
+
+    // Increment the total drop count
+    totalDrop++;
+  }
+
+  /**
+   * @notice
+   *  Register the Drop information
+   *
+   * @param _currencyPayout : address of the currency used for the royalty payout (zero-address if ETH)
+   * @param _owner : right holder address
+   * @param _nft : NFT contract address
+   * @param _baseFlow : number of AB Token to be streamed per day (in wei)
+   * @param _baseUri : token base URI
+   * @param _name : name of the new NFT Wrapper contract
+   * @param _symbol : symbol / ticker of the new NFT Wrapper contract
+   */
+  function _createDropFromLiveNFT(
+    address _currencyPayout,
+    address _owner,
+    address _nft,
+    uint256 _baseFlow,
+    string memory _baseUri,
+    string memory _name,
+    string memory _symbol
+  ) internal {
+    bytes32 emptyBytes;
+    uint256 startTokenIndex;
+
+    // Calculate first token index
+    if (totalDrop > 0) {
+      startTokenIndex =
+        drops[totalDrop - 1].firstTokenIndex +
+        drops[totalDrop - 1].tokenInfo.supply;
+    } else {
+      startTokenIndex = 0;
+    }
+
+    // Populate the Drops array with new drop details
+    drops.push(
+      Drop(
+        totalDrop,
+        0,
+        0,
+        startTokenIndex,
+        TokenInfo(0, 0, 0),
+        SaleInfo(0, 0, 0, 0),
+        _currencyPayout,
+        _owner,
+        _nft,
+        emptyBytes
+      )
+    );
+
+    // Deploy a new Wrapper contract for this drop
+    ABWrapper abWrapper = new ABWrapper(
+      totalDrop,
+      address(messenger),
+      relay,
+      _nft,
+      _baseUri,
+      _name,
+      _symbol
+    );
+
+    /* NOTE : 
+    Careful here, we may want to transfer ownership to something else than a Gnosis Safe,
+    in order to be able to setup the opensea page
+    TO BE DISCUSSED
+    */
+    // Transfer ownership to the sender (the owner of DropManger contract)
+    abWrapper.transferOwnership(msg.sender);
+
+    // Convert baseflow in seconds
+    int256 baseFlow = int256(_baseFlow) / 86400;
+
+    // Update L2 contract using the messenger
+    messenger.sendMessage(
+      relay,
+      abi.encodeWithSignature(
+        "createdDropFromLiveNFT(address,int96,uint256)",
+        address(abWrapper),
+        int96(baseFlow),
+        totalDrop
+      ),
+      10000000
+    );
+
+    // Emit Drop Creation event
+    emit DropCreatedFromLiveNFT(totalDrop, address(abWrapper));
 
     // Increment the total drop count
     totalDrop++;

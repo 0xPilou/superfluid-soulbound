@@ -63,6 +63,15 @@ contract ABRelay is Ownable {
     AB_STREAM.setBaseFlow(_baseFlow, _dropId);
   }
 
+  function createdDropFromLiveNFT(
+    address _nft,
+    int96 _baseFlow,
+    uint256 _dropId
+  ) external onlyAllowed {
+    AB_STREAM.setBaseFlow(_baseFlow, _dropId);
+    allowedSenders[_nft] = true;
+  }
+
   function updatedDrop() external onlyAllowed {}
 
   /*
