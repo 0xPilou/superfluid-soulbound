@@ -502,6 +502,17 @@ contract ABDropManager is
       startTokenIndex = 0;
     }
 
+    // Deploy a new Wrapper contract for this drop
+    ABWrapper abWrapper = new ABWrapper(
+      totalDrop,
+      address(messenger),
+      relay,
+      _nft,
+      _baseUri,
+      _name,
+      _symbol
+    );
+
     // Populate the Drops array with new drop details
     drops.push(
       Drop(
@@ -513,20 +524,9 @@ contract ABDropManager is
         SaleInfo(0, 0, 0, 0),
         _currencyPayout,
         _owner,
-        _nft,
+        address(abWrapper),
         emptyBytes
       )
-    );
-
-    // Deploy a new Wrapper contract for this drop
-    ABWrapper abWrapper = new ABWrapper(
-      totalDrop,
-      address(messenger),
-      relay,
-      _nft,
-      _baseUri,
-      _name,
-      _symbol
     );
 
     /* NOTE : 
