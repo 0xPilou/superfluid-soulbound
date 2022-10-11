@@ -29,9 +29,11 @@ contract ABWrapper is ERC721, Ownable {
    * @notice
    *  AB Wrapper contract constructor
    *
+   * @param _dropId : Associated Drop Identifier
    * @param _messenger : L1 to L2 Messenger contract address
    * @param _relay : Anotherblock Relay contract address on L2
    * @param _underlying : Underlying NFT contract address
+   * @param _baseUri : token base URI
    * @param _name : name of the NFT contract
    * @param _symbol : symbol / ticker of the NFT contract
    **/
