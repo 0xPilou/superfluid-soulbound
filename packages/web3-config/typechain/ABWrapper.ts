@@ -22,6 +22,7 @@ export interface ABWrapperInterface extends utils.Interface {
   functions: {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
+    "dropId()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "name()": FunctionFragment;
@@ -36,6 +37,7 @@ export interface ABWrapperInterface extends utils.Interface {
     "tokenURI(uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
+    "underlying()": FunctionFragment;
     "unwrap(uint256)": FunctionFragment;
     "wrap(uint256)": FunctionFragment;
   };
@@ -45,6 +47,7 @@ export interface ABWrapperInterface extends utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
+  encodeFunctionData(functionFragment: "dropId", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
@@ -90,6 +93,10 @@ export interface ABWrapperInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
+    functionFragment: "underlying",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "unwrap",
     values: [BigNumberish]
   ): string;
@@ -97,6 +104,7 @@ export interface ABWrapperInterface extends utils.Interface {
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "dropId", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
@@ -135,6 +143,7 @@ export interface ABWrapperInterface extends utils.Interface {
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "underlying", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "unwrap", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "wrap", data: BytesLike): Result;
 
@@ -226,6 +235,10 @@ export interface ABWrapper extends BaseContract {
       owner: string,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    dropId(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    "dropId()"(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     getApproved(
       tokenId: BigNumberish,
@@ -360,6 +373,10 @@ export interface ABWrapper extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    underlying(overrides?: CallOverrides): Promise<[string]>;
+
+    "underlying()"(overrides?: CallOverrides): Promise<[string]>;
+
     unwrap(
       _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -399,6 +416,10 @@ export interface ABWrapper extends BaseContract {
     owner: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
+
+  dropId(overrides?: CallOverrides): Promise<BigNumber>;
+
+  "dropId()"(overrides?: CallOverrides): Promise<BigNumber>;
 
   getApproved(
     tokenId: BigNumberish,
@@ -527,6 +548,10 @@ export interface ABWrapper extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  underlying(overrides?: CallOverrides): Promise<string>;
+
+  "underlying()"(overrides?: CallOverrides): Promise<string>;
+
   unwrap(
     _tokenId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -566,6 +591,10 @@ export interface ABWrapper extends BaseContract {
       owner: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    dropId(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "dropId()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     getApproved(
       tokenId: BigNumberish,
@@ -687,6 +716,10 @@ export interface ABWrapper extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    underlying(overrides?: CallOverrides): Promise<string>;
+
+    "underlying()"(overrides?: CallOverrides): Promise<string>;
+
     unwrap(_tokenId: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     "unwrap(uint256)"(
@@ -765,6 +798,10 @@ export interface ABWrapper extends BaseContract {
       owner: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    dropId(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "dropId()"(overrides?: CallOverrides): Promise<BigNumber>;
 
     getApproved(
       tokenId: BigNumberish,
@@ -899,6 +936,10 @@ export interface ABWrapper extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    underlying(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "underlying()"(overrides?: CallOverrides): Promise<BigNumber>;
+
     unwrap(
       _tokenId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -942,6 +983,10 @@ export interface ABWrapper extends BaseContract {
       owner: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    dropId(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "dropId()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getApproved(
       tokenId: BigNumberish,
@@ -1075,6 +1120,10 @@ export interface ABWrapper extends BaseContract {
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    underlying(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "underlying()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     unwrap(
       _tokenId: BigNumberish,

@@ -21,6 +21,7 @@ export interface ABRelayInterface extends utils.Interface {
   contractName: "ABRelay";
   functions: {
     "createdDrop(int96,uint256)": FunctionFragment;
+    "createdDropFromLiveNFT(address,int96,uint256)": FunctionFragment;
     "grantAllowance(address)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
@@ -35,6 +36,10 @@ export interface ABRelayInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "createdDrop",
     values: [BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createdDropFromLiveNFT",
+    values: [string, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "grantAllowance",
@@ -69,6 +74,10 @@ export interface ABRelayInterface extends utils.Interface {
 
   decodeFunctionResult(
     functionFragment: "createdDrop",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "createdDropFromLiveNFT",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -155,6 +164,20 @@ export interface ABRelay extends BaseContract {
     ): Promise<ContractTransaction>;
 
     "createdDrop(int96,uint256)"(
+      _baseFlow: BigNumberish,
+      _dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    createdDropFromLiveNFT(
+      _nft: string,
+      _baseFlow: BigNumberish,
+      _dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "createdDropFromLiveNFT(address,int96,uint256)"(
+      _nft: string,
       _baseFlow: BigNumberish,
       _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -257,6 +280,20 @@ export interface ABRelay extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  createdDropFromLiveNFT(
+    _nft: string,
+    _baseFlow: BigNumberish,
+    _dropId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "createdDropFromLiveNFT(address,int96,uint256)"(
+    _nft: string,
+    _baseFlow: BigNumberish,
+    _dropId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   grantAllowance(
     _sender: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -354,6 +391,20 @@ export interface ABRelay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    createdDropFromLiveNFT(
+      _nft: string,
+      _baseFlow: BigNumberish,
+      _dropId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "createdDropFromLiveNFT(address,int96,uint256)"(
+      _nft: string,
+      _baseFlow: BigNumberish,
+      _dropId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     grantAllowance(_sender: string, overrides?: CallOverrides): Promise<void>;
 
     "grantAllowance(address)"(
@@ -441,6 +492,20 @@ export interface ABRelay extends BaseContract {
     ): Promise<BigNumber>;
 
     "createdDrop(int96,uint256)"(
+      _baseFlow: BigNumberish,
+      _dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    createdDropFromLiveNFT(
+      _nft: string,
+      _baseFlow: BigNumberish,
+      _dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "createdDropFromLiveNFT(address,int96,uint256)"(
+      _nft: string,
       _baseFlow: BigNumberish,
       _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -539,6 +604,20 @@ export interface ABRelay extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     "createdDrop(int96,uint256)"(
+      _baseFlow: BigNumberish,
+      _dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    createdDropFromLiveNFT(
+      _nft: string,
+      _baseFlow: BigNumberish,
+      _dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "createdDropFromLiveNFT(address,int96,uint256)"(
+      _nft: string,
       _baseFlow: BigNumberish,
       _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }

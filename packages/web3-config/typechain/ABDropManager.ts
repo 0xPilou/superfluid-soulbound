@@ -54,6 +54,7 @@ export interface ABDropManagerInterface extends utils.Interface {
   contractName: "ABDropManager";
   functions: {
     "create(address,address,address,uint256,uint256,uint256,uint256,uint256[4],bytes32)": FunctionFragment;
+    "createFromLive(address,address,address,uint256,string,string,string)": FunctionFragment;
     "drops(uint256)": FunctionFragment;
     "initialize(address,address,address)": FunctionFragment;
     "owner()": FunctionFragment;
@@ -82,6 +83,10 @@ export interface ABDropManagerInterface extends utils.Interface {
       [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
       BytesLike
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createFromLive",
+    values: [string, string, string, BigNumberish, string, string, string]
   ): string;
   encodeFunctionData(functionFragment: "drops", values: [BigNumberish]): string;
   encodeFunctionData(
@@ -128,6 +133,10 @@ export interface ABDropManagerInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "create", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "createFromLive",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "drops", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
@@ -171,12 +180,14 @@ export interface ABDropManagerInterface extends utils.Interface {
 
   events: {
     "DropCreated(uint256)": EventFragment;
+    "DropCreatedFromLiveNFT(uint256,address)": EventFragment;
     "DropUpdated(uint256)": EventFragment;
     "Initialized(uint8)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "DropCreated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "DropCreatedFromLiveNFT"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "DropUpdated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
@@ -185,6 +196,14 @@ export interface ABDropManagerInterface extends utils.Interface {
 export type DropCreatedEvent = TypedEvent<[BigNumber], { dropId: BigNumber }>;
 
 export type DropCreatedEventFilter = TypedEventFilter<DropCreatedEvent>;
+
+export type DropCreatedFromLiveNFTEvent = TypedEvent<
+  [BigNumber, string],
+  { dropId: BigNumber; wrapper: string }
+>;
+
+export type DropCreatedFromLiveNFTEventFilter =
+  TypedEventFilter<DropCreatedFromLiveNFTEvent>;
 
 export type DropUpdatedEvent = TypedEvent<[BigNumber], { dropId: BigNumber }>;
 
@@ -253,6 +272,28 @@ export interface ABDropManager extends BaseContract {
       _rightHolderFee: BigNumberish,
       _salesInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
       _merkle: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    createFromLive(
+      _currencyPayout: string,
+      _owner: string,
+      _nft: string,
+      _baseFlow: BigNumberish,
+      _baseUri: string,
+      _name: string,
+      _symbol: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "createFromLive(address,address,address,uint256,string,string,string)"(
+      _currencyPayout: string,
+      _owner: string,
+      _nft: string,
+      _baseFlow: BigNumberish,
+      _baseUri: string,
+      _name: string,
+      _symbol: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -463,6 +504,28 @@ export interface ABDropManager extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  createFromLive(
+    _currencyPayout: string,
+    _owner: string,
+    _nft: string,
+    _baseFlow: BigNumberish,
+    _baseUri: string,
+    _name: string,
+    _symbol: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "createFromLive(address,address,address,uint256,string,string,string)"(
+    _currencyPayout: string,
+    _owner: string,
+    _nft: string,
+    _baseFlow: BigNumberish,
+    _baseUri: string,
+    _name: string,
+    _symbol: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   drops(
     arg0: BigNumberish,
     overrides?: CallOverrides
@@ -670,6 +733,28 @@ export interface ABDropManager extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    createFromLive(
+      _currencyPayout: string,
+      _owner: string,
+      _nft: string,
+      _baseFlow: BigNumberish,
+      _baseUri: string,
+      _name: string,
+      _symbol: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "createFromLive(address,address,address,uint256,string,string,string)"(
+      _currencyPayout: string,
+      _owner: string,
+      _nft: string,
+      _baseFlow: BigNumberish,
+      _baseUri: string,
+      _name: string,
+      _symbol: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     drops(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -848,6 +933,15 @@ export interface ABDropManager extends BaseContract {
     "DropCreated(uint256)"(dropId?: null): DropCreatedEventFilter;
     DropCreated(dropId?: null): DropCreatedEventFilter;
 
+    "DropCreatedFromLiveNFT(uint256,address)"(
+      dropId?: null,
+      wrapper?: null
+    ): DropCreatedFromLiveNFTEventFilter;
+    DropCreatedFromLiveNFT(
+      dropId?: null,
+      wrapper?: null
+    ): DropCreatedFromLiveNFTEventFilter;
+
     "DropUpdated(uint256)"(dropId?: null): DropUpdatedEventFilter;
     DropUpdated(dropId?: null): DropUpdatedEventFilter;
 
@@ -888,6 +982,28 @@ export interface ABDropManager extends BaseContract {
       _rightHolderFee: BigNumberish,
       _salesInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
       _merkle: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    createFromLive(
+      _currencyPayout: string,
+      _owner: string,
+      _nft: string,
+      _baseFlow: BigNumberish,
+      _baseUri: string,
+      _name: string,
+      _symbol: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "createFromLive(address,address,address,uint256,string,string,string)"(
+      _currencyPayout: string,
+      _owner: string,
+      _nft: string,
+      _baseFlow: BigNumberish,
+      _baseUri: string,
+      _name: string,
+      _symbol: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1045,6 +1161,28 @@ export interface ABDropManager extends BaseContract {
       _rightHolderFee: BigNumberish,
       _salesInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
       _merkle: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    createFromLive(
+      _currencyPayout: string,
+      _owner: string,
+      _nft: string,
+      _baseFlow: BigNumberish,
+      _baseUri: string,
+      _name: string,
+      _symbol: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "createFromLive(address,address,address,uint256,string,string,string)"(
+      _currencyPayout: string,
+      _owner: string,
+      _nft: string,
+      _baseFlow: BigNumberish,
+      _baseUri: string,
+      _name: string,
+      _symbol: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
