@@ -141,7 +141,7 @@ contract ABStream is SuperAppBase, Ownable {
    * @notice
    *  Set the base flow for a given Drop ID
    *
-   * @param _baseFlow : Previous holder address
+   * @param _baseFlow : new base flow to be set
    * @param _dropId : Associated Drop ID corresponding to the token transferred
    */
   function setBaseFlow(int96 _baseFlow, uint256 _dropId) external {
