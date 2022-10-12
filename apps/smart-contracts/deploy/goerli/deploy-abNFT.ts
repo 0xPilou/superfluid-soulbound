@@ -46,7 +46,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   );
 };
 
-func.tags = [AB_NFT_NAME];
+func.tags = [AB_NFT_NAME, "DEPLOY"];
 func.dependencies = [AB_DROP_MANAGER_NAME];
 func.skip = async (env) => env.network.name !== "goerli";
 

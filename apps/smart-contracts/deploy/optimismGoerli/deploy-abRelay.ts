@@ -28,7 +28,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   );
 };
 
-func.tags = [AB_RELAY_NAME];
+func.tags = [AB_RELAY_NAME, "DEPLOY"];
 func.skip = async (env) => env.network.name !== "optimismGoerli";
 
 export default func;

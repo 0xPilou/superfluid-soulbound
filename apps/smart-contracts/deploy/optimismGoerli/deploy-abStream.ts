@@ -37,7 +37,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   );
 };
 
-func.tags = [AB_STREAM_NAME];
+func.tags = [AB_STREAM_NAME, "DEPLOY"];
 func.dependencies = [AB_RELAY_NAME, AB_REGISTRY_NAME];
 func.skip = async (env) => env.network.name !== "optimismGoerli";
 

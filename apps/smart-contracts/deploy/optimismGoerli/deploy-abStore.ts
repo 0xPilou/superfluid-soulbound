@@ -30,7 +30,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   );
 };
 
-func.tags = ["OPTIMISM", AB_STORE_NAME];
+func.tags = [AB_STORE_NAME, "DEPLOY"];
 func.skip = async (env) => env.network.name !== "optimismGoerli";
 
 export default func;

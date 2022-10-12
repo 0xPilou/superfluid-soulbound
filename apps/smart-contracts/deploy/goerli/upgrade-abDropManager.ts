@@ -35,7 +35,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   );
 };
 
-func.tags = [AB_DROP_MANAGER_NAME, "UPGRADE"];
+func.tags = ["UPGRADE"];
 func.skip = async (env) => env.network.name !== "goerli";
 
 export default func;
