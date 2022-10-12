@@ -217,6 +217,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABDropManager__factory>;
     getContractFactory(
+      name: "ABDropManagerV2",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ABDropManagerV2__factory>;
+    getContractFactory(
       name: "ABErrors",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABErrors__factory>;
@@ -540,6 +544,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ABDropManager>;
+    getContractAt(
+      name: "ABDropManagerV2",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ABDropManagerV2>;
     getContractAt(
       name: "ABErrors",
       address: string,
