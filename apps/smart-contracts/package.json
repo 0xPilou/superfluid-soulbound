@@ -7,7 +7,7 @@
     "test": "hardhat test",
     "deploy": "hardhat --network localhost deploy",
     "lint": "eslint . --fix",
-    "deployAll": "npx hardhat deploy --network optimismGoerli --reset && npx hardhat deploy --network goerli --reset",
+    "deployAll": "npx hardhat deploy --network optimismGoerli --reset --tags DEPLOY && npx hardhat deploy --network goerli --reset --tags DEPLOY",
     "initAll": "npx hardhat run scripts/init-abRelay.ts --network optimismGoerli && npx hardhat run scripts/init-abStream.ts --network optimismGoerli && npx hardhat run scripts/init-abToken.ts --network optimismGoerli && npx hardhat run scripts/init-abStore.ts --network optimismGoerli && npx hardhat run scripts/init-abDropManager.ts --network goerli",
     "upgradeABDM": "npx hardhat deploy --network goerli --tags UPGRADE"
   },
