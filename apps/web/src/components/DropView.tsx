@@ -60,13 +60,27 @@ const DropView = (props: DropProps) => {
     onSuccessMessage: "approved!",
   });
 
-  console.log(props.dropId, drop?.nft!);
   const { write: wrap } = useContractWrite({
     mode: "recklesslyUnprepared",
     addressOrName: drop?.nft!,
     contractInterface: ["function wrap(uint256 _tokenId)"],
     functionName: "wrap",
     onSuccessMessage: "wrapped!",
+  });
+
+  const { write: approveUnwrap } = useContractWrite({
+    mode: "recklesslyUnprepared",
+    addressOrName: drop?.nft!,
+    contractInterface: ["function approve(address to, uint256 tokenId)"],
+    functionName: "approve",
+    onSuccessMessage: "approved!",
+  });
+  const { write: unwrap } = useContractWrite({
+    mode: "recklesslyUnprepared",
+    addressOrName: drop?.nft!,
+    contractInterface: ["function unwrap(uint256 _tokenId)"],
+    functionName: "unwrap",
+    onSuccessMessage: "unwrapped!",
   });
 
   return (
@@ -134,6 +148,28 @@ const DropView = (props: DropProps) => {
                   }
                 >
                   WRAP
+                </button>
+              </div>
+              <div>
+                <h4>Select Token ID to unwrap :</h4>
+                <input onChange={handleChangeTokenId} placeholder="token ID" />
+                <button
+                  onClick={() =>
+                    approveUnwrap({
+                      recklesslySetUnpreparedArgs: [drop.nft, tokenId],
+                    })
+                  }
+                >
+                  APPROVE
+                </button>
+                <button
+                  onClick={() =>
+                    unwrap({
+                      recklesslySetUnpreparedArgs: [tokenId],
+                    })
+                  }
+                >
+                  UNWRAP
                 </button>
               </div>
             </>
