@@ -10,24 +10,13 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await getNamedAccounts();
   const { deploy } = deployments;
 
-  // const deployment = await deploy(AB_DROP_MANAGER_NAME, {
-  //   from: deployer,
-  //   proxy: {
-  //     proxyContract: "OpenZeppelinTransparentProxy",
-  //     execute: {
-  //       methodName: "initialize",
-  //       args: [deployer, L2_MESSENGER_ADDR, ABRelayDeployment.address],
-  //     },
-  //   },
-  // });
-
   const deployment = await deploy(AB_DROP_MANAGER_NAME, {
     from: deployer,
     proxy: {
       proxyContract: "OpenZeppelinTransparentProxy",
       execute: {
-        methodName: "initialize",
-        args: [deployer],
+        methodName: "initializeV2",
+        args: [L2_MESSENGER_ADDR, ABRelayDeployment.address],
       },
     },
   });
@@ -37,7 +26,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     "------------------------------------------------------------------------------------------------------------------------------"
   );
   deployments.log(
-    `Contract ${AB_DROP_MANAGER_NAME} deployed at ${deployment.address} on Goerli`
+    `Contract ${AB_DROP_MANAGER_NAME} upgraded at ${deployment.address} on Goerli`
   );
   deployments.log("");
   deployments.log(`npx hardhat verify --network goerli ${deployment.address}`);
@@ -46,7 +35,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   );
 };
 
-func.tags = [AB_DROP_MANAGER_NAME];
+func.tags = [AB_DROP_MANAGER_NAME, "UPGRADE"];
 func.skip = async (env) => env.network.name !== "goerli";
 
 export default func;
