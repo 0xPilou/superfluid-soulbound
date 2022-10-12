@@ -22,6 +22,7 @@ task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
 
 const ALCHEMY_KEY = process.env.ALCHEMY_KEY;
 const RINKEBY_ALCHEMY_KEY = process.env.RINKEBY_ALCHEMY_KEY;
+const GOERLI_ALCHEMY_KEY = process.env.GOERLI_ALCHEMY_KEY;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 
 const config: HardhatUserConfig = {
@@ -56,7 +57,7 @@ const config: HardhatUserConfig = {
       accounts: [`${PRIVATE_KEY}`],
     },
     goerli: {
-      url: `https://goerli.infura.io/v3/${process.env.INFURA_ID}`,
+      url: `https://eth-goerli.g.alchemy.com/v2/${GOERLI_ALCHEMY_KEY}`,
       accounts: [`${PRIVATE_KEY}`],
       deploy: ["deploy/goerli"],
     },
