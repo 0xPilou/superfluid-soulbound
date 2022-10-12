@@ -16,10 +16,10 @@ const main = async () => {
 
   let feeData = await provider.getFeeData();
 
-  let gasPrice = ethers.utils.formatUnits(feeData.gasPrice, "gwei");
-  let maxFeePerGas = ethers.utils.formatUnits(feeData.maxFeePerGas, "gwei");
+  let gasPrice = ethers.utils.formatUnits(feeData.gasPrice!, "gwei");
+  let maxFeePerGas = ethers.utils.formatUnits(feeData.maxFeePerGas!, "gwei");
   let maxPriorityFeePerGas = ethers.utils.formatUnits(
-    feeData.maxPriorityFeePerGas,
+    feeData.maxPriorityFeePerGas!,
     "gwei"
   );
 
