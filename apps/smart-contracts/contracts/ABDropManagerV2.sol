@@ -48,7 +48,7 @@ import "./interfaces/IABDropManager.sol";
 import "./interfaces/IERC721AB.sol";
 import "./ABErrors.sol";
 
-contract ABDropManagerV2 is
+contract ABDropManager is
   Initializable,
   OwnableUpgradeable,
   ABErrors,
