@@ -47,13 +47,11 @@ contract AnotherMinter is ERC721ABv2, ERC721ABErrors {
   // Denominator used to calculate fees
   uint256 private constant DENOMINATOR = 1e6;
 
-  // Stores the amounts of tokens minted per address and per drop for the public sale
-  mapping(uint256 => mapping(address => uint256))
-    public mintedPerDropPublicSale;
+  mapping(uint256 => IABDropManager.Phase[]) public phasesPerDrop;
 
-  // Stores the amounts of tokens minted per address and per drop for the private sale
-  mapping(uint256 => mapping(address => uint256))
-    public mintedPerDropPrivateSale;
+  // Stores the amounts of tokens minted per address and per drop for the public sale
+  mapping(uint256 => mapping(address => mapping(uint256 => uint256)))
+    public mintedPerDropPerPhase;
 
   /**
    * @notice
@@ -168,29 +166,30 @@ contract AnotherMinter is ERC721ABv2, ERC721ABErrors {
     // Check if the drop is not sold-out
     if (drop.sold == drop.tokenInfo.supply) return "DropSoldOut";
 
-    // Check that the whitelisted sale started
-    if (block.timestamp < drop.salesInfo.privateSaleTime)
-      return "SaleNotStarted";
-
     // Check that there are enough tokens available for sale
     if (drop.sold + _quantity > drop.tokenInfo.supply)
       return "NotEnoughTokensAvailable";
 
-    if (
-      drop.merkleRoot != 0x0 && block.timestamp < drop.salesInfo.publicSaleTime
-    ) {
-      // Check that user did not mint the maximum amount per address for the private sale
-      if (
-        mintedPerDropPrivateSale[drop.dropId][_userWallet] + _quantity >
-        drop.salesInfo.privateSaleMaxMint
-      ) return "MaxMintPerAddress";
-    } else {
-      // Check that user did not mint the maximum amount per address for the public sale
-      if (
-        mintedPerDropPublicSale[drop.dropId][_userWallet] + _quantity >
-        drop.salesInfo.publicSaleMaxMint
-      ) return "MaxMintPerAddress";
+    IABDropManager.Phase[] memory phases = phasesPerDrop[_tokenId];
+
+    // Check that the first phase has started
+    if (block.timestamp < phases[0].phaseStart) return "SaleNotStarted";
+
+    uint256 currentPhase = 0;
+
+    // Detect the current phase
+    for (uint256 i = 1; i < phases.length; ++i) {
+      if (block.timestamp >= phases[i].phaseStart) {
+        currentPhase = i;
+      }
     }
+
+    // Check that user did not mint the maximum amount per address for the current phase
+    if (
+      mintedPerDropPerPhase[drop.dropId][_userWallet][currentPhase] +
+        _quantity >
+      phases[currentPhase].maxMint
+    ) return "MaxMintPerAddress";
     return "";
   }
 
@@ -252,10 +251,6 @@ contract AnotherMinter is ERC721ABv2, ERC721ABErrors {
     // Check if the drop is not sold-out
     if (drop.sold == drop.tokenInfo.supply) revert DropSoldOut();
 
-    // Check that the whitelisted sale started
-    if (block.timestamp < drop.salesInfo.privateSaleTime)
-      revert SaleNotStarted();
-
     // Check that there are enough tokens available for sale
     if (drop.sold + _quantity > drop.tokenInfo.supply)
       revert NotEnoughTokensAvailable();
@@ -264,19 +259,31 @@ contract AnotherMinter is ERC721ABv2, ERC721ABErrors {
     if (msg.value != drop.tokenInfo.price * _quantity)
       revert IncorrectETHSent();
 
-    // Check that user is whitelisted in case the public sale did not start yet
-    if (
-      drop.merkleRoot != 0x0 && block.timestamp < drop.salesInfo.publicSaleTime
-    ) {
-      // Check that user did not mint the maximum amount per address for the private sale
-      if (
-        mintedPerDropPrivateSale[drop.dropId][_to] + _quantity >
-        drop.salesInfo.privateSaleMaxMint
-      ) revert MaxMintPerAddress();
+    IABDropManager.Phase[] memory phases = phasesPerDrop[_dropId];
 
+    // Check that the first phase has started (revert otherwise)
+    if (block.timestamp < phases[0].phaseStart) revert SaleNotStarted();
+
+    uint256 currentPhase = 0;
+
+    // Detect the current phase
+    for (uint256 i = 1; i < phases.length; ++i) {
+      if (block.timestamp >= phases[i].phaseStart) {
+        currentPhase = i;
+      }
+    }
+
+    // Check that user did not mint the maximum amount per address for the current phase
+    if (
+      mintedPerDropPerPhase[drop.dropId][_to][currentPhase] + _quantity >
+      phases[currentPhase].maxMint
+    ) revert MaxMintPerAddress();
+
+    // If the current phase is public sale (merkle = 0x0), bypass merkle verification
+    if (phases[currentPhase].merkle != 0x0) {
       bool isWhitelisted = MerkleProof.verify(
         _proof,
-        drop.merkleRoot,
+        phases[currentPhase].merkle,
         keccak256(abi.encodePacked(_to))
       );
 
@@ -284,16 +291,8 @@ contract AnotherMinter is ERC721ABv2, ERC721ABErrors {
       if (!isWhitelisted) {
         revert NotInMerkle();
       }
-
-      mintedPerDropPrivateSale[drop.dropId][_to] += _quantity;
-    } else {
-      // Check that user did not mint the maximum amount per address for the public sale
-      if (
-        mintedPerDropPublicSale[drop.dropId][_to] + _quantity >
-        drop.salesInfo.publicSaleMaxMint
-      ) revert MaxMintPerAddress();
-      mintedPerDropPublicSale[drop.dropId][_to] += _quantity;
     }
+    mintedPerDropPerPhase[drop.dropId][_to][currentPhase] += _quantity;
 
     uint256 currentDropTokenIndex = drop.firstTokenIndex + drop.sold;
     for (uint256 i = 0; i < _quantity; ++i) {

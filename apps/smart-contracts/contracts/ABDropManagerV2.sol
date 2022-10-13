@@ -134,6 +134,20 @@ contract ABDropManager is
   }
 
   /**
+   * @notice
+   *  Phase Structure format
+   *
+   * @param phaseStart : timestamp at which the phase
+   * @param maxMint : maximum number of token to be minted per user during the phase
+   * @param merkle : merkle tree root containing user address and associated parameters
+   */
+  struct Phase {
+    uint256 phaseStart;
+    uint256 maxMint;
+    bytes32 merkle;
+  }
+
+  /**
    * Contract Initializer
    *
    * @param _treasury : treasury address
