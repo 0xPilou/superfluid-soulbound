@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 
 import DropView from "./DropView";
 const MintView = () => {
-  const drops = [0, 1];
+  const drops = [0, 1, 2, 3];
 
   return (
     <>
