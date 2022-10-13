@@ -213,13 +213,13 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.UUPSProxiable__factory>;
     getContractFactory(
+      name: "ABDropManagerV1",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ABDropManagerV1__factory>;
+    getContractFactory(
       name: "ABDropManager",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABDropManager__factory>;
-    getContractFactory(
-      name: "ABDropManagerV2",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ABDropManagerV2__factory>;
     getContractFactory(
       name: "ABErrors",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -249,6 +249,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABToken__factory>;
     getContractFactory(
+      name: "ABNFT",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ABNFT__factory>;
+    getContractFactory(
+      name: "AnotherMinter",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AnotherMinter__factory>;
+    getContractFactory(
       name: "ERC721AB",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721AB__factory>;
@@ -256,6 +264,10 @@ declare module "hardhat/types/runtime" {
       name: "ERC721ABErrors",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721ABErrors__factory>;
+    getContractFactory(
+      name: "ERC721ABv2",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC721ABv2__factory>;
     getContractFactory(
       name: "IABDropManager",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -540,15 +552,15 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.UUPSProxiable>;
     getContractAt(
+      name: "ABDropManagerV1",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ABDropManagerV1>;
+    getContractAt(
       name: "ABDropManager",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ABDropManager>;
-    getContractAt(
-      name: "ABDropManagerV2",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ABDropManagerV2>;
     getContractAt(
       name: "ABErrors",
       address: string,
@@ -585,6 +597,16 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ABToken>;
     getContractAt(
+      name: "ABNFT",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ABNFT>;
+    getContractAt(
+      name: "AnotherMinter",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AnotherMinter>;
+    getContractAt(
       name: "ERC721AB",
       address: string,
       signer?: ethers.Signer
@@ -594,6 +616,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ERC721ABErrors>;
+    getContractAt(
+      name: "ERC721ABv2",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC721ABv2>;
     getContractAt(
       name: "IABDropManager",
       address: string,

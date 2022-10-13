@@ -17,7 +17,7 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export declare namespace ABDropManager {
+export declare namespace ABDropManagerV1 {
   export type TokenInfoStruct = {
     price: BigNumberish;
     supply: BigNumberish;
@@ -50,13 +50,12 @@ export declare namespace ABDropManager {
   };
 }
 
-export interface ABDropManagerInterface extends utils.Interface {
-  contractName: "ABDropManager";
+export interface ABDropManagerV1Interface extends utils.Interface {
+  contractName: "ABDropManagerV1";
   functions: {
     "create(address,address,address,uint256,uint256,uint256,uint256,uint256[4],bytes32)": FunctionFragment;
     "drops(uint256)": FunctionFragment;
     "initialize(address)": FunctionFragment;
-    "initializeV2(address,address)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "setMerkleRoot(uint256,bytes32)": FunctionFragment;
@@ -86,10 +85,6 @@ export interface ABDropManagerInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "drops", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "initialize", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "initializeV2",
-    values: [string, string]
-  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -132,10 +127,6 @@ export interface ABDropManagerInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "create", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "drops", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "initializeV2",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
@@ -208,13 +199,13 @@ export type OwnershipTransferredEvent = TypedEvent<
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
-export interface ABDropManager extends BaseContract {
-  contractName: "ABDropManager";
+export interface ABDropManagerV1 extends BaseContract {
+  contractName: "ABDropManagerV1";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: ABDropManagerInterface;
+  interface: ABDropManagerV1Interface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -271,8 +262,8 @@ export interface ABDropManager extends BaseContract {
         BigNumber,
         BigNumber,
         BigNumber,
-        ABDropManager.TokenInfoStructOutput,
-        ABDropManager.SaleInfoStructOutput,
+        ABDropManagerV1.TokenInfoStructOutput,
+        ABDropManagerV1.SaleInfoStructOutput,
         string,
         string,
         string,
@@ -282,8 +273,8 @@ export interface ABDropManager extends BaseContract {
         sold: BigNumber;
         rightHolderFee: BigNumber;
         firstTokenIndex: BigNumber;
-        tokenInfo: ABDropManager.TokenInfoStructOutput;
-        salesInfo: ABDropManager.SaleInfoStructOutput;
+        tokenInfo: ABDropManagerV1.TokenInfoStructOutput;
+        salesInfo: ABDropManagerV1.SaleInfoStructOutput;
         currencyPayout: string;
         owner: string;
         nft: string;
@@ -300,8 +291,8 @@ export interface ABDropManager extends BaseContract {
         BigNumber,
         BigNumber,
         BigNumber,
-        ABDropManager.TokenInfoStructOutput,
-        ABDropManager.SaleInfoStructOutput,
+        ABDropManagerV1.TokenInfoStructOutput,
+        ABDropManagerV1.SaleInfoStructOutput,
         string,
         string,
         string,
@@ -311,8 +302,8 @@ export interface ABDropManager extends BaseContract {
         sold: BigNumber;
         rightHolderFee: BigNumber;
         firstTokenIndex: BigNumber;
-        tokenInfo: ABDropManager.TokenInfoStructOutput;
-        salesInfo: ABDropManager.SaleInfoStructOutput;
+        tokenInfo: ABDropManagerV1.TokenInfoStructOutput;
+        salesInfo: ABDropManagerV1.SaleInfoStructOutput;
         currencyPayout: string;
         owner: string;
         nft: string;
@@ -327,18 +318,6 @@ export interface ABDropManager extends BaseContract {
 
     "initialize(address)"(
       _treasury: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    initializeV2(
-      _messenger: string,
-      _relay: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "initializeV2(address,address)"(
-      _messenger: string,
-      _relay: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -486,8 +465,8 @@ export interface ABDropManager extends BaseContract {
       BigNumber,
       BigNumber,
       BigNumber,
-      ABDropManager.TokenInfoStructOutput,
-      ABDropManager.SaleInfoStructOutput,
+      ABDropManagerV1.TokenInfoStructOutput,
+      ABDropManagerV1.SaleInfoStructOutput,
       string,
       string,
       string,
@@ -497,8 +476,8 @@ export interface ABDropManager extends BaseContract {
       sold: BigNumber;
       rightHolderFee: BigNumber;
       firstTokenIndex: BigNumber;
-      tokenInfo: ABDropManager.TokenInfoStructOutput;
-      salesInfo: ABDropManager.SaleInfoStructOutput;
+      tokenInfo: ABDropManagerV1.TokenInfoStructOutput;
+      salesInfo: ABDropManagerV1.SaleInfoStructOutput;
       currencyPayout: string;
       owner: string;
       nft: string;
@@ -515,8 +494,8 @@ export interface ABDropManager extends BaseContract {
       BigNumber,
       BigNumber,
       BigNumber,
-      ABDropManager.TokenInfoStructOutput,
-      ABDropManager.SaleInfoStructOutput,
+      ABDropManagerV1.TokenInfoStructOutput,
+      ABDropManagerV1.SaleInfoStructOutput,
       string,
       string,
       string,
@@ -526,8 +505,8 @@ export interface ABDropManager extends BaseContract {
       sold: BigNumber;
       rightHolderFee: BigNumber;
       firstTokenIndex: BigNumber;
-      tokenInfo: ABDropManager.TokenInfoStructOutput;
-      salesInfo: ABDropManager.SaleInfoStructOutput;
+      tokenInfo: ABDropManagerV1.TokenInfoStructOutput;
+      salesInfo: ABDropManagerV1.SaleInfoStructOutput;
       currencyPayout: string;
       owner: string;
       nft: string;
@@ -542,18 +521,6 @@ export interface ABDropManager extends BaseContract {
 
   "initialize(address)"(
     _treasury: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  initializeV2(
-    _messenger: string,
-    _relay: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "initializeV2(address,address)"(
-    _messenger: string,
-    _relay: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -701,8 +668,8 @@ export interface ABDropManager extends BaseContract {
         BigNumber,
         BigNumber,
         BigNumber,
-        ABDropManager.TokenInfoStructOutput,
-        ABDropManager.SaleInfoStructOutput,
+        ABDropManagerV1.TokenInfoStructOutput,
+        ABDropManagerV1.SaleInfoStructOutput,
         string,
         string,
         string,
@@ -712,8 +679,8 @@ export interface ABDropManager extends BaseContract {
         sold: BigNumber;
         rightHolderFee: BigNumber;
         firstTokenIndex: BigNumber;
-        tokenInfo: ABDropManager.TokenInfoStructOutput;
-        salesInfo: ABDropManager.SaleInfoStructOutput;
+        tokenInfo: ABDropManagerV1.TokenInfoStructOutput;
+        salesInfo: ABDropManagerV1.SaleInfoStructOutput;
         currencyPayout: string;
         owner: string;
         nft: string;
@@ -730,8 +697,8 @@ export interface ABDropManager extends BaseContract {
         BigNumber,
         BigNumber,
         BigNumber,
-        ABDropManager.TokenInfoStructOutput,
-        ABDropManager.SaleInfoStructOutput,
+        ABDropManagerV1.TokenInfoStructOutput,
+        ABDropManagerV1.SaleInfoStructOutput,
         string,
         string,
         string,
@@ -741,8 +708,8 @@ export interface ABDropManager extends BaseContract {
         sold: BigNumber;
         rightHolderFee: BigNumber;
         firstTokenIndex: BigNumber;
-        tokenInfo: ABDropManager.TokenInfoStructOutput;
-        salesInfo: ABDropManager.SaleInfoStructOutput;
+        tokenInfo: ABDropManagerV1.TokenInfoStructOutput;
+        salesInfo: ABDropManagerV1.SaleInfoStructOutput;
         currencyPayout: string;
         owner: string;
         nft: string;
@@ -754,18 +721,6 @@ export interface ABDropManager extends BaseContract {
 
     "initialize(address)"(
       _treasury: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    initializeV2(
-      _messenger: string,
-      _relay: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "initializeV2(address,address)"(
-      _messenger: string,
-      _relay: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -935,18 +890,6 @@ export interface ABDropManager extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    initializeV2(
-      _messenger: string,
-      _relay: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "initializeV2(address,address)"(
-      _messenger: string,
-      _relay: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     "owner()"(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1100,18 +1043,6 @@ export interface ABDropManager extends BaseContract {
 
     "initialize(address)"(
       _treasury: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    initializeV2(
-      _messenger: string,
-      _relay: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "initializeV2(address,address)"(
-      _messenger: string,
-      _relay: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -9,7 +9,6 @@ import {
   CallOverrides,
   ContractTransaction,
   Overrides,
-  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -18,36 +17,27 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export interface ABNFTInterface extends utils.Interface {
-  contractName: "ABNFT";
+export interface ERC721ABv2Interface extends utils.Interface {
+  contractName: "ERC721ABv2";
   functions: {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "claimTo(address,uint256,uint256)": FunctionFragment;
     "dropIdPerToken(uint256)": FunctionFragment;
     "dropManager()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
-    "getClaimIneligibilityReason(address,uint256,uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "mint(address,uint256,uint256,bytes32[])": FunctionFragment;
-    "mintedPerDropPrivateSale(uint256,address)": FunctionFragment;
-    "mintedPerDropPublicSale(uint256,address)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "price(uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
-    "setBaseURI(string)": FunctionFragment;
     "setDropManager(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "unclaimedSupply(uint256)": FunctionFragment;
-    "withdrawAll()": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -55,10 +45,6 @@ export interface ABNFTInterface extends utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "claimTo",
-    values: [string, BigNumberish, BigNumberish]
-  ): string;
   encodeFunctionData(
     functionFragment: "dropIdPerToken",
     values: [BigNumberish]
@@ -72,24 +58,8 @@ export interface ABNFTInterface extends utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getClaimIneligibilityReason",
-    values: [string, BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "mint",
-    values: [string, BigNumberish, BigNumberish, BytesLike[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "mintedPerDropPrivateSale",
-    values: [BigNumberish, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "mintedPerDropPublicSale",
-    values: [BigNumberish, string]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
@@ -97,7 +67,6 @@ export interface ABNFTInterface extends utils.Interface {
     functionFragment: "ownerOf",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "price", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
@@ -110,7 +79,6 @@ export interface ABNFTInterface extends utils.Interface {
     functionFragment: "setApprovalForAll",
     values: [string, boolean]
   ): string;
-  encodeFunctionData(functionFragment: "setBaseURI", values: [string]): string;
   encodeFunctionData(
     functionFragment: "setDropManager",
     values: [string]
@@ -132,18 +100,9 @@ export interface ABNFTInterface extends utils.Interface {
     functionFragment: "transferOwnership",
     values: [string]
   ): string;
-  encodeFunctionData(
-    functionFragment: "unclaimedSupply",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "withdrawAll",
-    values?: undefined
-  ): string;
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "claimTo", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "dropIdPerToken",
     data: BytesLike
@@ -157,26 +116,12 @@ export interface ABNFTInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getClaimIneligibilityReason",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "isApprovedForAll",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "mintedPerDropPrivateSale",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "mintedPerDropPublicSale",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "price", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
@@ -189,7 +134,6 @@ export interface ABNFTInterface extends utils.Interface {
     functionFragment: "setApprovalForAll",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setBaseURI", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setDropManager",
     data: BytesLike
@@ -206,14 +150,6 @@ export interface ABNFTInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "unclaimedSupply",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "withdrawAll",
     data: BytesLike
   ): Result;
 
@@ -259,13 +195,13 @@ export type TransferEvent = TypedEvent<
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
-export interface ABNFT extends BaseContract {
-  contractName: "ABNFT";
+export interface ERC721ABv2 extends BaseContract {
+  contractName: "ERC721ABv2";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: ABNFTInterface;
+  interface: ERC721ABv2Interface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -306,20 +242,6 @@ export interface ABNFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    claimTo(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "claimTo(address,uint256,uint256)"(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     dropIdPerToken(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -344,20 +266,6 @@ export interface ABNFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    getClaimIneligibilityReason(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    "getClaimIneligibilityReason(address,uint256,uint256)"(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -369,46 +277,6 @@ export interface ABNFT extends BaseContract {
       operator: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
-
-    mint(
-      _to: string,
-      _dropId: BigNumberish,
-      _quantity: BigNumberish,
-      _proof: BytesLike[],
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "mint(address,uint256,uint256,bytes32[])"(
-      _to: string,
-      _dropId: BigNumberish,
-      _quantity: BigNumberish,
-      _proof: BytesLike[],
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    mintedPerDropPrivateSale(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    "mintedPerDropPrivateSale(uint256,address)"(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    mintedPerDropPublicSale(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    "mintedPerDropPublicSale(uint256,address)"(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
 
@@ -427,16 +295,6 @@ export interface ABNFT extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    price(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    "price(uint256)"(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -470,16 +328,6 @@ export interface ABNFT extends BaseContract {
     "setApprovalForAll(address,bool)"(
       operator: string,
       approved: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setBaseURI(
-      _newBaseURI: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "setBaseURI(string)"(
-      _newBaseURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -540,24 +388,6 @@ export interface ABNFT extends BaseContract {
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    unclaimedSupply(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    "unclaimedSupply(uint256)"(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    withdrawAll(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "withdrawAll()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
   };
 
   approve(
@@ -578,20 +408,6 @@ export interface ABNFT extends BaseContract {
     owner: string,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
-
-  claimTo(
-    _userWallet: string,
-    _quantity: BigNumberish,
-    _tokenId: BigNumberish,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "claimTo(address,uint256,uint256)"(
-    _userWallet: string,
-    _quantity: BigNumberish,
-    _tokenId: BigNumberish,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   dropIdPerToken(
     arg0: BigNumberish,
@@ -617,20 +433,6 @@ export interface ABNFT extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  getClaimIneligibilityReason(
-    _userWallet: string,
-    _quantity: BigNumberish,
-    _tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  "getClaimIneligibilityReason(address,uint256,uint256)"(
-    _userWallet: string,
-    _quantity: BigNumberish,
-    _tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   isApprovedForAll(
     owner: string,
     operator: string,
@@ -642,46 +444,6 @@ export interface ABNFT extends BaseContract {
     operator: string,
     overrides?: CallOverrides
   ): Promise<boolean>;
-
-  mint(
-    _to: string,
-    _dropId: BigNumberish,
-    _quantity: BigNumberish,
-    _proof: BytesLike[],
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "mint(address,uint256,uint256,bytes32[])"(
-    _to: string,
-    _dropId: BigNumberish,
-    _quantity: BigNumberish,
-    _proof: BytesLike[],
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  mintedPerDropPrivateSale(
-    arg0: BigNumberish,
-    arg1: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  "mintedPerDropPrivateSale(uint256,address)"(
-    arg0: BigNumberish,
-    arg1: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  mintedPerDropPublicSale(
-    arg0: BigNumberish,
-    arg1: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  "mintedPerDropPublicSale(uint256,address)"(
-    arg0: BigNumberish,
-    arg1: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
 
   name(overrides?: CallOverrides): Promise<string>;
 
@@ -697,13 +459,6 @@ export interface ABNFT extends BaseContract {
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
-
-  price(_tokenId: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-  "price(uint256)"(
-    _tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -737,16 +492,6 @@ export interface ABNFT extends BaseContract {
   "setApprovalForAll(address,bool)"(
     operator: string,
     approved: boolean,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  setBaseURI(
-    _newBaseURI: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "setBaseURI(string)"(
-    _newBaseURI: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -805,24 +550,6 @@ export interface ABNFT extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  unclaimedSupply(
-    _tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  "unclaimedSupply(uint256)"(
-    _tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  withdrawAll(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "withdrawAll()"(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   callStatic: {
     approve(
       to: string,
@@ -842,20 +569,6 @@ export interface ABNFT extends BaseContract {
       owner: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    claimTo(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "claimTo(address,uint256,uint256)"(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     dropIdPerToken(
       arg0: BigNumberish,
@@ -881,20 +594,6 @@ export interface ABNFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    getClaimIneligibilityReason(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    "getClaimIneligibilityReason(address,uint256,uint256)"(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -906,46 +605,6 @@ export interface ABNFT extends BaseContract {
       operator: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    mint(
-      _to: string,
-      _dropId: BigNumberish,
-      _quantity: BigNumberish,
-      _proof: BytesLike[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "mint(address,uint256,uint256,bytes32[])"(
-      _to: string,
-      _dropId: BigNumberish,
-      _quantity: BigNumberish,
-      _proof: BytesLike[],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    mintedPerDropPrivateSale(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "mintedPerDropPrivateSale(uint256,address)"(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    mintedPerDropPublicSale(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "mintedPerDropPublicSale(uint256,address)"(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<string>;
 
@@ -961,16 +620,6 @@ export interface ABNFT extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
-
-    price(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "price(uint256)"(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
@@ -1000,13 +649,6 @@ export interface ABNFT extends BaseContract {
     "setApprovalForAll(address,bool)"(
       operator: string,
       approved: boolean,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setBaseURI(_newBaseURI: string, overrides?: CallOverrides): Promise<void>;
-
-    "setBaseURI(string)"(
-      _newBaseURI: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1064,20 +706,6 @@ export interface ABNFT extends BaseContract {
       newOwner: string,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    unclaimedSupply(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "unclaimedSupply(uint256)"(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    withdrawAll(overrides?: CallOverrides): Promise<void>;
-
-    "withdrawAll()"(overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
@@ -1144,20 +772,6 @@ export interface ABNFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    claimTo(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "claimTo(address,uint256,uint256)"(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     dropIdPerToken(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -1182,20 +796,6 @@ export interface ABNFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getClaimIneligibilityReason(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getClaimIneligibilityReason(address,uint256,uint256)"(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -1205,46 +805,6 @@ export interface ABNFT extends BaseContract {
     "isApprovedForAll(address,address)"(
       owner: string,
       operator: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    mint(
-      _to: string,
-      _dropId: BigNumberish,
-      _quantity: BigNumberish,
-      _proof: BytesLike[],
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "mint(address,uint256,uint256,bytes32[])"(
-      _to: string,
-      _dropId: BigNumberish,
-      _quantity: BigNumberish,
-      _proof: BytesLike[],
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    mintedPerDropPrivateSale(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "mintedPerDropPrivateSale(uint256,address)"(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    mintedPerDropPublicSale(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "mintedPerDropPublicSale(uint256,address)"(
-      arg0: BigNumberish,
-      arg1: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1263,16 +823,6 @@ export interface ABNFT extends BaseContract {
 
     "ownerOf(uint256)"(
       tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    price(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "price(uint256)"(
-      _tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1308,16 +858,6 @@ export interface ABNFT extends BaseContract {
     "setApprovalForAll(address,bool)"(
       operator: string,
       approved: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setBaseURI(
-      _newBaseURI: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "setBaseURI(string)"(
-      _newBaseURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1378,24 +918,6 @@ export interface ABNFT extends BaseContract {
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
-
-    unclaimedSupply(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "unclaimedSupply(uint256)"(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    withdrawAll(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "withdrawAll()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -1419,20 +941,6 @@ export interface ABNFT extends BaseContract {
     "balanceOf(address)"(
       owner: string,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    claimTo(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "claimTo(address,uint256,uint256)"(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     dropIdPerToken(
@@ -1459,20 +967,6 @@ export interface ABNFT extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getClaimIneligibilityReason(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getClaimIneligibilityReason(address,uint256,uint256)"(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -1482,46 +976,6 @@ export interface ABNFT extends BaseContract {
     "isApprovedForAll(address,address)"(
       owner: string,
       operator: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    mint(
-      _to: string,
-      _dropId: BigNumberish,
-      _quantity: BigNumberish,
-      _proof: BytesLike[],
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "mint(address,uint256,uint256,bytes32[])"(
-      _to: string,
-      _dropId: BigNumberish,
-      _quantity: BigNumberish,
-      _proof: BytesLike[],
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    mintedPerDropPrivateSale(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "mintedPerDropPrivateSale(uint256,address)"(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    mintedPerDropPublicSale(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "mintedPerDropPublicSale(uint256,address)"(
-      arg0: BigNumberish,
-      arg1: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1540,16 +994,6 @@ export interface ABNFT extends BaseContract {
 
     "ownerOf(uint256)"(
       tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    price(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "price(uint256)"(
-      _tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1585,16 +1029,6 @@ export interface ABNFT extends BaseContract {
     "setApprovalForAll(address,bool)"(
       operator: string,
       approved: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setBaseURI(
-      _newBaseURI: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "setBaseURI(string)"(
-      _newBaseURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1653,24 +1087,6 @@ export interface ABNFT extends BaseContract {
 
     "transferOwnership(address)"(
       newOwner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    unclaimedSupply(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "unclaimedSupply(uint256)"(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    withdrawAll(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "withdrawAll()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

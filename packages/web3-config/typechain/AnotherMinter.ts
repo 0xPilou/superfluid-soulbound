@@ -18,8 +18,8 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export interface ABNFTInterface extends utils.Interface {
-  contractName: "ABNFT";
+export interface AnotherMinterInterface extends utils.Interface {
+  contractName: "AnotherMinter";
   functions: {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
@@ -259,13 +259,13 @@ export type TransferEvent = TypedEvent<
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
-export interface ABNFT extends BaseContract {
-  contractName: "ABNFT";
+export interface AnotherMinter extends BaseContract {
+  contractName: "AnotherMinter";
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: ABNFTInterface;
+  interface: AnotherMinterInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
