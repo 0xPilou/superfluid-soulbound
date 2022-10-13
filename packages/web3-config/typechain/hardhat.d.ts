@@ -249,10 +249,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ABToken__factory>;
     getContractFactory(
-      name: "ABNFT",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ABNFT__factory>;
-    getContractFactory(
       name: "AnotherMinter",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.AnotherMinter__factory>;
@@ -596,11 +592,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ABToken>;
-    getContractAt(
-      name: "ABNFT",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ABNFT>;
     getContractAt(
       name: "AnotherMinter",
       address: string,

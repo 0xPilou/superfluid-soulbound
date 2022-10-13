@@ -30,11 +30,11 @@ export interface AnotherMinterInterface extends utils.Interface {
     "getClaimIneligibilityReason(address,uint256,uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mint(address,uint256,uint256,bytes32[])": FunctionFragment;
-    "mintedPerDropPrivateSale(uint256,address)": FunctionFragment;
-    "mintedPerDropPublicSale(uint256,address)": FunctionFragment;
+    "mintedPerDropPerPhase(uint256,address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
+    "phasesPerDrop(uint256,uint256)": FunctionFragment;
     "price(uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
@@ -84,18 +84,18 @@ export interface AnotherMinterInterface extends utils.Interface {
     values: [string, BigNumberish, BigNumberish, BytesLike[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "mintedPerDropPrivateSale",
-    values: [BigNumberish, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "mintedPerDropPublicSale",
-    values: [BigNumberish, string]
+    functionFragment: "mintedPerDropPerPhase",
+    values: [BigNumberish, string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "phasesPerDrop",
+    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "price", values: [BigNumberish]): string;
   encodeFunctionData(
@@ -166,16 +166,16 @@ export interface AnotherMinterInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "mintedPerDropPrivateSale",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "mintedPerDropPublicSale",
+    functionFragment: "mintedPerDropPerPhase",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "phasesPerDrop",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "price", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
@@ -386,27 +386,17 @@ export interface AnotherMinter extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    mintedPerDropPrivateSale(
+    mintedPerDropPerPhase(
       arg0: BigNumberish,
       arg1: string,
+      arg2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    "mintedPerDropPrivateSale(uint256,address)"(
+    "mintedPerDropPerPhase(uint256,address,uint256)"(
       arg0: BigNumberish,
       arg1: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    mintedPerDropPublicSale(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    "mintedPerDropPublicSale(uint256,address)"(
-      arg0: BigNumberish,
-      arg1: string,
+      arg2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
@@ -427,6 +417,30 @@ export interface AnotherMinter extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    phasesPerDrop(
+      arg0: BigNumberish,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, string] & {
+        phaseStart: BigNumber;
+        maxMint: BigNumber;
+        merkle: string;
+      }
+    >;
+
+    "phasesPerDrop(uint256,uint256)"(
+      arg0: BigNumberish,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, string] & {
+        phaseStart: BigNumber;
+        maxMint: BigNumber;
+        merkle: string;
+      }
+    >;
 
     price(
       _tokenId: BigNumberish,
@@ -659,27 +673,17 @@ export interface AnotherMinter extends BaseContract {
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  mintedPerDropPrivateSale(
+  mintedPerDropPerPhase(
     arg0: BigNumberish,
     arg1: string,
+    arg2: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  "mintedPerDropPrivateSale(uint256,address)"(
+  "mintedPerDropPerPhase(uint256,address,uint256)"(
     arg0: BigNumberish,
     arg1: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  mintedPerDropPublicSale(
-    arg0: BigNumberish,
-    arg1: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  "mintedPerDropPublicSale(uint256,address)"(
-    arg0: BigNumberish,
-    arg1: string,
+    arg2: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
@@ -697,6 +701,30 @@ export interface AnotherMinter extends BaseContract {
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  phasesPerDrop(
+    arg0: BigNumberish,
+    arg1: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber, string] & {
+      phaseStart: BigNumber;
+      maxMint: BigNumber;
+      merkle: string;
+    }
+  >;
+
+  "phasesPerDrop(uint256,uint256)"(
+    arg0: BigNumberish,
+    arg1: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber, string] & {
+      phaseStart: BigNumber;
+      maxMint: BigNumber;
+      merkle: string;
+    }
+  >;
 
   price(_tokenId: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -923,27 +951,17 @@ export interface AnotherMinter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    mintedPerDropPrivateSale(
+    mintedPerDropPerPhase(
       arg0: BigNumberish,
       arg1: string,
+      arg2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "mintedPerDropPrivateSale(uint256,address)"(
+    "mintedPerDropPerPhase(uint256,address,uint256)"(
       arg0: BigNumberish,
       arg1: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    mintedPerDropPublicSale(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "mintedPerDropPublicSale(uint256,address)"(
-      arg0: BigNumberish,
-      arg1: string,
+      arg2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -961,6 +979,30 @@ export interface AnotherMinter extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    phasesPerDrop(
+      arg0: BigNumberish,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, string] & {
+        phaseStart: BigNumber;
+        maxMint: BigNumber;
+        merkle: string;
+      }
+    >;
+
+    "phasesPerDrop(uint256,uint256)"(
+      arg0: BigNumberish,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, string] & {
+        phaseStart: BigNumber;
+        maxMint: BigNumber;
+        merkle: string;
+      }
+    >;
 
     price(
       _tokenId: BigNumberish,
@@ -1224,27 +1266,17 @@ export interface AnotherMinter extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    mintedPerDropPrivateSale(
+    mintedPerDropPerPhase(
       arg0: BigNumberish,
       arg1: string,
+      arg2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "mintedPerDropPrivateSale(uint256,address)"(
+    "mintedPerDropPerPhase(uint256,address,uint256)"(
       arg0: BigNumberish,
       arg1: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    mintedPerDropPublicSale(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "mintedPerDropPublicSale(uint256,address)"(
-      arg0: BigNumberish,
-      arg1: string,
+      arg2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1263,6 +1295,18 @@ export interface AnotherMinter extends BaseContract {
 
     "ownerOf(uint256)"(
       tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    phasesPerDrop(
+      arg0: BigNumberish,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "phasesPerDrop(uint256,uint256)"(
+      arg0: BigNumberish,
+      arg1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1501,27 +1545,17 @@ export interface AnotherMinter extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    mintedPerDropPrivateSale(
+    mintedPerDropPerPhase(
       arg0: BigNumberish,
       arg1: string,
+      arg2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "mintedPerDropPrivateSale(uint256,address)"(
+    "mintedPerDropPerPhase(uint256,address,uint256)"(
       arg0: BigNumberish,
       arg1: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    mintedPerDropPublicSale(
-      arg0: BigNumberish,
-      arg1: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "mintedPerDropPublicSale(uint256,address)"(
-      arg0: BigNumberish,
-      arg1: string,
+      arg2: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1540,6 +1574,18 @@ export interface AnotherMinter extends BaseContract {
 
     "ownerOf(uint256)"(
       tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    phasesPerDrop(
+      arg0: BigNumberish,
+      arg1: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "phasesPerDrop(uint256,uint256)"(
+      arg0: BigNumberish,
+      arg1: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
