@@ -18,6 +18,18 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export declare namespace ABDropManager {
+  export type PhaseStruct = {
+    phaseStart: BigNumberish;
+    maxMint: BigNumberish;
+    merkle: BytesLike;
+  };
+
+  export type PhaseStructOutput = [BigNumber, BigNumber, string] & {
+    phaseStart: BigNumber;
+    maxMint: BigNumber;
+    merkle: string;
+  };
+
   export type TokenInfoStruct = {
     price: BigNumberish;
     supply: BigNumberish;
@@ -53,7 +65,7 @@ export declare namespace ABDropManager {
 export interface ABDropManagerInterface extends utils.Interface {
   contractName: "ABDropManager";
   functions: {
-    "create(address,address,address,uint256,uint256,uint256,uint256,uint256[4],bytes32)": FunctionFragment;
+    "create(address,address,address,uint256,uint256,uint256,uint256,(uint256,uint256,bytes32)[])": FunctionFragment;
     "drops(uint256)": FunctionFragment;
     "initialize(address)": FunctionFragment;
     "initializeV2(address,address)": FunctionFragment;
@@ -80,8 +92,7 @@ export interface ABDropManagerInterface extends utils.Interface {
       BigNumberish,
       BigNumberish,
       BigNumberish,
-      [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      BytesLike
+      ABDropManager.PhaseStruct[]
     ]
   ): string;
   encodeFunctionData(functionFragment: "drops", values: [BigNumberish]): string;
@@ -244,12 +255,11 @@ export interface ABDropManager extends BaseContract {
       _supply: BigNumberish,
       _royaltySharePerToken: BigNumberish,
       _rightHolderFee: BigNumberish,
-      _salesInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      _merkle: BytesLike,
+      phases: ABDropManager.PhaseStruct[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "create(address,address,address,uint256,uint256,uint256,uint256,uint256[4],bytes32)"(
+    "create(address,address,address,uint256,uint256,uint256,uint256,(uint256,uint256,bytes32)[])"(
       _currencyPayout: string,
       _owner: string,
       _nft: string,
@@ -257,8 +267,7 @@ export interface ABDropManager extends BaseContract {
       _supply: BigNumberish,
       _royaltySharePerToken: BigNumberish,
       _rightHolderFee: BigNumberish,
-      _salesInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      _merkle: BytesLike,
+      phases: ABDropManager.PhaseStruct[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -459,12 +468,11 @@ export interface ABDropManager extends BaseContract {
     _supply: BigNumberish,
     _royaltySharePerToken: BigNumberish,
     _rightHolderFee: BigNumberish,
-    _salesInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-    _merkle: BytesLike,
+    phases: ABDropManager.PhaseStruct[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "create(address,address,address,uint256,uint256,uint256,uint256,uint256[4],bytes32)"(
+  "create(address,address,address,uint256,uint256,uint256,uint256,(uint256,uint256,bytes32)[])"(
     _currencyPayout: string,
     _owner: string,
     _nft: string,
@@ -472,8 +480,7 @@ export interface ABDropManager extends BaseContract {
     _supply: BigNumberish,
     _royaltySharePerToken: BigNumberish,
     _rightHolderFee: BigNumberish,
-    _salesInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-    _merkle: BytesLike,
+    phases: ABDropManager.PhaseStruct[],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -674,12 +681,11 @@ export interface ABDropManager extends BaseContract {
       _supply: BigNumberish,
       _royaltySharePerToken: BigNumberish,
       _rightHolderFee: BigNumberish,
-      _salesInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      _merkle: BytesLike,
+      phases: ABDropManager.PhaseStruct[],
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "create(address,address,address,uint256,uint256,uint256,uint256,uint256[4],bytes32)"(
+    "create(address,address,address,uint256,uint256,uint256,uint256,(uint256,uint256,bytes32)[])"(
       _currencyPayout: string,
       _owner: string,
       _nft: string,
@@ -687,8 +693,7 @@ export interface ABDropManager extends BaseContract {
       _supply: BigNumberish,
       _royaltySharePerToken: BigNumberish,
       _rightHolderFee: BigNumberish,
-      _salesInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      _merkle: BytesLike,
+      phases: ABDropManager.PhaseStruct[],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -900,12 +905,11 @@ export interface ABDropManager extends BaseContract {
       _supply: BigNumberish,
       _royaltySharePerToken: BigNumberish,
       _rightHolderFee: BigNumberish,
-      _salesInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      _merkle: BytesLike,
+      phases: ABDropManager.PhaseStruct[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "create(address,address,address,uint256,uint256,uint256,uint256,uint256[4],bytes32)"(
+    "create(address,address,address,uint256,uint256,uint256,uint256,(uint256,uint256,bytes32)[])"(
       _currencyPayout: string,
       _owner: string,
       _nft: string,
@@ -913,8 +917,7 @@ export interface ABDropManager extends BaseContract {
       _supply: BigNumberish,
       _royaltySharePerToken: BigNumberish,
       _rightHolderFee: BigNumberish,
-      _salesInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      _merkle: BytesLike,
+      phases: ABDropManager.PhaseStruct[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1065,12 +1068,11 @@ export interface ABDropManager extends BaseContract {
       _supply: BigNumberish,
       _royaltySharePerToken: BigNumberish,
       _rightHolderFee: BigNumberish,
-      _salesInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      _merkle: BytesLike,
+      phases: ABDropManager.PhaseStruct[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "create(address,address,address,uint256,uint256,uint256,uint256,uint256[4],bytes32)"(
+    "create(address,address,address,uint256,uint256,uint256,uint256,(uint256,uint256,bytes32)[])"(
       _currencyPayout: string,
       _owner: string,
       _nft: string,
@@ -1078,8 +1080,7 @@ export interface ABDropManager extends BaseContract {
       _supply: BigNumberish,
       _royaltySharePerToken: BigNumberish,
       _rightHolderFee: BigNumberish,
-      _salesInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      _merkle: BytesLike,
+      phases: ABDropManager.PhaseStruct[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

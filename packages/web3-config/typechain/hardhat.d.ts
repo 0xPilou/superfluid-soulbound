@@ -281,6 +281,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IABToken__factory>;
     getContractFactory(
+      name: "IAnotherMinter",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IAnotherMinter__factory>;
+    getContractFactory(
       name: "IERC721AB",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC721AB__factory>;
@@ -632,6 +636,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IABToken>;
+    getContractAt(
+      name: "IAnotherMinter",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAnotherMinter>;
     getContractAt(
       name: "IERC721AB",
       address: string,

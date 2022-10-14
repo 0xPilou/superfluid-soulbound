@@ -18,16 +18,28 @@ import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
+export declare namespace IABDropManager {
+  export type PhaseStruct = {
+    phaseStart: BigNumberish;
+    maxMint: BigNumberish;
+    merkle: BytesLike;
+  };
+
+  export type PhaseStructOutput = [BigNumber, BigNumber, string] & {
+    phaseStart: BigNumber;
+    maxMint: BigNumber;
+    merkle: string;
+  };
+}
+
 export interface AnotherMinterInterface extends utils.Interface {
   contractName: "AnotherMinter";
   functions: {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "claimTo(address,uint256,uint256)": FunctionFragment;
     "dropIdPerToken(uint256)": FunctionFragment;
     "dropManager()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
-    "getClaimIneligibilityReason(address,uint256,uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mint(address,uint256,uint256,bytes32[])": FunctionFragment;
     "mintedPerDropPerPhase(uint256,address,uint256)": FunctionFragment;
@@ -35,18 +47,17 @@ export interface AnotherMinterInterface extends utils.Interface {
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "phasesPerDrop(uint256,uint256)": FunctionFragment;
-    "price(uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setBaseURI(string)": FunctionFragment;
     "setDropManager(address)": FunctionFragment;
+    "setDropPhases(uint256,(uint256,uint256,bytes32)[])": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
-    "unclaimedSupply(uint256)": FunctionFragment;
     "withdrawAll()": FunctionFragment;
   };
 
@@ -55,10 +66,6 @@ export interface AnotherMinterInterface extends utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "claimTo",
-    values: [string, BigNumberish, BigNumberish]
-  ): string;
   encodeFunctionData(
     functionFragment: "dropIdPerToken",
     values: [BigNumberish]
@@ -70,10 +77,6 @@ export interface AnotherMinterInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getClaimIneligibilityReason",
-    values: [string, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
@@ -97,7 +100,6 @@ export interface AnotherMinterInterface extends utils.Interface {
     functionFragment: "phasesPerDrop",
     values: [BigNumberish, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "price", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
@@ -114,6 +116,10 @@ export interface AnotherMinterInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "setDropManager",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setDropPhases",
+    values: [BigNumberish, IABDropManager.PhaseStruct[]]
   ): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
@@ -133,17 +139,12 @@ export interface AnotherMinterInterface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "unclaimedSupply",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "withdrawAll",
     values?: undefined
   ): string;
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "claimTo", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "dropIdPerToken",
     data: BytesLike
@@ -154,10 +155,6 @@ export interface AnotherMinterInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getClaimIneligibilityReason",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -176,7 +173,6 @@ export interface AnotherMinterInterface extends utils.Interface {
     functionFragment: "phasesPerDrop",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "price", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
@@ -195,6 +191,10 @@ export interface AnotherMinterInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setDropPhases",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
@@ -206,10 +206,6 @@ export interface AnotherMinterInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "unclaimedSupply",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -306,20 +302,6 @@ export interface AnotherMinter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    claimTo(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "claimTo(address,uint256,uint256)"(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     dropIdPerToken(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -341,20 +323,6 @@ export interface AnotherMinter extends BaseContract {
 
     "getApproved(uint256)"(
       tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    getClaimIneligibilityReason(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    "getClaimIneligibilityReason(address,uint256,uint256)"(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
@@ -442,16 +410,6 @@ export interface AnotherMinter extends BaseContract {
       }
     >;
 
-    price(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    "price(uint256)"(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -507,6 +465,18 @@ export interface AnotherMinter extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setDropPhases(
+      _dropId: BigNumberish,
+      _phases: IABDropManager.PhaseStruct[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "setDropPhases(uint256,(uint256,uint256,bytes32)[])"(
+      _dropId: BigNumberish,
+      _phases: IABDropManager.PhaseStruct[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -555,16 +525,6 @@ export interface AnotherMinter extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    unclaimedSupply(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    "unclaimedSupply(uint256)"(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     withdrawAll(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -593,20 +553,6 @@ export interface AnotherMinter extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  claimTo(
-    _userWallet: string,
-    _quantity: BigNumberish,
-    _tokenId: BigNumberish,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "claimTo(address,uint256,uint256)"(
-    _userWallet: string,
-    _quantity: BigNumberish,
-    _tokenId: BigNumberish,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   dropIdPerToken(
     arg0: BigNumberish,
     overrides?: CallOverrides
@@ -628,20 +574,6 @@ export interface AnotherMinter extends BaseContract {
 
   "getApproved(uint256)"(
     tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  getClaimIneligibilityReason(
-    _userWallet: string,
-    _quantity: BigNumberish,
-    _tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  "getClaimIneligibilityReason(address,uint256,uint256)"(
-    _userWallet: string,
-    _quantity: BigNumberish,
-    _tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
 
@@ -726,13 +658,6 @@ export interface AnotherMinter extends BaseContract {
     }
   >;
 
-  price(_tokenId: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
-
-  "price(uint256)"(
-    _tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
   renounceOwnership(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -788,6 +713,18 @@ export interface AnotherMinter extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setDropPhases(
+    _dropId: BigNumberish,
+    _phases: IABDropManager.PhaseStruct[],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "setDropPhases(uint256,(uint256,uint256,bytes32)[])"(
+    _dropId: BigNumberish,
+    _phases: IABDropManager.PhaseStruct[],
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
@@ -833,16 +770,6 @@ export interface AnotherMinter extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  unclaimedSupply(
-    _tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  "unclaimedSupply(uint256)"(
-    _tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
   withdrawAll(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -871,20 +798,6 @@ export interface AnotherMinter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    claimTo(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "claimTo(address,uint256,uint256)"(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     dropIdPerToken(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -906,20 +819,6 @@ export interface AnotherMinter extends BaseContract {
 
     "getApproved(uint256)"(
       tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    getClaimIneligibilityReason(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    "getClaimIneligibilityReason(address,uint256,uint256)"(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
 
@@ -1004,16 +903,6 @@ export interface AnotherMinter extends BaseContract {
       }
     >;
 
-    price(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "price(uint256)"(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     "renounceOwnership()"(overrides?: CallOverrides): Promise<void>;
@@ -1062,6 +951,18 @@ export interface AnotherMinter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setDropPhases(
+      _dropId: BigNumberish,
+      _phases: IABDropManager.PhaseStruct[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "setDropPhases(uint256,(uint256,uint256,bytes32)[])"(
+      _dropId: BigNumberish,
+      _phases: IABDropManager.PhaseStruct[],
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -1106,16 +1007,6 @@ export interface AnotherMinter extends BaseContract {
       newOwner: string,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    unclaimedSupply(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "unclaimedSupply(uint256)"(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     withdrawAll(overrides?: CallOverrides): Promise<void>;
 
@@ -1186,20 +1077,6 @@ export interface AnotherMinter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    claimTo(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "claimTo(address,uint256,uint256)"(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     dropIdPerToken(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -1221,20 +1098,6 @@ export interface AnotherMinter extends BaseContract {
 
     "getApproved(uint256)"(
       tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getClaimIneligibilityReason(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "getClaimIneligibilityReason(address,uint256,uint256)"(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1310,16 +1173,6 @@ export interface AnotherMinter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    price(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "price(uint256)"(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -1375,6 +1228,18 @@ export interface AnotherMinter extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setDropPhases(
+      _dropId: BigNumberish,
+      _phases: IABDropManager.PhaseStruct[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "setDropPhases(uint256,(uint256,uint256,bytes32)[])"(
+      _dropId: BigNumberish,
+      _phases: IABDropManager.PhaseStruct[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -1423,16 +1288,6 @@ export interface AnotherMinter extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    unclaimedSupply(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "unclaimedSupply(uint256)"(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     withdrawAll(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -1465,20 +1320,6 @@ export interface AnotherMinter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    claimTo(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "claimTo(address,uint256,uint256)"(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     dropIdPerToken(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -1500,20 +1341,6 @@ export interface AnotherMinter extends BaseContract {
 
     "getApproved(uint256)"(
       tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getClaimIneligibilityReason(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "getClaimIneligibilityReason(address,uint256,uint256)"(
-      _userWallet: string,
-      _quantity: BigNumberish,
-      _tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1589,16 +1416,6 @@ export interface AnotherMinter extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    price(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "price(uint256)"(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     renounceOwnership(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -1654,6 +1471,18 @@ export interface AnotherMinter extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    setDropPhases(
+      _dropId: BigNumberish,
+      _phases: IABDropManager.PhaseStruct[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "setDropPhases(uint256,(uint256,uint256,bytes32)[])"(
+      _dropId: BigNumberish,
+      _phases: IABDropManager.PhaseStruct[],
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -1700,16 +1529,6 @@ export interface AnotherMinter extends BaseContract {
     "transferOwnership(address)"(
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    unclaimedSupply(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "unclaimedSupply(uint256)"(
-      _tokenId: BigNumberish,
-      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     withdrawAll(

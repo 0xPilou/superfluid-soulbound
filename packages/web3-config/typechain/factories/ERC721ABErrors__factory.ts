@@ -16,6 +16,11 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "Forbidden",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "IncorrectETHSent",
     type: "error",
   },
@@ -49,10 +54,15 @@ const _abi = [
     name: "SaleNotStarted",
     type: "error",
   },
+  {
+    inputs: [],
+    name: "TransferFailed",
+    type: "error",
+  },
 ];
 
 const _bytecode =
-  "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea264697066735822122015a077a62823a57fcc097a083900aaf7391d47faf1d9b687a5e80e2e3aa4209064736f6c63430008100033";
+  "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea264697066735822122070e169f7d70f7b43275e05e4d75013b862f6c3a1b8b115ec0560a3bbb897bc3364736f6c63430008100033";
 
 type ERC721ABErrorsConstructorParams =
   | [signer?: Signer]
