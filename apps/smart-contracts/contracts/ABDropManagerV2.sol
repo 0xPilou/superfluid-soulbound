@@ -45,7 +45,7 @@ import { IL1CrossDomainMessenger } from "@eth-optimism/contracts/L1/messaging/IL
 
 /* Custom Imports */
 import "./interfaces/IABDropManager.sol";
-import "./interfaces/IERC721AB.sol";
+import "./interfaces/IAnotherMinter.sol";
 import "./ABErrors.sol";
 
 contract ABDropManager is
@@ -222,8 +222,6 @@ contract ABDropManager is
    * @param _supply : total number of NFT for this drop
    * @param _royaltySharePerToken : total percentage of royalty evenly distributed among NFT holders (to be divided by 1e6)
    * @param _rightHolderFee : right Holder fee on each mint (to be divided by 1e6)
-   * @param _salesInfo : Array of Timestamps at which the private and public sales are opened
-   * @param _merkle : merkle tree root used for whitelist
    */
   function create(
     address _currencyPayout,
@@ -233,25 +231,16 @@ contract ABDropManager is
     uint256 _supply,
     uint256 _royaltySharePerToken,
     uint256 _rightHolderFee,
-    uint256[4] calldata _salesInfo,
-    bytes32 _merkle
+    Phase[] memory phases
   ) external onlyOwner {
     // Enforce non-null royalty shares for this drop
     if (_royaltySharePerToken <= 0) revert InsufficientRoyalties();
-
-    // Enforce non-null maximum amount per address
-    if (_salesInfo[0] <= 0 || _salesInfo[2] <= 0)
-      revert InsufficientMaxAmountPerAddress();
 
     // Enforce non-null supply
     if (_supply <= 0) revert InsufficientSupply();
 
     // Ensure right holder address is not the zero address
     if (_owner == address(0)) revert ZeroAddress();
-
-    // Ensure NFT address is of type ERC721AB
-    if (!ERC165Checker.supportsInterface(_nft, type(IERC721AB).interfaceId))
-      revert IncorrectInterface();
 
     // Create the drop
     _createDrop(
@@ -260,8 +249,7 @@ contract ABDropManager is
       _nft,
       _rightHolderFee,
       TokenInfo(_price, _supply, _royaltySharePerToken),
-      SaleInfo(_salesInfo[0], _salesInfo[1], _salesInfo[2], _salesInfo[3]),
-      _merkle
+      phases
     );
   }
 
@@ -397,8 +385,6 @@ contract ABDropManager is
    * @param _nft : NFT contract address
    * @param _rightHolderFee : right Holder fee on each mint expressed
    * @param _tokenInfo : token information structure (see TokenInfo struct details)
-   * @param _salesInfo : Array of Timestamps at which the private and public sales are opened (see SaleInfo Struct details)
-   * @param _merkle : merkle tree used for whitelist
    */
   function _createDrop(
     address _currencyPayout,
@@ -406,8 +392,7 @@ contract ABDropManager is
     address _nft,
     uint256 _rightHolderFee,
     TokenInfo memory _tokenInfo,
-    SaleInfo memory _salesInfo,
-    bytes32 _merkle
+    Phase[] memory phases
   ) internal {
     uint256 startTokenIndex;
     if (totalDrop > 0) {
@@ -424,13 +409,15 @@ contract ABDropManager is
         _rightHolderFee,
         startTokenIndex,
         _tokenInfo,
-        _salesInfo,
+        SaleInfo(0, 0, 0, 0),
         _currencyPayout,
         _owner,
         _nft,
-        _merkle
+        0x0
       )
     );
+
+    IAnotherMinter(_nft).setDropPhases(totalDrop, phases);
 
     int256 baseFlow = (int256(_tokenInfo.price) * 10) / 86400;
     messenger.sendMessage(
