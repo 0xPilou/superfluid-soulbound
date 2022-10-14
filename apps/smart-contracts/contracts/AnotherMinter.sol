@@ -102,106 +102,37 @@ contract AnotherMinter is ERC721ABv2, ERC721ABErrors {
 
   /**
    * @notice
-   *  Let a user mint `_quantity` token(s) of the given `_dropId`
-   *
-   * @param _userWallet : address to receive the token
-   * @param _quantity : amount of tokens to be minted
-   * @param _tokenId : drop identifier
-   */
-  function claimTo(
-    address _userWallet,
-    uint256 _quantity,
-    uint256 _tokenId
-  ) external payable {
-    bytes32[] memory emptyBytes;
-    _mintAB(_userWallet, _tokenId, _quantity, emptyBytes);
-  }
-
-  /**
-   * @notice
-   *  Returns the remaining supply for a given `_dropId`
-   *
-   * @param _tokenId : drop identifier
-   * @return unclaimedSupply : the remaining supply to be minted for `_dropId`
-   */
-  function unclaimedSupply(uint256 _tokenId) public view returns (uint256) {
-    IABDropManager.Drop memory drop = IABDropManager(dropManager).drops(
-      _tokenId
-    );
-    return drop.tokenInfo.supply - drop.sold;
-  }
-
-  /**
-   * @notice
-   *  Returns the mint price for a given `_dropId`
-   *
-   * @param _tokenId : drop identifier
-   * @return price : the mint price for `_dropId`
-   */
-  function price(uint256 _tokenId) public view returns (uint256) {
-    IABDropManager.Drop memory drop = IABDropManager(dropManager).drops(
-      _tokenId
-    );
-    return drop.tokenInfo.price;
-  }
-
-  /**
-   * @notice
-   *  Returns the reason why `_to` cannot mint `_quantity` token from `_dropId`
-   *
-   * @param _userWallet : wallet to receive the minted NFT(s)
-   * @param _quantity : quantity to be minted
-   * @param _tokenId : drop identifier
-   * @return reason : the reason why the user cannot mint
-   */
-  function getClaimIneligibilityReason(
-    address _userWallet,
-    uint256 _quantity,
-    uint256 _tokenId
-  ) public view returns (string memory) {
-    IABDropManager.Drop memory drop = IABDropManager(dropManager).drops(
-      _tokenId
-    );
-
-    // Check if the drop is not sold-out
-    if (drop.sold == drop.tokenInfo.supply) return "DropSoldOut";
-
-    // Check that there are enough tokens available for sale
-    if (drop.sold + _quantity > drop.tokenInfo.supply)
-      return "NotEnoughTokensAvailable";
-
-    IABDropManager.Phase[] memory phases = phasesPerDrop[_tokenId];
-
-    // Check that the first phase has started
-    if (block.timestamp < phases[0].phaseStart) return "SaleNotStarted";
-
-    uint256 currentPhase = 0;
-
-    // Detect the current phase
-    for (uint256 i = 1; i < phases.length; ++i) {
-      if (block.timestamp >= phases[i].phaseStart) {
-        currentPhase = i;
-      }
-    }
-
-    // Check that user did not mint the maximum amount per address for the current phase
-    if (
-      mintedPerDropPerPhase[drop.dropId][_userWallet][currentPhase] +
-        _quantity >
-      phases[currentPhase].maxMint
-    ) return "MaxMintPerAddress";
-    return "";
-  }
-
-  /**
-   * @notice
    *  Withdraw mint proceeds to Anotherblock Treasury address
    *
    */
   function withdrawAll() external {
-    payable(IABDropManager(dropManager).treasury()).transfer(
-      address(this).balance
-    );
+    (bool success, ) = IABDropManager(dropManager).treasury().call{
+      value: address(this).balance
+    }("");
+    if (!success) revert TransferFailed();
+  }
+
+  /**
+   * @notice
+   *  Set the sale phases for drop `_dropId`
+   *
+   * @param _dropId : drop identifier
+   * @param _phases : array of phases to be set
+   */
+  function setDropPhases(uint256 _dropId, IABDropManager.Phase[] memory _phases)
+    external
+  {
+    if (msg.sender != dropManager) revert Forbidden();
+
+    IABDropManager.Phase[] storage phases = phasesPerDrop[_dropId];
+
+    for (uint256 i = 0; i < _phases.length; ++i) {
+      phases[i].phaseStart = _phases[i].phaseStart;
+      phases[i].maxMint = _phases[i].maxMint;
+      phases[i].merkle = _phases[i].merkle;
+    }
+
+    phasesPerDrop[_dropId] = phases;
   }
 
   //
@@ -307,7 +238,8 @@ contract AnotherMinter is ERC721ABv2, ERC721ABErrors {
       uint256 feeToRightHolder = (msg.value * drop.rightHolderFee) /
         DENOMINATOR;
       if (feeToRightHolder > 0) {
-        payable(drop.owner).transfer(feeToRightHolder);
+        (bool success, ) = drop.owner.call{ value: feeToRightHolder }("");
+        if (!success) revert TransferFailed();
       }
     }
   }
