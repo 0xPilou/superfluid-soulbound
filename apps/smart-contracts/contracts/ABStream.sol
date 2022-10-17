@@ -261,7 +261,7 @@ contract ABStream is SuperAppBase, Ownable {
    *
    */
   function _reduceFlow(address _from, uint256 _dropId) internal {
-    if (_from == address(this)) return;
+    if (_from == address(this) || _from == address(0)) return;
 
     // Get the current flow to the user
     int96 currentFlow = _getOutflow(_from);
