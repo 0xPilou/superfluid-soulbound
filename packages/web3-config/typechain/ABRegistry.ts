@@ -20,13 +20,19 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface ABRegistryInterface extends utils.Interface {
   contractName: "ABRegistry";
   functions: {
+    "getDropRightholder(uint256)": FunctionFragment;
     "getUserBalancePerDrop(address,uint256)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "updateBalance(address,address,uint256)": FunctionFragment;
+    "updateDropRightholder(uint256,address)": FunctionFragment;
   };
 
+  encodeFunctionData(
+    functionFragment: "getDropRightholder",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "getUserBalancePerDrop",
     values: [string, BigNumberish]
@@ -44,7 +50,15 @@ export interface ABRegistryInterface extends utils.Interface {
     functionFragment: "updateBalance",
     values: [string, string, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "updateDropRightholder",
+    values: [BigNumberish, string]
+  ): string;
 
+  decodeFunctionResult(
+    functionFragment: "getDropRightholder",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "getUserBalancePerDrop",
     data: BytesLike
@@ -60,6 +74,10 @@ export interface ABRegistryInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "updateBalance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "updateDropRightholder",
     data: BytesLike
   ): Result;
 
@@ -106,6 +124,16 @@ export interface ABRegistry extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    getDropRightholder(
+      _dropId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    "getDropRightholder(uint256)"(
+      _dropId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
     getUserBalancePerDrop(
       _user: string,
       _dropId: BigNumberish,
@@ -153,7 +181,29 @@ export interface ABRegistry extends BaseContract {
       _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    updateDropRightholder(
+      _dropId: BigNumberish,
+      _rightholder: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "updateDropRightholder(uint256,address)"(
+      _dropId: BigNumberish,
+      _rightholder: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
+
+  getDropRightholder(
+    _dropId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  "getDropRightholder(uint256)"(
+    _dropId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<string>;
 
   getUserBalancePerDrop(
     _user: string,
@@ -203,7 +253,29 @@ export interface ABRegistry extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  updateDropRightholder(
+    _dropId: BigNumberish,
+    _rightholder: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "updateDropRightholder(uint256,address)"(
+    _dropId: BigNumberish,
+    _rightholder: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
+    getDropRightholder(
+      _dropId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    "getDropRightholder(uint256)"(
+      _dropId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
     getUserBalancePerDrop(
       _user: string,
       _dropId: BigNumberish,
@@ -247,6 +319,18 @@ export interface ABRegistry extends BaseContract {
       _dropId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    updateDropRightholder(
+      _dropId: BigNumberish,
+      _rightholder: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "updateDropRightholder(uint256,address)"(
+      _dropId: BigNumberish,
+      _rightholder: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {
@@ -261,6 +345,16 @@ export interface ABRegistry extends BaseContract {
   };
 
   estimateGas: {
+    getDropRightholder(
+      _dropId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "getDropRightholder(uint256)"(
+      _dropId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getUserBalancePerDrop(
       _user: string,
       _dropId: BigNumberish,
@@ -308,9 +402,31 @@ export interface ABRegistry extends BaseContract {
       _dropId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    updateDropRightholder(
+      _dropId: BigNumberish,
+      _rightholder: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "updateDropRightholder(uint256,address)"(
+      _dropId: BigNumberish,
+      _rightholder: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    getDropRightholder(
+      _dropId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "getDropRightholder(uint256)"(
+      _dropId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getUserBalancePerDrop(
       _user: string,
       _dropId: BigNumberish,
@@ -356,6 +472,18 @@ export interface ABRegistry extends BaseContract {
       _from: string,
       _to: string,
       _dropId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    updateDropRightholder(
+      _dropId: BigNumberish,
+      _rightholder: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "updateDropRightholder(uint256,address)"(
+      _dropId: BigNumberish,
+      _rightholder: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

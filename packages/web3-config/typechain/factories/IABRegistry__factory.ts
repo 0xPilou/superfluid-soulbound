@@ -10,6 +10,25 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "_dropId",
+        type: "uint256",
+      },
+    ],
+    name: "getDropRightholder",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "_user",
         type: "address",
@@ -50,6 +69,24 @@ const _abi = [
       },
     ],
     name: "updateBalance",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_dropId",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "_rightholder",
+        type: "address",
+      },
+    ],
+    name: "updateDropRightholder",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

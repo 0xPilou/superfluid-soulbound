@@ -20,7 +20,7 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface ABRelayInterface extends utils.Interface {
   contractName: "ABRelay";
   functions: {
-    "createdDrop(int96,uint256)": FunctionFragment;
+    "createdDrop(int96,uint256,address)": FunctionFragment;
     "grantAllowance(address)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
@@ -34,7 +34,7 @@ export interface ABRelayInterface extends utils.Interface {
 
   encodeFunctionData(
     functionFragment: "createdDrop",
-    values: [BigNumberish, BigNumberish]
+    values: [BigNumberish, BigNumberish, string]
   ): string;
   encodeFunctionData(
     functionFragment: "grantAllowance",
@@ -151,12 +151,14 @@ export interface ABRelay extends BaseContract {
     createdDrop(
       _baseFlow: BigNumberish,
       _dropId: BigNumberish,
+      _rightholder: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "createdDrop(int96,uint256)"(
+    "createdDrop(int96,uint256,address)"(
       _baseFlow: BigNumberish,
       _dropId: BigNumberish,
+      _rightholder: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -248,12 +250,14 @@ export interface ABRelay extends BaseContract {
   createdDrop(
     _baseFlow: BigNumberish,
     _dropId: BigNumberish,
+    _rightholder: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "createdDrop(int96,uint256)"(
+  "createdDrop(int96,uint256,address)"(
     _baseFlow: BigNumberish,
     _dropId: BigNumberish,
+    _rightholder: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -345,12 +349,14 @@ export interface ABRelay extends BaseContract {
     createdDrop(
       _baseFlow: BigNumberish,
       _dropId: BigNumberish,
+      _rightholder: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "createdDrop(int96,uint256)"(
+    "createdDrop(int96,uint256,address)"(
       _baseFlow: BigNumberish,
       _dropId: BigNumberish,
+      _rightholder: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -437,12 +443,14 @@ export interface ABRelay extends BaseContract {
     createdDrop(
       _baseFlow: BigNumberish,
       _dropId: BigNumberish,
+      _rightholder: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "createdDrop(int96,uint256)"(
+    "createdDrop(int96,uint256,address)"(
       _baseFlow: BigNumberish,
       _dropId: BigNumberish,
+      _rightholder: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -535,12 +543,14 @@ export interface ABRelay extends BaseContract {
     createdDrop(
       _baseFlow: BigNumberish,
       _dropId: BigNumberish,
+      _rightholder: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "createdDrop(int96,uint256)"(
+    "createdDrop(int96,uint256,address)"(
       _baseFlow: BigNumberish,
       _dropId: BigNumberish,
+      _rightholder: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
