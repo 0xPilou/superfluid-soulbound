@@ -15,6 +15,7 @@ contract ABRegistry is Ownable {
   address internal AB_RELAY;
 
   mapping(address => mapping(uint256 => uint256)) private userBalancePerDrop;
+  mapping(uint256 => address) private rightHolderPerDrop;
 
   constructor(address _relay) {
     if (_relay == address(0)) revert INVALID_PARAMETER();
@@ -31,11 +32,22 @@ contract ABRegistry is Ownable {
     if (_to != address(0)) userBalancePerDrop[_to][_dropId] += 1;
   }
 
+  function updateDropRightholder(uint256 _dropId, address _rightholder)
+    external
+  {
+    if (msg.sender != AB_RELAY) revert FORBIDDEN();
+    rightHolderPerDrop[_dropId] = _rightholder;
+  }
+
   function getUserBalancePerDrop(address _user, uint256 _dropId)
     external
     view
     returns (uint256)
   {
     return userBalancePerDrop[_user][_dropId];
+  }
+
+  function getDropRightholder(uint256 _dropId) external view returns (address) {
+    return rightHolderPerDrop[_dropId];
   }
 }

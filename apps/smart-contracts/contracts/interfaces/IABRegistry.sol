@@ -8,8 +8,13 @@ interface IABRegistry {
     uint256 _dropId
   ) external;
 
+  function updateDropRightholder(uint256 _dropId, address _rightholder)
+    external;
+
   function getUserBalancePerDrop(address _user, uint256 _dropId)
     external
     view
     returns (uint256);
+
+  function getDropRightholder(uint256 _dropId) external view returns (address);
 }

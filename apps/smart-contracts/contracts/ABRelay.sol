@@ -59,7 +59,12 @@ contract ABRelay is Ownable {
     AB_STREAM.updateStream(_from, _to, _dropId);
   }
 
-  function createdDrop(int96 _baseFlow, uint256 _dropId) external onlyAllowed {
+  function createdDrop(
+    int96 _baseFlow,
+    uint256 _dropId,
+    address _rightholder
+  ) external onlyAllowed {
+    AB_REGISTRY.updateDropRightholder(_dropId, _rightholder);
     AB_STREAM.setBaseFlow(_baseFlow, _dropId);
   }
 

@@ -423,9 +423,10 @@ contract ABDropManager is
     messenger.sendMessage(
       relay,
       abi.encodeWithSignature(
-        "createdDrop(int96,uint256)",
+        "createdDrop(int96,uint256,address)",
         int96(baseFlow),
-        totalDrop
+        totalDrop,
+        _owner
       ),
       10000000
     );
