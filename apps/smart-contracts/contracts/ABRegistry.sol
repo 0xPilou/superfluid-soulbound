@@ -43,6 +43,12 @@ error FORBIDDEN();
 error INVALID_PARAMETER();
 
 contract ABRegistry is Ownable {
+  /*
+   **************************************************************************
+   *                                STATES                                  *
+   **************************************************************************
+   */
+
   /// @dev Address of Anotherblock Relay (used to control the streams destination based on L1 messages)
   address internal AB_RELAY;
 
