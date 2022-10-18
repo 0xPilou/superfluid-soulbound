@@ -1,0 +1,22 @@
+{
+  "name": "merkle",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "generate": "ts-node ./src/generate"
+  },
+  "dependencies": {
+    "commander": "^9.1.0",
+    "merkletreejs": "^0.2.31",
+    "web3-config": "*"
+  },
+  "devDependencies": {
+    "keccak256": "^1.0.6",
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.7.0",
+    "winston": "^3.6.0"
+  }
+}
