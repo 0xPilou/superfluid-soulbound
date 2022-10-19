@@ -337,6 +337,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MockERC20__factory>;
     getContractFactory(
+      name: "MockMessenger",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.MockMessenger__factory>;
+    getContractFactory(
       name: "SuperfluidSoulbound",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.SuperfluidSoulbound__factory>;
@@ -750,6 +754,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.MockERC20>;
+    getContractAt(
+      name: "MockMessenger",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.MockMessenger>;
     getContractAt(
       name: "SuperfluidSoulbound",
       address: string,

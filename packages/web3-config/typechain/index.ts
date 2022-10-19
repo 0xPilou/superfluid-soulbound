@@ -81,6 +81,7 @@ export type { IAnotherMinter } from "./IAnotherMinter";
 export type { IERC721AB } from "./IERC721AB";
 export type { ISuperSoulbound } from "./ISuperSoulbound";
 export type { MockERC20 } from "./MockERC20";
+export type { MockMessenger } from "./MockMessenger";
 export type { SuperfluidSoulbound } from "./SuperfluidSoulbound";
 export type { SuperSoulbound } from "./SuperSoulbound";
 
@@ -164,5 +165,6 @@ export { IAnotherMinter__factory } from "./factories/IAnotherMinter__factory";
 export { IERC721AB__factory } from "./factories/IERC721AB__factory";
 export { ISuperSoulbound__factory } from "./factories/ISuperSoulbound__factory";
 export { MockERC20__factory } from "./factories/MockERC20__factory";
+export { MockMessenger__factory } from "./factories/MockMessenger__factory";
 export { SuperfluidSoulbound__factory } from "./factories/SuperfluidSoulbound__factory";
 export { SuperSoulbound__factory } from "./factories/SuperSoulbound__factory";

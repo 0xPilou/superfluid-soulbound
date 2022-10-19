@@ -71,9 +71,7 @@ export interface ABDropManagerInterface extends utils.Interface {
     "initializeV2(address,address)": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
-    "setMerkleRoot(uint256,bytes32)": FunctionFragment;
     "setRightHolderInfo(uint256,uint256,address)": FunctionFragment;
-    "setSalesInfo(uint256,uint256[4])": FunctionFragment;
     "setTokenInfo(uint256,uint256[3])": FunctionFragment;
     "setTreasury(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -107,19 +105,8 @@ export interface ABDropManagerInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "setMerkleRoot",
-    values: [BigNumberish, BytesLike]
-  ): string;
-  encodeFunctionData(
     functionFragment: "setRightHolderInfo",
     values: [BigNumberish, BigNumberish, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setSalesInfo",
-    values: [
-      BigNumberish,
-      [BigNumberish, BigNumberish, BigNumberish, BigNumberish]
-    ]
   ): string;
   encodeFunctionData(
     functionFragment: "setTokenInfo",
@@ -153,15 +140,7 @@ export interface ABDropManagerInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setMerkleRoot",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "setRightHolderInfo",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setSalesInfo",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -363,18 +342,6 @@ export interface ABDropManager extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setMerkleRoot(
-      _dropId: BigNumberish,
-      _merkle: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "setMerkleRoot(uint256,bytes32)"(
-      _dropId: BigNumberish,
-      _merkle: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     setRightHolderInfo(
       _dropId: BigNumberish,
       _rightHolderFee: BigNumberish,
@@ -386,18 +353,6 @@ export interface ABDropManager extends BaseContract {
       _dropId: BigNumberish,
       _rightHolderFee: BigNumberish,
       _owner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setSalesInfo(
-      _dropId: BigNumberish,
-      _saleInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "setSalesInfo(uint256,uint256[4])"(
-      _dropId: BigNumberish,
-      _saleInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -576,18 +531,6 @@ export interface ABDropManager extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setMerkleRoot(
-    _dropId: BigNumberish,
-    _merkle: BytesLike,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "setMerkleRoot(uint256,bytes32)"(
-    _dropId: BigNumberish,
-    _merkle: BytesLike,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   setRightHolderInfo(
     _dropId: BigNumberish,
     _rightHolderFee: BigNumberish,
@@ -599,18 +542,6 @@ export interface ABDropManager extends BaseContract {
     _dropId: BigNumberish,
     _rightHolderFee: BigNumberish,
     _owner: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  setSalesInfo(
-    _dropId: BigNumberish,
-    _saleInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "setSalesInfo(uint256,uint256[4])"(
-    _dropId: BigNumberish,
-    _saleInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -782,18 +713,6 @@ export interface ABDropManager extends BaseContract {
 
     "renounceOwnership()"(overrides?: CallOverrides): Promise<void>;
 
-    setMerkleRoot(
-      _dropId: BigNumberish,
-      _merkle: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "setMerkleRoot(uint256,bytes32)"(
-      _dropId: BigNumberish,
-      _merkle: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     setRightHolderInfo(
       _dropId: BigNumberish,
       _rightHolderFee: BigNumberish,
@@ -805,18 +724,6 @@ export interface ABDropManager extends BaseContract {
       _dropId: BigNumberish,
       _rightHolderFee: BigNumberish,
       _owner: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setSalesInfo(
-      _dropId: BigNumberish,
-      _saleInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "setSalesInfo(uint256,uint256[4])"(
-      _dropId: BigNumberish,
-      _saleInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -962,18 +869,6 @@ export interface ABDropManager extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setMerkleRoot(
-      _dropId: BigNumberish,
-      _merkle: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "setMerkleRoot(uint256,bytes32)"(
-      _dropId: BigNumberish,
-      _merkle: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     setRightHolderInfo(
       _dropId: BigNumberish,
       _rightHolderFee: BigNumberish,
@@ -985,18 +880,6 @@ export interface ABDropManager extends BaseContract {
       _dropId: BigNumberish,
       _rightHolderFee: BigNumberish,
       _owner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setSalesInfo(
-      _dropId: BigNumberish,
-      _saleInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "setSalesInfo(uint256,uint256[4])"(
-      _dropId: BigNumberish,
-      _saleInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1128,18 +1011,6 @@ export interface ABDropManager extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setMerkleRoot(
-      _dropId: BigNumberish,
-      _merkle: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "setMerkleRoot(uint256,bytes32)"(
-      _dropId: BigNumberish,
-      _merkle: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     setRightHolderInfo(
       _dropId: BigNumberish,
       _rightHolderFee: BigNumberish,
@@ -1151,18 +1022,6 @@ export interface ABDropManager extends BaseContract {
       _dropId: BigNumberish,
       _rightHolderFee: BigNumberish,
       _owner: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setSalesInfo(
-      _dropId: BigNumberish,
-      _saleInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "setSalesInfo(uint256,uint256[4])"(
-      _dropId: BigNumberish,
-      _saleInfo: [BigNumberish, BigNumberish, BigNumberish, BigNumberish],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
