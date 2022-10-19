@@ -34,7 +34,6 @@
 pragma solidity ^0.8.4;
 
 /* Openzeppelin Contract */
-import "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol";
 import "@openzeppelin/contracts/utils/introspection/ERC165Storage.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
@@ -158,7 +157,6 @@ contract ABDropManager is
     treasury = _treasury;
     totalDrop = 0;
     // Register ABDropManager interface
-    _registerInterface(type(IABDropManager).interfaceId);
     __Ownable_init();
   }
 
@@ -249,6 +247,7 @@ contract ABDropManager is
       _nft,
       _rightHolderFee,
       TokenInfo(_price, _supply, _royaltySharePerToken),
+      SaleInfo(0, 0, 0, 0),
       phases
     );
   }
@@ -263,48 +262,6 @@ contract ABDropManager is
   function setTreasury(address _newTreasury) external onlyOwner {
     if (_newTreasury == address(0)) revert ZeroAddress();
     treasury = _newTreasury;
-  }
-
-  /**
-   * @notice
-   *  Update the Drop `_dropId` sale information
-   *  Only the contract owner can perform this operation
-   *
-   * @param _dropId :  drop identifier of the drop to be updated
-   * @param _saleInfo : array containing the new information to be updated
-   */
-  function setSalesInfo(uint256 _dropId, uint256[4] calldata _saleInfo)
-    external
-    onlyOwner
-  {
-    // Enfore non-null maximum amount per address
-    if (_saleInfo[0] <= 0 || _saleInfo[2] <= 0)
-      revert InsufficientMaxAmountPerAddress();
-
-    Drop storage drop = drops[_dropId];
-    drop.salesInfo.privateSaleMaxMint = _saleInfo[0];
-    drop.salesInfo.privateSaleTime = _saleInfo[1];
-    drop.salesInfo.publicSaleMaxMint = _saleInfo[2];
-    drop.salesInfo.publicSaleTime = _saleInfo[3];
-
-    // Emit Drop Update event
-    emit DropUpdated(_dropId);
-  }
-
-  /**
-   * @notice
-   *  Update the merkle root (for allowlist) for the Drop `_dropId`
-   *  Only the contract owner can perform this operation
-   *
-   * @param _dropId :  drop identifier of the drop to be updated
-   * @param _merkle : the new merkle root to be set
-   */
-  function setMerkleRoot(uint256 _dropId, bytes32 _merkle) external onlyOwner {
-    Drop storage drop = drops[_dropId];
-    drop.merkleRoot = _merkle;
-
-    // Emit Drop Update event
-    emit DropUpdated(_dropId);
   }
 
   /**
@@ -392,6 +349,7 @@ contract ABDropManager is
     address _nft,
     uint256 _rightHolderFee,
     TokenInfo memory _tokenInfo,
+    SaleInfo memory _salesInfo,
     Phase[] memory phases
   ) internal {
     uint256 startTokenIndex;
@@ -409,7 +367,7 @@ contract ABDropManager is
         _rightHolderFee,
         startTokenIndex,
         _tokenInfo,
-        SaleInfo(0, 0, 0, 0),
+        _salesInfo,
         _currencyPayout,
         _owner,
         _nft,
