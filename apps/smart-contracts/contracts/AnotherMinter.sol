@@ -124,15 +124,9 @@ contract AnotherMinter is ERC721ABv2, ERC721ABErrors {
   {
     if (msg.sender != dropManager) revert Forbidden();
 
-    IABDropManager.Phase[] storage phases = phasesPerDrop[_dropId];
-
     for (uint256 i = 0; i < _phases.length; ++i) {
-      phases[i].phaseStart = _phases[i].phaseStart;
-      phases[i].maxMint = _phases[i].maxMint;
-      phases[i].merkle = _phases[i].merkle;
+      phasesPerDrop[_dropId].push(_phases[i]);
     }
-
-    phasesPerDrop[_dropId] = phases;
   }
 
   //
