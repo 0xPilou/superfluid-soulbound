@@ -1,0 +1,614 @@
+{
+  "manifestVersion": "3.2",
+  "admin": {
+    "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+    "txHash": "0xa346e511b62147ce587ae1fc56cf513d759a646ccb49a76662cc2a6a649a9f21"
+  },
+  "proxies": [
+    {
+      "address": "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
+      "txHash": "0x95ba77a83bd4af7b0621163cd2c5e1ffd17ae1828c7e77b7cb5893d95330ae20",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      "txHash": "0xfa8c1a2375a8e004c3d14d8eecba7cd1bc824fae5ef6ce7dcaae6de0c761b3e9",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
+      "txHash": "0x1633ac86f5aba5fef75ac05135a2c87254e88899941ec3aaa63d90adf50cafac",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x3Aa5ebB10DC797CAC828524e59A333d0A371443c",
+      "txHash": "0x8d3ed42b768739f7c96baac1d4ac99e00edd5e4f9b16497cbcb78e114d3ab2e0",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x7a2088a1bFc9d81c55368AE168C2C02570cB814F",
+      "txHash": "0x3f2b19a5564d57a49f64301e4466277c06e030a905fd54a206f450405e11f96a",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x9E545E3C0baAB3E08CdfD552C960A1050f373042",
+      "txHash": "0xe6e05ee107ef5b52d5542dc75d596ca2bf9a817d204b9acdbd14acd8d39d6de7",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x4826533B4897376654Bb4d4AD88B7faFD0C98528",
+      "txHash": "0xcef0acfd76310dbef7dbf45b1fa21c32ac2e2a4dbc61cec9061c57a45519519e",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x809d550fca64d94Bd9F66E60752A544199cfAC3D",
+      "txHash": "0x6cea1f9069d7575f4e37cc84cec2d688c59c9d9b647035307fb80f6856a715f1",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x2bdCC0de6bE1f7D2ee689a0342D76F52E8EFABa3",
+      "txHash": "0xb94f54db962df2f5c9a8a63237bd2f66175ec4de661f6808473ab743ea226205",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x1429859428C0aBc9C2C47C8Ee9FBaf82cFA0F20f",
+      "txHash": "0x947efc0b5a3cbcf26afc94c520d4c294996c4f18f718617a1917a92847536918",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x04C89607413713Ec9775E14b954286519d836FEf",
+      "txHash": "0x12fe10434c42bc8e648cff1611a6d55b5424af26b56a25c83d40c0990e83b1de",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x8198f5d8F8CfFE8f9C413d98a0A55aEB8ab9FbB7",
+      "txHash": "0x29e0ad6265097533ac1641b3aeceecaf2d70afac7de9592229b1164884bdc06b",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x2B0d36FACD61B71CC05ab8F3D2355ec3631C0dd5",
+      "txHash": "0xe65edfef6773ce6ee73fb078add2060d505ee7373539dca13ea69d85a4680ab5",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x7A9Ec1d04904907De0ED7b6839CcdD59c3716AC9",
+      "txHash": "0xee9eea22f5b6fa816ff454e4a383d14566944bfd722f87bfa42a91cc97c10e69",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x720472c8ce72c2A2D711333e064ABD3E6BbEAdd3",
+      "txHash": "0x4301a0f06fc0a4d8dae01ac5d803110660623c1c8ae59ac30666d66483d6b982",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xF8e31cb472bc70500f08Cd84917E5A1912Ec8397",
+      "txHash": "0xfc576f3b4d171e7e7fc213e0df5bafc1de8e34d3734d60c6e091eaa350035b81",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x276C216D241856199A83bf27b2286659e5b877D3",
+      "txHash": "0x33559e3ddc5f42903f22d85eb4dfbd1ec7595bf1b52d91d926fc2ba7a66596bf",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x1f10F3Ba7ACB61b2F50B9d6DdCf91a6f787C0E82",
+      "txHash": "0xa64a7d3726d4c9cec75f1f84ec60f95313938fe9b01682f7de359f654abf8867",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x8A93d247134d91e0de6f96547cB0204e5BE8e5D8",
+      "txHash": "0x5b12447612ae6e17d0bd0837c43824fe643efa3877aa7bab58b1a715b3767ff8",
+      "kind": "transparent"
+    }
+  ],
+  "impls": {
+    "287e2340db03682def804afe5412f94c6bb870bda66f31f029cdccc4453ec511": {
+      "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "txHash": "0xa92aeb8fc39bc407634e87440fc9bcde63c9d053d5918a33f36fb92eb9b1a297",
+      "layout": {
+        "solcVersion": "0.8.16",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "_supportedInterfaces",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_mapping(t_bytes4,t_bool)",
+            "contract": "ERC165Storage",
+            "src": "@openzeppelin/contracts/utils/introspection/ERC165Storage.sol:18"
+          },
+          {
+            "label": "drops",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_struct(Drop)904_storage)dyn_storage",
+            "contract": "ABDropManagerV1",
+            "src": "contracts/ABDropManagerV1.sol:114"
+          },
+          {
+            "label": "treasury",
+            "offset": 0,
+            "slot": "103",
+            "type": "t_address",
+            "contract": "ABDropManagerV1",
+            "src": "contracts/ABDropManagerV1.sol:115"
+          },
+          {
+            "label": "totalDrop",
+            "offset": 0,
+            "slot": "104",
+            "type": "t_uint256",
+            "contract": "ABDropManagerV1",
+            "src": "contracts/ABDropManagerV1.sol:117"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_struct(Drop)904_storage)dyn_storage": {
+            "label": "struct ABDropManagerV1.Drop[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_bytes4": {
+            "label": "bytes4",
+            "numberOfBytes": "4"
+          },
+          "t_mapping(t_bytes4,t_bool)": {
+            "label": "mapping(bytes4 => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Drop)904_storage": {
+            "label": "struct ABDropManagerV1.Drop",
+            "members": [
+              {
+                "label": "dropId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "sold",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "rightHolderFee",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "firstTokenIndex",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "tokenInfo",
+                "type": "t_struct(TokenInfo)911_storage",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "salesInfo",
+                "type": "t_struct(SaleInfo)920_storage",
+                "offset": 0,
+                "slot": "7"
+              },
+              {
+                "label": "currencyPayout",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "11"
+              },
+              {
+                "label": "owner",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "12"
+              },
+              {
+                "label": "nft",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "13"
+              },
+              {
+                "label": "merkleRoot",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "14"
+              }
+            ],
+            "numberOfBytes": "480"
+          },
+          "t_struct(SaleInfo)920_storage": {
+            "label": "struct ABDropManagerV1.SaleInfo",
+            "members": [
+              {
+                "label": "privateSaleMaxMint",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "privateSaleTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "publicSaleMaxMint",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "publicSaleTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              }
+            ],
+            "numberOfBytes": "128"
+          },
+          "t_struct(TokenInfo)911_storage": {
+            "label": "struct ABDropManagerV1.TokenInfo",
+            "members": [
+              {
+                "label": "price",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "supply",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "royaltySharePerToken",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    },
+    "5ac38770562c6c5524f01e189b32d5cdabc6c84f1cbc388a49c6aeee4a59c6de": {
+      "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+      "txHash": "0x95abcd4e982b933d690625668ed5f5c4df4563abb966735f4d36a76c642bd3e2",
+      "layout": {
+        "solcVersion": "0.8.16",
+        "storage": [
+          {
+            "label": "_initialized",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint8",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:62",
+            "retypedFrom": "bool"
+          },
+          {
+            "label": "_initializing",
+            "offset": 1,
+            "slot": "0",
+            "type": "t_bool",
+            "contract": "Initializable",
+            "src": "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol:67"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_array(t_uint256)50_storage",
+            "contract": "ContextUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol:36"
+          },
+          {
+            "label": "_owner",
+            "offset": 0,
+            "slot": "51",
+            "type": "t_address",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:22"
+          },
+          {
+            "label": "__gap",
+            "offset": 0,
+            "slot": "52",
+            "type": "t_array(t_uint256)49_storage",
+            "contract": "OwnableUpgradeable",
+            "src": "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol:94"
+          },
+          {
+            "label": "_supportedInterfaces",
+            "offset": 0,
+            "slot": "101",
+            "type": "t_mapping(t_bytes4,t_bool)",
+            "contract": "ERC165Storage",
+            "src": "@openzeppelin/contracts/utils/introspection/ERC165Storage.sol:18"
+          },
+          {
+            "label": "drops",
+            "offset": 0,
+            "slot": "102",
+            "type": "t_array(t_struct(Drop)4786_storage)dyn_storage",
+            "contract": "ABDropManager",
+            "src": "contracts/ABDropManagerV2.sol:123"
+          },
+          {
+            "label": "treasury",
+            "offset": 0,
+            "slot": "103",
+            "type": "t_address",
+            "contract": "ABDropManager",
+            "src": "contracts/ABDropManagerV2.sol:124"
+          },
+          {
+            "label": "totalDrop",
+            "offset": 0,
+            "slot": "104",
+            "type": "t_uint256",
+            "contract": "ABDropManager",
+            "src": "contracts/ABDropManagerV2.sol:125"
+          },
+          {
+            "label": "relay",
+            "offset": 0,
+            "slot": "105",
+            "type": "t_address",
+            "contract": "ABDropManager",
+            "src": "contracts/ABDropManagerV2.sol:126"
+          },
+          {
+            "label": "messenger",
+            "offset": 0,
+            "slot": "106",
+            "type": "t_contract(IL1CrossDomainMessenger)53",
+            "contract": "ABDropManager",
+            "src": "contracts/ABDropManagerV2.sol:126"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address",
+            "numberOfBytes": "20"
+          },
+          "t_array(t_struct(Drop)4786_storage)dyn_storage": {
+            "label": "struct ABDropManager.Drop[]",
+            "numberOfBytes": "32"
+          },
+          "t_array(t_uint256)49_storage": {
+            "label": "uint256[49]",
+            "numberOfBytes": "1568"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]",
+            "numberOfBytes": "1600"
+          },
+          "t_bool": {
+            "label": "bool",
+            "numberOfBytes": "1"
+          },
+          "t_bytes32": {
+            "label": "bytes32",
+            "numberOfBytes": "32"
+          },
+          "t_bytes4": {
+            "label": "bytes4",
+            "numberOfBytes": "4"
+          },
+          "t_contract(IL1CrossDomainMessenger)53": {
+            "label": "contract IL1CrossDomainMessenger",
+            "numberOfBytes": "20"
+          },
+          "t_mapping(t_bytes4,t_bool)": {
+            "label": "mapping(bytes4 => bool)",
+            "numberOfBytes": "32"
+          },
+          "t_struct(Drop)4786_storage": {
+            "label": "struct ABDropManager.Drop",
+            "members": [
+              {
+                "label": "dropId",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "sold",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "rightHolderFee",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "firstTokenIndex",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              },
+              {
+                "label": "tokenInfo",
+                "type": "t_struct(TokenInfo)4793_storage",
+                "offset": 0,
+                "slot": "4"
+              },
+              {
+                "label": "salesInfo",
+                "type": "t_struct(SaleInfo)4802_storage",
+                "offset": 0,
+                "slot": "7"
+              },
+              {
+                "label": "currencyPayout",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "11"
+              },
+              {
+                "label": "owner",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "12"
+              },
+              {
+                "label": "nft",
+                "type": "t_address",
+                "offset": 0,
+                "slot": "13"
+              },
+              {
+                "label": "merkleRoot",
+                "type": "t_bytes32",
+                "offset": 0,
+                "slot": "14"
+              }
+            ],
+            "numberOfBytes": "480"
+          },
+          "t_struct(SaleInfo)4802_storage": {
+            "label": "struct ABDropManager.SaleInfo",
+            "members": [
+              {
+                "label": "privateSaleMaxMint",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "privateSaleTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "publicSaleMaxMint",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              },
+              {
+                "label": "publicSaleTime",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "3"
+              }
+            ],
+            "numberOfBytes": "128"
+          },
+          "t_struct(TokenInfo)4793_storage": {
+            "label": "struct ABDropManager.TokenInfo",
+            "members": [
+              {
+                "label": "price",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "0"
+              },
+              {
+                "label": "supply",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "1"
+              },
+              {
+                "label": "royaltySharePerToken",
+                "type": "t_uint256",
+                "offset": 0,
+                "slot": "2"
+              }
+            ],
+            "numberOfBytes": "96"
+          },
+          "t_uint256": {
+            "label": "uint256",
+            "numberOfBytes": "32"
+          },
+          "t_uint8": {
+            "label": "uint8",
+            "numberOfBytes": "1"
+          }
+        }
+      }
+    }
+  }
+}
