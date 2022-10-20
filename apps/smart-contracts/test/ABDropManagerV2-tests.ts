@@ -3,7 +3,6 @@ import { time } from "@nomicfoundation/hardhat-network-helpers";
 import { expect, use } from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { ethers, upgrades } from "hardhat";
-import { Address } from "hardhat-deploy/types";
 import { Generator } from "merkle";
 import { generateLeaf } from "merkle";
 import {
@@ -53,7 +52,7 @@ describe("Anotherblock V1 Unit Tests", function () {
       ...addrs
     ] = await ethers.getSigners();
 
-    // Generate a Merkle tree
+    // Generate a Merkle trees
     merkle0 = new Generator("DROP#1-PHASE#0", [user1.address, user2.address]);
     merkle1 = new Generator("DROP#1-PHASE#1", [user1.address, user3.address]);
     merkle2 = new Generator("DROP#1-PHASE#2", [
@@ -525,7 +524,7 @@ describe("Anotherblock V1 Unit Tests", function () {
 
   describe("METHOD : setTokenInfo", async () => {
     before(async () => {
-      await time.increaseTo(2500000000);
+      await time.increaseTo(TEST_DATA.PHASE_2_START);
     });
     beforeEach(async () => {
       const mintPrice = 100;
