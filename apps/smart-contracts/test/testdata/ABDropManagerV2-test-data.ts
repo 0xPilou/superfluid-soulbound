@@ -23,7 +23,7 @@ export const PHASE_0_START = 1000000000;
 export const PHASE_0_MAX_MINT = 1;
 
 export const PHASE_1_START = 1500000000;
-export const PHASE_1_MAX_MINT = 3;
+export const PHASE_1_MAX_MINT = 2;
 
 export const PHASE_2_START = 2500000000;
 export const PHASE_2_MAX_MINT = 3;
