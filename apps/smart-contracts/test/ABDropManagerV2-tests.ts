@@ -1,5 +1,5 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
-import { time } from "@nomicfoundation/hardhat-network-helpers";
+import { time, takeSnapshot } from "@nomicfoundation/hardhat-network-helpers";
 import { expect, use } from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { ethers, upgrades } from "hardhat";
@@ -523,9 +523,6 @@ describe("Anotherblock V1 Unit Tests", function () {
   });
 
   describe("METHOD : setTokenInfo", async () => {
-    before(async () => {
-      await time.increaseTo(TEST_DATA.PHASE_2_START);
-    });
     beforeEach(async () => {
       const mintPrice = 100;
       const price = ethers.utils.parseEther(mintPrice.toString());
@@ -586,6 +583,9 @@ describe("Anotherblock V1 Unit Tests", function () {
     });
 
     it("should be able to set the token Info (drop minted)", async () => {
+      const snapshot = await takeSnapshot();
+      await time.increaseTo(TEST_DATA.PHASE_2_START);
+
       const tree2 = merkle2.tree;
       const mintPrice = 100;
       const price = ethers.utils.parseEther(mintPrice.toString());
@@ -616,6 +616,8 @@ describe("Anotherblock V1 Unit Tests", function () {
       expect(+drop[4][0]).to.eq(+newPrice, "price");
       expect(+drop[4][1]).to.eq(+currentSupply, "supply");
       expect(+drop[4][2]).to.eq(+newShare, "share");
+
+      await snapshot.restore();
     });
 
     it("should be able to set the token Info (new drop created)", async () => {
