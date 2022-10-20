@@ -1,4 +1,5 @@
 import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import { time } from "@nomicfoundation/hardhat-network-helpers";
 import { expect, use } from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { ethers, upgrades } from "hardhat";
@@ -523,6 +524,9 @@ describe("Anotherblock V1 Unit Tests", function () {
   });
 
   describe("METHOD : setTokenInfo", async () => {
+    before(async () => {
+      await time.increaseTo(2500000000);
+    });
     beforeEach(async () => {
       const mintPrice = 100;
       const price = ethers.utils.parseEther(mintPrice.toString());
@@ -589,11 +593,11 @@ describe("Anotherblock V1 Unit Tests", function () {
 
       // Mint Parameters
       const options = { value: price.mul(TEST_DATA.MINT_QUANTITY_3) };
-      const proof1 = tree2.getHexProof(generateLeaf(user1.address));
+      const proof = tree2.getHexProof(generateLeaf(user1.address));
 
       await dropV2
         .connect(user1)
-        .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY_3, proof1, options);
+        .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY_3, proof, options);
 
       const dropId = 0;
 
