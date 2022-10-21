@@ -11,23 +11,23 @@
       "kind": "transparent"
     },
     {
-      "address": "0xF8e31cb472bc70500f08Cd84917E5A1912Ec8397",
-      "txHash": "0xfc576f3b4d171e7e7fc213e0df5bafc1de8e34d3734d60c6e091eaa350035b81",
+      "address": "0xc0F115A19107322cFBf1cDBC7ea011C19EbDB4F8",
+      "txHash": "0xaaf50b10de48c1fe8e89806b54a464a4d2d7d74ea5971dd0bae34ae9443c4679",
       "kind": "transparent"
     },
     {
-      "address": "0x276C216D241856199A83bf27b2286659e5b877D3",
-      "txHash": "0x33559e3ddc5f42903f22d85eb4dfbd1ec7595bf1b52d91d926fc2ba7a66596bf",
+      "address": "0x3347B4d90ebe72BeFb30444C9966B2B990aE9FcB",
+      "txHash": "0x813eca813a66e1e170e6b8d1d1e52a58b4eabba63ecd3afeeffbb8740cfd42e5",
       "kind": "transparent"
     },
     {
-      "address": "0x1f10F3Ba7ACB61b2F50B9d6DdCf91a6f787C0E82",
-      "txHash": "0xa64a7d3726d4c9cec75f1f84ec60f95313938fe9b01682f7de359f654abf8867",
+      "address": "0x457cCf29090fe5A24c19c1bc95F492168C0EaFdb",
+      "txHash": "0x3427e8dcb849e8156ea8598cd8fde91843e3d3abb3b4440dd97f9884ca1e87f6",
       "kind": "transparent"
     },
     {
-      "address": "0x8A93d247134d91e0de6f96547cB0204e5BE8e5D8",
-      "txHash": "0x5b12447612ae6e17d0bd0837c43824fe643efa3877aa7bab58b1a715b3767ff8",
+      "address": "0x40918Ba7f132E0aCba2CE4de4c4baF9BD2D7D849",
+      "txHash": "0xc05718025b83695171023a0111e8ce6d0c12f70ca94a01e65e96a95a8a62ec63",
       "kind": "transparent"
     },
     {
@@ -92,32 +92,117 @@
     },
     {
       "address": "0x7A9Ec1d04904907De0ED7b6839CcdD59c3716AC9",
-      "txHash": "0x12373f5301f2229b6f221b923d491a34cca7235f5e303ea0253a7f39c5ea7fcc",
+      "txHash": "0xee9eea22f5b6fa816ff454e4a383d14566944bfd722f87bfa42a91cc97c10e69",
       "kind": "transparent"
     },
     {
       "address": "0x720472c8ce72c2A2D711333e064ABD3E6BbEAdd3",
-      "txHash": "0xf7d611c7dd9289bb81fc029e2bfc6b2b2f6c79203f60fd7909c01cb6544e0779",
+      "txHash": "0x4301a0f06fc0a4d8dae01ac5d803110660623c1c8ae59ac30666d66483d6b982",
       "kind": "transparent"
     },
     {
-      "address": "0xc0F115A19107322cFBf1cDBC7ea011C19EbDB4F8",
-      "txHash": "0xaaf50b10de48c1fe8e89806b54a464a4d2d7d74ea5971dd0bae34ae9443c4679",
+      "address": "0xF8e31cb472bc70500f08Cd84917E5A1912Ec8397",
+      "txHash": "0x4a8dfeaafc948fb9fcb037306d5f02011d91a1a4dc8c899cc8c3ed946ddfc37d",
       "kind": "transparent"
     },
     {
-      "address": "0x3347B4d90ebe72BeFb30444C9966B2B990aE9FcB",
-      "txHash": "0x813eca813a66e1e170e6b8d1d1e52a58b4eabba63ecd3afeeffbb8740cfd42e5",
+      "address": "0x276C216D241856199A83bf27b2286659e5b877D3",
+      "txHash": "0xd5630dc702806cd515db063d1e1ca6811ad0de27330b2165489a690b63b3fa16",
       "kind": "transparent"
     },
     {
-      "address": "0x457cCf29090fe5A24c19c1bc95F492168C0EaFdb",
-      "txHash": "0x3427e8dcb849e8156ea8598cd8fde91843e3d3abb3b4440dd97f9884ca1e87f6",
+      "address": "0x1f10F3Ba7ACB61b2F50B9d6DdCf91a6f787C0E82",
+      "txHash": "0xc7fab4594c780f58fc554fce8c9251a392ad36540e8334c9870b252cd30de0c3",
       "kind": "transparent"
     },
     {
-      "address": "0x40918Ba7f132E0aCba2CE4de4c4baF9BD2D7D849",
-      "txHash": "0xc05718025b83695171023a0111e8ce6d0c12f70ca94a01e65e96a95a8a62ec63",
+      "address": "0x8A93d247134d91e0de6f96547cB0204e5BE8e5D8",
+      "txHash": "0x500d63b974ee7d555936d8e78542e47104de247b966e84c59c25c3652e4562d8",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x6F6f570F45833E249e27022648a26F4076F48f78",
+      "txHash": "0x32360be1f1c2c7064d54e9714dcb179c76287a6b98ee1e9e2f00acd3f6b409a1",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x19cEcCd6942ad38562Ee10bAfd44776ceB67e923",
+      "txHash": "0xdcd485bb5c5b11f557a7b23ff2c42a5924d8e4721fc4f43f6ae3a62ae17a277a",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x01c1DeF3b91672704716159C9041Aeca392DdFfb",
+      "txHash": "0x92cb8626b1d846ebee510a4e45b12fd3d55f26e653c7e1359d71ad8b5da5b99f",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xa6e99A4ED7498b3cdDCBB61a6A607a4925Faa1B7",
+      "txHash": "0x05683021fe7be08fc24c4a39ed5b39ed282839b766b1585bc5282bda5f917b2d",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x96F3Ce39Ad2BfDCf92C0F6E2C2CAbF83874660Fc",
+      "txHash": "0x3318d4d25d5a0b73900afee6f4ed3ddbe7b9cafb1da04a9d57d668ff0db6c911",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xD49a0e9A4CD5979aE36840f542D2d7f02C4817Be",
+      "txHash": "0xdffb58f5b78aa02b67df440abe50ab7921cae655067d012769fc5aaf2a1d80ec",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x66F625B8c4c635af8b74ECe2d7eD0D58b4af3C3d",
+      "txHash": "0x38ea90d1a75e592ef0f1c9f17c9dc6c1f8f24f645b0c2b8577083f9519b45e81",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x70bDA08DBe07363968e9EE53d899dFE48560605B",
+      "txHash": "0xcc3cea7f9bfd3a52c03e16db7e4109a0e455555f85942c85db810c1711552b70",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xB06c856C8eaBd1d8321b687E188204C1018BC4E5",
+      "txHash": "0x0d1d6e1f6424452e9001fa6be03a47f41e959a50c691bc8c5584c8df85739a81",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x413b1AfCa96a3df5A686d8BFBF93d30688a7f7D9",
+      "txHash": "0x498b1f97040f436619cf3a0fc4bce55b606f5453ef40de77da805f6e0bdbc4bf",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x71089Ba41e478702e1904692385Be3972B2cBf9e",
+      "txHash": "0xbef6a1c3daf15011ed3b521d9650cee9a804ac80dd0dc125c33af988627c40f1",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xaC47e91215fb80462139756f43438402998E4A3a",
+      "txHash": "0x2dcd8100f0eafb48295874e93f65f4ad4c0e12f9057f327a081c2d001bef9e10",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x54B8d8E2455946f2A5B8982283f2359812e815ce",
+      "txHash": "0x3c279137edf39d55b2a0c4951e6b6a567665ea322d3338226701be63f3fb69a4",
+      "kind": "transparent"
+    },
+    {
+      "address": "0xe039608E695D21aB11675EBBA00261A0e750526c",
+      "txHash": "0xb72aa150706cdf4da5ff2b40e83a87cb87ea23582f59a817b2859c822c5f6e7f",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x3904b8f5b0F49cD206b7d5AABeE5D1F37eE15D8d",
+      "txHash": "0x21a4e0c072e1b359717b9897bac2e3968810a601ecfa1e5b7c1c2c5ec3c08dfa",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x2625760C4A8e8101801D3a48eE64B2bEA42f1E96",
+      "txHash": "0x6265bed815a6338b7850851c84137c1ae0cbaaa2c281c9b47ae02f28b02e4c46",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x7B4f352Cd40114f12e82fC675b5BA8C7582FC513",
+      "txHash": "0x152d96752ebeab1d2f563c87cfdc61a81f10c259938b28182c0a79f6e0e8933a",
       "kind": "transparent"
     }
   ],
@@ -181,7 +266,7 @@
             "label": "drops",
             "offset": 0,
             "slot": "102",
-            "type": "t_array(t_struct(Drop)904_storage)dyn_storage",
+            "type": "t_array(t_struct(Drop)7392_storage)dyn_storage",
             "contract": "ABDropManagerV1",
             "src": "contracts/ABDropManagerV1.sol:114"
           },
@@ -207,7 +292,7 @@
             "label": "address",
             "numberOfBytes": "20"
           },
-          "t_array(t_struct(Drop)904_storage)dyn_storage": {
+          "t_array(t_struct(Drop)7392_storage)dyn_storage": {
             "label": "struct ABDropManagerV1.Drop[]",
             "numberOfBytes": "32"
           },
@@ -235,7 +320,7 @@
             "label": "mapping(bytes4 => bool)",
             "numberOfBytes": "32"
           },
-          "t_struct(Drop)904_storage": {
+          "t_struct(Drop)7392_storage": {
             "label": "struct ABDropManagerV1.Drop",
             "members": [
               {
@@ -264,13 +349,13 @@
               },
               {
                 "label": "tokenInfo",
-                "type": "t_struct(TokenInfo)911_storage",
+                "type": "t_struct(TokenInfo)7399_storage",
                 "offset": 0,
                 "slot": "4"
               },
               {
                 "label": "salesInfo",
-                "type": "t_struct(SaleInfo)920_storage",
+                "type": "t_struct(SaleInfo)7408_storage",
                 "offset": 0,
                 "slot": "7"
               },
@@ -301,7 +386,7 @@
             ],
             "numberOfBytes": "480"
           },
-          "t_struct(SaleInfo)920_storage": {
+          "t_struct(SaleInfo)7408_storage": {
             "label": "struct ABDropManagerV1.SaleInfo",
             "members": [
               {
@@ -331,7 +416,7 @@
             ],
             "numberOfBytes": "128"
           },
-          "t_struct(TokenInfo)911_storage": {
+          "t_struct(TokenInfo)7399_storage": {
             "label": "struct ABDropManagerV1.TokenInfo",
             "members": [
               {
@@ -425,7 +510,7 @@
             "label": "drops",
             "offset": 0,
             "slot": "102",
-            "type": "t_array(t_struct(Drop)4786_storage)dyn_storage",
+            "type": "t_array(t_struct(Drop)7986_storage)dyn_storage",
             "contract": "ABDropManager",
             "src": "contracts/ABDropManagerV2.sol:123"
           },
@@ -467,7 +552,7 @@
             "label": "address",
             "numberOfBytes": "20"
           },
-          "t_array(t_struct(Drop)4786_storage)dyn_storage": {
+          "t_array(t_struct(Drop)7986_storage)dyn_storage": {
             "label": "struct ABDropManager.Drop[]",
             "numberOfBytes": "32"
           },
@@ -499,7 +584,7 @@
             "label": "mapping(bytes4 => bool)",
             "numberOfBytes": "32"
           },
-          "t_struct(Drop)4786_storage": {
+          "t_struct(Drop)7986_storage": {
             "label": "struct ABDropManager.Drop",
             "members": [
               {
@@ -528,13 +613,13 @@
               },
               {
                 "label": "tokenInfo",
-                "type": "t_struct(TokenInfo)4793_storage",
+                "type": "t_struct(TokenInfo)7993_storage",
                 "offset": 0,
                 "slot": "4"
               },
               {
                 "label": "salesInfo",
-                "type": "t_struct(SaleInfo)4802_storage",
+                "type": "t_struct(SaleInfo)8002_storage",
                 "offset": 0,
                 "slot": "7"
               },
@@ -565,7 +650,7 @@
             ],
             "numberOfBytes": "480"
           },
-          "t_struct(SaleInfo)4802_storage": {
+          "t_struct(SaleInfo)8002_storage": {
             "label": "struct ABDropManager.SaleInfo",
             "members": [
               {
@@ -595,7 +680,7 @@
             ],
             "numberOfBytes": "128"
           },
-          "t_struct(TokenInfo)4793_storage": {
+          "t_struct(TokenInfo)7993_storage": {
             "label": "struct ABDropManager.TokenInfo",
             "members": [
               {
