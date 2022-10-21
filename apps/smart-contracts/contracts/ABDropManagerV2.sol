@@ -31,7 +31,7 @@
  **/
 
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.16;
+pragma solidity ^0.8.4;
 
 /* Openzeppelin Contract */
 import "@openzeppelin/contracts/utils/introspection/ERC165Storage.sol";
