@@ -21,7 +21,8 @@ describe("Drop V1 Unit Tests", function () {
   let dropV2: AnotherMinter;
   let anotherblockV1: ABDropManagerV1;
   let anotherblockV2: ABDropManager;
-  let anotherblockV1_2: ABDropManager;
+  let anotherblockV1_2: ABDropManagerV1;
+  let anotherblockV2_2: ABDropManager;
   let mockMessenger: MockMessenger;
 
   let owner: SignerWithAddress;
@@ -282,216 +283,184 @@ describe("Drop V1 Unit Tests", function () {
       );
     });
 
-    // it("should be able to mint an NFT (0% fees to rightholder)", async () => {
-    //   const proof = merkle.tree.getHexProof(generateLeaf(user1.address));
+    it("should be able to mint an NFT (0% fees to rightholder)", async () => {
+      const currentTs = await time.latest();
+      const PHASES = generatePhase(currentTs);
 
-    //   const rightholderFee = 0;
+      const proof = merkle1.tree.getHexProof(generateLeaf(user1.address));
 
-    //   await anotherblockV2.create(
-    //     TEST_DATA.ZERO_ADDRESS,
-    //     rightHolder.address,
-    //     dropV2.address,
-    //     TEST_DATA.PRICE,
-    //     TEST_DATA.SUPPLY,
-    //     TEST_DATA.ROYALTY_SHARE,
-    //     rightholderFee,
-    //     [
-    //       TEST_DATA.MAX_PRIVATE_SALE,
-    //       TEST_DATA.PRIVATE_SALE_TIME,
-    //       TEST_DATA.MAX_PUBLIC_SALE,
-    //       TEST_DATA.PUBLIC_SALE_TIME,
-    //     ],
-    //     merkle.tree.getRoot()
-    //   );
+      const rightholderFee = 0;
 
-    //   expect(+(await dropV2.balanceOf(user1.address))).to.eq(0);
-    //   const rightHolderEthBalBefore = await ethers.provider.getBalance(
-    //     rightHolder.address
-    //   );
-    //   const anotherblockEthBalBefore = await ethers.provider.getBalance(
-    //     dropV2.address
-    //   );
+      await anotherblockV2.create(
+        TEST_DATA.ZERO_ADDRESS,
+        rightHolder.address,
+        dropV2.address,
+        TEST_DATA.PRICE,
+        TEST_DATA.SUPPLY,
+        TEST_DATA.ROYALTY_SHARE,
+        rightholderFee,
+        PHASES
+      );
 
-    //   await dropV2
-    //     .connect(user1)
-    //     .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proof, {
-    //       value: TEST_DATA.PRICE,
-    //     });
+      expect(+(await dropV2.balanceOf(user1.address))).to.eq(0);
+      const rightHolderEthBalBefore = await ethers.provider.getBalance(
+        rightHolder.address
+      );
+      const anotherblockEthBalBefore = await ethers.provider.getBalance(
+        dropV2.address
+      );
 
-    //   expect(+(await dropV2.balanceOf(user1.address))).to.eq(1);
-    //   const rightHolderEthBalAfter = await ethers.provider.getBalance(
-    //     rightHolder.address
-    //   );
-    //   const anotherblockEthBalAfter = await ethers.provider.getBalance(
-    //     dropV2.address
-    //   );
+      await dropV2
+        .connect(user1)
+        .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proof, {
+          value: TEST_DATA.PRICE,
+        });
 
-    //   expect(+ethers.utils.formatEther(rightHolderEthBalAfter)).to.eq(
-    //     +ethers.utils.formatEther(rightHolderEthBalBefore),
-    //     "Fees to Right Holder"
-    //   );
+      expect(+(await dropV2.balanceOf(user1.address))).to.eq(1);
+      const rightHolderEthBalAfter = await ethers.provider.getBalance(
+        rightHolder.address
+      );
+      const anotherblockEthBalAfter = await ethers.provider.getBalance(
+        dropV2.address
+      );
 
-    //   expect(+ethers.utils.formatEther(anotherblockEthBalAfter)).to.eq(
-    //     +ethers.utils.formatEther(anotherblockEthBalBefore) + 0.5,
-    //     "Fees to AB Treasury"
-    //   );
-    // });
+      expect(+ethers.utils.formatEther(rightHolderEthBalAfter)).to.eq(
+        +ethers.utils.formatEther(rightHolderEthBalBefore),
+        "Fees to Right Holder"
+      );
 
-    // it("should not be able to mint an NFT (not whitelisted)", async () => {
-    //   const proof = merkle.tree.getHexProof(generateLeaf(user3.address));
+      expect(+ethers.utils.formatEther(anotherblockEthBalAfter)).to.eq(
+        +ethers.utils.formatEther(anotherblockEthBalBefore) + 0.5,
+        "Fees to AB Treasury"
+      );
+    });
 
-    //   await anotherblockV2.create(
-    //     TEST_DATA.ZERO_ADDRESS,
-    //     rightHolder.address,
-    //     dropV2.address,
-    //     TEST_DATA.PRICE,
-    //     TEST_DATA.SUPPLY,
-    //     TEST_DATA.ROYALTY_SHARE,
-    //     TEST_DATA.RIGHTHOLDER_FEE,
-    //     [
-    //       TEST_DATA.MAX_PRIVATE_SALE,
-    //       TEST_DATA.PRIVATE_SALE_TIME,
-    //       TEST_DATA.MAX_PUBLIC_SALE,
-    //       TEST_DATA.PUBLIC_SALE_TIME,
-    //     ],
-    //     merkle.tree.getRoot()
-    //   );
+    it("should not be able to mint an NFT (not whitelisted)", async () => {
+      const currentTs = await time.latest();
+      const PHASES = generatePhase(currentTs);
 
-    //   await expect(
-    //     dropV2
-    //       .connect(user3)
-    //       .mint(user3.address, 0, TEST_DATA.MINT_QUANTITY, proof, {
-    //         value: TEST_DATA.PRICE,
-    //       })
-    //   ).to.eventually.be.rejectedWith("NotInMerkle");
-    // });
+      const proof = merkle1.tree.getHexProof(generateLeaf(user2.address));
 
-    // it("should not be able to mint an NFT (drop does not exists)", async () => {
-    //   const proof = merkle.tree.getHexProof(generateLeaf(user1.address));
+      await anotherblockV2.create(
+        TEST_DATA.ZERO_ADDRESS,
+        rightHolder.address,
+        dropV2.address,
+        TEST_DATA.PRICE,
+        TEST_DATA.SUPPLY,
+        TEST_DATA.ROYALTY_SHARE,
+        TEST_DATA.RIGHTHOLDER_FEE,
+        PHASES
+      );
 
-    //   await anotherblockV2.create(
-    //     TEST_DATA.ZERO_ADDRESS,
-    //     rightHolder.address,
-    //     dropV2.address,
-    //     TEST_DATA.PRICE,
-    //     TEST_DATA.SUPPLY,
-    //     TEST_DATA.ROYALTY_SHARE,
-    //     TEST_DATA.RIGHTHOLDER_FEE,
-    //     [
-    //       TEST_DATA.MAX_PRIVATE_SALE,
-    //       TEST_DATA.PRIVATE_SALE_TIME,
-    //       TEST_DATA.MAX_PUBLIC_SALE,
-    //       TEST_DATA.PUBLIC_SALE_TIME,
-    //     ],
-    //     merkle.tree.getRoot()
-    //   );
+      await expect(
+        dropV2
+          .connect(user3)
+          .mint(user3.address, 0, TEST_DATA.MINT_QUANTITY, proof, {
+            value: TEST_DATA.PRICE,
+          })
+      ).to.eventually.be.rejectedWith("NotInMerkle");
+    });
 
-    //   await expect(
-    //     dropV2
-    //       .connect(user1)
-    //       .mint(user1.address, 1, TEST_DATA.MINT_QUANTITY, proof, {
-    //         value: TEST_DATA.PRICE,
-    //       })
-    //   ).to.be.reverted;
-    // });
+    it("should not be able to mint an NFT (drop does not exists)", async () => {
+      const currentTs = await time.latest();
+      const PHASES = generatePhase(currentTs);
 
-    // it("should not be able to mint an NFT (drop sold out)", async () => {
-    //   const proofAddr1 = merkle.tree.getHexProof(generateLeaf(user1.address));
-    //   const proofAddr2 = merkle.tree.getHexProof(generateLeaf(user2.address));
+      const proof = merkle1.tree.getHexProof(generateLeaf(user1.address));
 
-    //   const supply = 1;
+      await anotherblockV2.create(
+        TEST_DATA.ZERO_ADDRESS,
+        rightHolder.address,
+        dropV2.address,
+        TEST_DATA.PRICE,
+        TEST_DATA.SUPPLY,
+        TEST_DATA.ROYALTY_SHARE,
+        TEST_DATA.RIGHTHOLDER_FEE,
+        PHASES
+      );
 
-    //   await anotherblockV2.create(
-    //     TEST_DATA.ZERO_ADDRESS,
-    //     rightHolder.address,
-    //     dropV2.address,
-    //     TEST_DATA.PRICE,
-    //     supply,
-    //     TEST_DATA.ROYALTY_SHARE,
-    //     TEST_DATA.RIGHTHOLDER_FEE,
-    //     [
-    //       TEST_DATA.MAX_PRIVATE_SALE,
-    //       TEST_DATA.PRIVATE_SALE_TIME,
-    //       TEST_DATA.MAX_PUBLIC_SALE,
-    //       TEST_DATA.PUBLIC_SALE_TIME,
-    //     ],
-    //     merkle.tree.getRoot()
-    //   );
+      await expect(
+        dropV2
+          .connect(user1)
+          .mint(user1.address, 1, TEST_DATA.MINT_QUANTITY, proof, {
+            value: TEST_DATA.PRICE,
+          })
+      ).to.be.reverted;
+    });
 
-    //   await dropV2
-    //     .connect(user1)
-    //     .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proofAddr1, {
-    //       value: TEST_DATA.PRICE,
-    //     });
+    it("should not be able to mint an NFT (drop sold out)", async () => {
+      const currentTs = await time.latest();
+      const PHASES = generatePhase(currentTs);
 
-    //   await expect(
-    //     dropV2
-    //       .connect(user2)
-    //       .mint(user2.address, 0, TEST_DATA.MINT_QUANTITY, proofAddr2, {
-    //         value: TEST_DATA.PRICE,
-    //       })
-    //   ).to.be.revertedWith("DropSoldOut");
+      const proofAddr1 = merkle1.tree.getHexProof(generateLeaf(user1.address));
+      const proofAddr2 = merkle1.tree.getHexProof(generateLeaf(user3.address));
 
-    //   expect(
-    //     await dropV2
-    //       .connect(user2)
-    //       .getClaimIneligibilityReason(
-    //         user2.address,
-    //         TEST_DATA.MINT_QUANTITY,
-    //         0
-    //       )
-    //   ).to.eq("DropSoldOut");
-    // });
+      const supply = 1;
 
-    // it("should not be able to mint an NFT (already minted maximum amount in private sale)", async () => {
-    //   const proofAddr1 = merkle.tree.getHexProof(generateLeaf(user1.address));
+      await anotherblockV2.create(
+        TEST_DATA.ZERO_ADDRESS,
+        rightHolder.address,
+        dropV2.address,
+        TEST_DATA.PRICE,
+        supply,
+        TEST_DATA.ROYALTY_SHARE,
+        TEST_DATA.RIGHTHOLDER_FEE,
+        PHASES
+      );
 
-    //   const supply = 3;
+      await dropV2
+        .connect(user1)
+        .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proofAddr1, {
+          value: TEST_DATA.PRICE,
+        });
 
-    //   await anotherblockV2.create(
-    //     TEST_DATA.ZERO_ADDRESS,
-    //     rightHolder.address,
-    //     dropV2.address,
-    //     TEST_DATA.PRICE,
-    //     supply,
-    //     TEST_DATA.ROYALTY_SHARE,
-    //     TEST_DATA.RIGHTHOLDER_FEE,
-    //     [
-    //       TEST_DATA.MAX_PRIVATE_SALE,
-    //       TEST_DATA.PRIVATE_SALE_TIME,
-    //       TEST_DATA.MAX_PUBLIC_SALE,
-    //       TEST_DATA.PUBLIC_SALE_TIME,
-    //     ],
-    //     merkle.tree.getRoot()
-    //   );
+      await expect(
+        dropV2
+          .connect(user2)
+          .mint(user2.address, 0, TEST_DATA.MINT_QUANTITY, proofAddr2, {
+            value: TEST_DATA.PRICE,
+          })
+      ).to.be.revertedWith("DropSoldOut");
+    });
 
-    //   await dropV2
-    //     .connect(user1)
-    //     .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proofAddr1, {
-    //       value: TEST_DATA.PRICE,
-    //     });
+    it("should not be able to mint an NFT (already minted maximum amount in private sale)", async () => {
+      const currentTs = await time.latest();
+      const PHASES = generatePhase(currentTs);
 
-    //   await expect(
-    //     dropV2
-    //       .connect(user1)
-    //       .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proofAddr1, {
-    //         value: TEST_DATA.PRICE,
-    //       })
-    //   ).to.be.revertedWith("MaxMintPerAddress");
+      const proofAddr1 = merkle1.tree.getHexProof(generateLeaf(user1.address));
 
-    //   expect(
-    //     await dropV2
-    //       .connect(user1)
-    //       .getClaimIneligibilityReason(
-    //         user1.address,
-    //         TEST_DATA.MINT_QUANTITY,
-    //         0
-    //       )
-    //   ).to.eq("MaxMintPerAddress");
-    // });
+      const supply = 3;
+
+      await anotherblockV2.create(
+        TEST_DATA.ZERO_ADDRESS,
+        rightHolder.address,
+        dropV2.address,
+        TEST_DATA.PRICE,
+        supply,
+        TEST_DATA.ROYALTY_SHARE,
+        TEST_DATA.RIGHTHOLDER_FEE,
+        PHASES
+      );
+
+      await dropV2
+        .connect(user1)
+        .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY * 2, proofAddr1, {
+          value: TEST_DATA.PRICE.mul(2),
+        });
+
+      await expect(
+        dropV2
+          .connect(user1)
+          .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proofAddr1, {
+            value: TEST_DATA.PRICE,
+          })
+      ).to.be.revertedWith("MaxMintPerAddress");
+    });
 
     // it("should not be able to mint an NFT (already minted maximum amount in public sale)", async () => {
-    //   const proofAddr1 = merkle.tree.getHexProof(generateLeaf(user1.address));
+    //   const currentTs = await time.latest();
+    //   const PHASES = generatePhase(currentTs);
+
+    //   const proofAddr1 = merkle1.tree.getHexProof(generateLeaf(user1.address));
 
     //   const supply = 3;
 
@@ -505,13 +474,7 @@ describe("Drop V1 Unit Tests", function () {
     //     supply,
     //     TEST_DATA.ROYALTY_SHARE,
     //     TEST_DATA.RIGHTHOLDER_FEE,
-    //     [
-    //       TEST_DATA.MAX_PRIVATE_SALE,
-    //       TEST_DATA.PRIVATE_SALE_TIME,
-    //       TEST_DATA.MAX_PUBLIC_SALE,
-    //       publicSale,
-    //     ],
-    //     merkle.tree.getRoot()
+    //     PHASES
     //   );
 
     //   await dropV2
@@ -528,121 +491,93 @@ describe("Drop V1 Unit Tests", function () {
     //       })
     //   ).to.be.revertedWith("MaxMintPerAddress");
 
-    //   expect(
-    //     await dropV2
-    //       .connect(user1)
-    //       .getClaimIneligibilityReason(
-    //         user1.address,
-    //         TEST_DATA.MINT_QUANTITY,
-    //         0
-    //       )
-    //   ).to.eq("MaxMintPerAddress");
     // });
 
-    // it("should not be able to mint an NFT (not enough token available)", async () => {
-    //   const proofAddr1 = merkle.tree.getHexProof(generateLeaf(user1.address));
-    //   const proofAddr2 = merkle.tree.getHexProof(generateLeaf(user2.address));
+    it("should not be able to mint an NFT (not enough token available)", async () => {
+      const currentTs = await time.latest();
+      const PHASES = generatePhase(currentTs);
 
-    //   const supply = 3;
+      const proofAddr1 = merkle1.tree.getHexProof(generateLeaf(user1.address));
+      const proofAddr2 = merkle1.tree.getHexProof(generateLeaf(user3.address));
 
-    //   const mintQuantity = 2;
+      const supply = 3;
 
-    //   const maxAmountPrivateSale = 2;
-    //   const maxAmountPublicSale = 2;
+      const mintQuantity = 2;
 
-    //   await anotherblockV2.create(
-    //     TEST_DATA.ZERO_ADDRESS,
-    //     rightHolder.address,
-    //     dropV2.address,
-    //     TEST_DATA.PRICE,
-    //     supply,
-    //     TEST_DATA.ROYALTY_SHARE,
-    //     TEST_DATA.RIGHTHOLDER_FEE,
-    //     [
-    //       maxAmountPrivateSale,
-    //       TEST_DATA.PRIVATE_SALE_TIME,
-    //       maxAmountPublicSale,
-    //       TEST_DATA.PUBLIC_SALE_TIME,
-    //     ],
-    //     merkle.tree.getRoot()
-    //   );
+      await anotherblockV2.create(
+        TEST_DATA.ZERO_ADDRESS,
+        rightHolder.address,
+        dropV2.address,
+        TEST_DATA.PRICE,
+        supply,
+        TEST_DATA.ROYALTY_SHARE,
+        TEST_DATA.RIGHTHOLDER_FEE,
+        PHASES
+      );
 
-    //   await dropV2
-    //     .connect(user1)
-    //     .mint(user1.address, 0, mintQuantity, proofAddr1, {
-    //       value: TEST_DATA.PRICE.mul(mintQuantity),
-    //     });
+      await dropV2
+        .connect(user1)
+        .mint(user1.address, 0, mintQuantity, proofAddr1, {
+          value: TEST_DATA.PRICE.mul(mintQuantity),
+        });
 
-    //   await expect(
-    //     dropV2.connect(user2).mint(user2.address, 0, mintQuantity, proofAddr2, {
-    //       value: TEST_DATA.PRICE.mul(mintQuantity),
-    //     })
-    //   ).to.be.revertedWith("NotEnoughTokensAvailable");
+      await expect(
+        dropV2.connect(user2).mint(user2.address, 0, mintQuantity, proofAddr2, {
+          value: TEST_DATA.PRICE.mul(mintQuantity),
+        })
+      ).to.be.revertedWith("NotEnoughTokensAvailable");
+    });
 
-    //   expect(
-    //     await dropV2
-    //       .connect(user2)
-    //       .getClaimIneligibilityReason(user2.address, mintQuantity, 0)
-    //   ).to.eq("NotEnoughTokensAvailable");
-    // });
+    it("should not be able to mint an NFT (did not send enough ETH)", async () => {
+      const currentTs = await time.latest();
+      const PHASES = generatePhase(currentTs);
 
-    // it("should not be able to mint an NFT (did not send enough ETH)", async () => {
-    //   const proof = merkle.tree.getHexProof(generateLeaf(user1.address));
+      const proof = merkle1.tree.getHexProof(generateLeaf(user1.address));
 
-    //   const options = { value: ethers.utils.parseEther("0.4") };
+      const options = { value: ethers.utils.parseEther("0.4") };
 
-    //   await anotherblockV2.create(
-    //     TEST_DATA.ZERO_ADDRESS,
-    //     rightHolder.address,
-    //     dropV2.address,
-    //     TEST_DATA.PRICE,
-    //     TEST_DATA.SUPPLY,
-    //     TEST_DATA.ROYALTY_SHARE,
-    //     TEST_DATA.RIGHTHOLDER_FEE,
-    //     [
-    //       TEST_DATA.MAX_PRIVATE_SALE,
-    //       TEST_DATA.PRIVATE_SALE_TIME,
-    //       TEST_DATA.MAX_PUBLIC_SALE,
-    //       TEST_DATA.PUBLIC_SALE_TIME,
-    //     ],
-    //     merkle.tree.getRoot()
-    //   );
+      await anotherblockV2.create(
+        TEST_DATA.ZERO_ADDRESS,
+        rightHolder.address,
+        dropV2.address,
+        TEST_DATA.PRICE,
+        TEST_DATA.SUPPLY,
+        TEST_DATA.ROYALTY_SHARE,
+        TEST_DATA.RIGHTHOLDER_FEE,
+        PHASES
+      );
 
-    //   await expect(
-    //     dropV2
-    //       .connect(user1)
-    //       .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proof, options)
-    //   ).to.be.revertedWith("IncorrectETHSent");
-    // });
+      await expect(
+        dropV2
+          .connect(user1)
+          .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proof, options)
+      ).to.be.revertedWith("IncorrectETHSent");
+    });
 
-    // it("should not be able to mint an NFT (sent too much ETH)", async () => {
-    //   const options = { value: ethers.utils.parseEther("0.6") };
+    it("should not be able to mint an NFT (sent too much ETH)", async () => {
+      const currentTs = await time.latest();
+      const PHASES = generatePhase(currentTs);
+      const options = { value: ethers.utils.parseEther("0.6") };
 
-    //   await anotherblockV2.create(
-    //     TEST_DATA.ZERO_ADDRESS,
-    //     rightHolder.address,
-    //     dropV2.address,
-    //     TEST_DATA.PRICE,
-    //     TEST_DATA.SUPPLY,
-    //     TEST_DATA.ROYALTY_SHARE,
-    //     TEST_DATA.RIGHTHOLDER_FEE,
-    //     [
-    //       TEST_DATA.MAX_PRIVATE_SALE,
-    //       TEST_DATA.PRIVATE_SALE_TIME,
-    //       TEST_DATA.MAX_PUBLIC_SALE,
-    //       TEST_DATA.PUBLIC_SALE_TIME,
-    //     ],
-    //     merkle.tree.getRoot()
-    //   );
+      await anotherblockV2.create(
+        TEST_DATA.ZERO_ADDRESS,
+        rightHolder.address,
+        dropV2.address,
+        TEST_DATA.PRICE,
+        TEST_DATA.SUPPLY,
+        TEST_DATA.ROYALTY_SHARE,
+        TEST_DATA.RIGHTHOLDER_FEE,
+        PHASES
+      );
 
-    //   const proof = merkle.tree.getHexProof(generateLeaf(user1.address));
+      const proof = merkle1.tree.getHexProof(generateLeaf(user1.address));
 
-    //   await expect(
-    //     dropV2
-    //       .connect(user1)
-    //       .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proof, options)
-    //   ).to.be.revertedWith("IncorrectETHSent");
-    // });
+      await expect(
+        dropV2
+          .connect(user1)
+          .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proof, options)
+      ).to.be.revertedWith("IncorrectETHSent");
+    });
 
     // it("should be able to mint an NFT before private sale starts (private sale timestamp : 1/1/2050)", async () => {
     //   const privateSale = 2524676922;
@@ -656,13 +591,7 @@ describe("Drop V1 Unit Tests", function () {
     //     TEST_DATA.SUPPLY,
     //     TEST_DATA.ROYALTY_SHARE,
     //     TEST_DATA.RIGHTHOLDER_FEE,
-    //     [
-    //       TEST_DATA.MAX_PRIVATE_SALE,
-    //       privateSale,
-    //       TEST_DATA.MAX_PUBLIC_SALE,
-    //       publicSale,
-    //     ],
-    //     merkle.tree.getRoot()
+    //     PHASES
     //   );
 
     //   const proof = merkle.tree.getHexProof(generateLeaf(user2.address));
@@ -674,16 +603,6 @@ describe("Drop V1 Unit Tests", function () {
     //         value: TEST_DATA.PRICE,
     //       })
     //   ).to.be.revertedWith("SaleNotStarted");
-
-    //   expect(
-    //     await dropV2
-    //       .connect(user2)
-    //       .getClaimIneligibilityReason(
-    //         user2.address,
-    //         TEST_DATA.MINT_QUANTITY,
-    //         0
-    //       )
-    //   ).to.eq("SaleNotStarted");
     // });
 
     // it("should be able to mint an NFT during public sale (empty Merkle Root)", async () => {
@@ -804,239 +723,133 @@ describe("Drop V1 Unit Tests", function () {
     // });
   });
 
-  // describe("METHOD : setURI", async () => {
-  //   beforeEach(async () => {
-  //     await anotherblockV2.create(
-  //       TEST_DATA.ZERO_ADDRESS,
-  //       rightHolder.address,
-  //       dropV2.address,
-  //       TEST_DATA.PRICE,
-  //       TEST_DATA.SUPPLY,
-  //       TEST_DATA.ROYALTY_SHARE,
-  //       TEST_DATA.RIGHTHOLDER_FEE,
-  //       [
-  //         TEST_DATA.MAX_PRIVATE_SALE,
-  //         TEST_DATA.PRIVATE_SALE_TIME,
-  //         TEST_DATA.MAX_PUBLIC_SALE,
-  //         TEST_DATA.PUBLIC_SALE_TIME,
-  //       ],
-  //       merkle.tree.getRoot()
-  //     );
-  //     const proof1 = merkle.tree.getHexProof(generateLeaf(user1.address));
-  //     await dropV2
-  //       .connect(user1)
-  //       .mint(user1.address, 0, 1, proof1, { value: TEST_DATA.PRICE });
-  //   });
+  describe("METHOD : setURI", async () => {
+    beforeEach(async () => {
+      const currentTs = await time.latest();
+      const PHASES = generatePhase(currentTs);
 
-  //   it("should set a new URI", async () => {
-  //     const newBaseURI = "this is the new base URI/";
+      await anotherblockV2.create(
+        TEST_DATA.ZERO_ADDRESS,
+        rightHolder.address,
+        dropV2.address,
+        TEST_DATA.PRICE,
+        TEST_DATA.SUPPLY,
+        TEST_DATA.ROYALTY_SHARE,
+        TEST_DATA.RIGHTHOLDER_FEE,
+        PHASES
+      );
+      const proof1 = merkle1.tree.getHexProof(generateLeaf(user1.address));
+      await dropV2
+        .connect(user1)
+        .mint(user1.address, 0, 1, proof1, { value: TEST_DATA.PRICE });
+    });
 
-  //     await dropV2.setBaseURI(newBaseURI);
+    it("should set a new URI", async () => {
+      const newBaseURI = "this is the new base URI/";
 
-  //     // Check that the URI is updated
-  //     expect(await dropV2.tokenURI(0)).to.eq(newBaseURI + "0");
-  //   });
+      await dropV2.setBaseURI(newBaseURI);
 
-  //   it("should not be able to set a new URI (not ADMIN_ROLE)", async () => {
-  //     const newBaseURI = "this is the new base URI/";
+      // Check that the URI is updated
+      expect(await dropV2.tokenURI(0)).to.eq(newBaseURI + "0");
+    });
 
-  //     // Check that the transaction revert as the user is not granted with ADMIN_ROLE
-  //     await expect(
-  //       dropV2.connect(user2).setBaseURI(newBaseURI)
-  //     ).to.be.revertedWith("Ownable: caller is not the owner");
-  //   });
-  // });
+    it("should not be able to set a new URI (not ADMIN_ROLE)", async () => {
+      const newBaseURI = "this is the new base URI/";
 
-  // describe("METHOD : tokensOfOwner", async () => {
-  //   beforeEach(async () => {
-  //     const maxAmountPrivateSale = 10;
-  //     const maxAmountPublicSale = 10;
+      // Check that the transaction revert as the user is not granted with ADMIN_ROLE
+      await expect(
+        dropV2.connect(user2).setBaseURI(newBaseURI)
+      ).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+  });
 
-  //     await anotherblockV2.create(
-  //       TEST_DATA.ZERO_ADDRESS,
-  //       rightHolder.address,
-  //       dropV2.address,
-  //       TEST_DATA.PRICE,
-  //       TEST_DATA.SUPPLY,
-  //       TEST_DATA.ROYALTY_SHARE,
-  //       TEST_DATA.RIGHTHOLDER_FEE,
-  //       [
-  //         maxAmountPrivateSale,
-  //         TEST_DATA.PRIVATE_SALE_TIME,
-  //         maxAmountPublicSale,
-  //         TEST_DATA.PUBLIC_SALE_TIME,
-  //       ],
-  //       merkle.tree.getRoot()
-  //     );
+  describe("METHOD : WithdrawAll", async () => {
+    it("should withdraw the funds", async () => {
+      const currentTs = await time.latest();
+      const PHASES = generatePhase(currentTs);
 
-  //     const proof1 = merkle.tree.getHexProof(generateLeaf(user1.address));
-  //     const proof2 = merkle.tree.getHexProof(generateLeaf(user2.address));
+      await anotherblockV2.create(
+        TEST_DATA.ZERO_ADDRESS,
+        rightHolder.address,
+        dropV2.address,
+        TEST_DATA.PRICE,
+        TEST_DATA.SUPPLY,
+        TEST_DATA.ROYALTY_SHARE,
+        TEST_DATA.RIGHTHOLDER_FEE,
+        PHASES
+      );
 
-  //     await dropV2
-  //       .connect(user1)
-  //       .mint(user1.address, 0, 5, proof1, { value: TEST_DATA.PRICE.mul(5) });
-  //     await dropV2
-  //       .connect(user2)
-  //       .mint(user2.address, 0, 1, proof2, { value: TEST_DATA.PRICE });
-  //     await dropV2
-  //       .connect(user1)
-  //       .mint(user1.address, 0, 1, proof1, { value: TEST_DATA.PRICE });
-  //   });
+      const proof = merkle1.tree.getHexProof(generateLeaf(user1.address));
+      await dropV2
+        .connect(user1)
+        .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proof, {
+          value: TEST_DATA.PRICE,
+        });
 
-  //   it("should return the TokenIds owned by the user", async () => {
-  //     const tokenIds = await dropV2.tokensOfOwner(user1.address);
+      const anotherblockTreasury = await anotherblockV2.treasury();
 
-  //     const expectedTokenIds = [0, 1, 2, 3, 4, 6];
+      const contractBalanceBefore = await ethers.provider.getBalance(
+        dropV2.address
+      );
+      const treasuryBalanceBefore = await ethers.provider.getBalance(
+        anotherblockTreasury
+      );
 
-  //     expect(tokenIds.length).to.eq(expectedTokenIds.length, "Lenght Mismatch");
+      await dropV2.connect(owner).withdrawAll();
 
-  //     for (let i = 0; i < expectedTokenIds.length; i++) {
-  //       expect(+tokenIds[i]).to.eq(+expectedTokenIds[i]);
-  //     }
-  //   });
-  // });
+      const contractBalanceAfter = await ethers.provider.getBalance(
+        dropV2.address
+      );
+      const treasuryBalanceAfter = await ethers.provider.getBalance(
+        anotherblockTreasury
+      );
 
-  // describe("METHOD : WithdrawAll", async () => {
-  //   it("should withdraw the funds", async () => {
-  //     await anotherblockV2.create(
-  //       TEST_DATA.ZERO_ADDRESS,
-  //       rightHolder.address,
-  //       dropV2.address,
-  //       TEST_DATA.PRICE,
-  //       TEST_DATA.SUPPLY,
-  //       TEST_DATA.ROYALTY_SHARE,
-  //       TEST_DATA.RIGHTHOLDER_FEE,
-  //       [
-  //         TEST_DATA.MAX_PRIVATE_SALE,
-  //         TEST_DATA.PRIVATE_SALE_TIME,
-  //         TEST_DATA.MAX_PUBLIC_SALE,
-  //         TEST_DATA.PUBLIC_SALE_TIME,
-  //       ],
-  //       merkle.tree.getRoot()
-  //     );
+      expect(contractBalanceBefore > contractBalanceAfter).to.equal(true);
+      expect(contractBalanceAfter).to.equal(0);
+      expect(treasuryBalanceAfter).to.equal(
+        treasuryBalanceBefore.add(contractBalanceBefore)
+      );
+    });
+  });
 
-  //     const proof = merkle.tree.getHexProof(generateLeaf(user1.address));
-  //     await dropV2
-  //       .connect(user1)
-  //       .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proof, {
-  //         value: TEST_DATA.PRICE,
-  //       });
+  describe("METHOD : setDropManager", async () => {
+    before(async () => {
+      // Deploy another instance of ABDropManager contract
+      const AnotherBlockV1 = await ethers.getContractFactory("ABDropManager");
+      anotherblockV1_2 = (await upgrades.deployProxy(
+        AnotherBlockV1,
+        [treasury.address],
+        { initializer: "initialize" }
+      )) as ABDropManagerV1;
+      await anotherblockV1_2.deployed();
 
-  //     const anotherblockTreasury = await anotherblockV2.treasury();
+      const AnotherblockV2 = await ethers.getContractFactory("ABDropManager");
+      anotherblockV2_2 = (await upgrades.upgradeProxy(
+        anotherblockV1_2.address,
+        AnotherblockV2,
+        {
+          call: {
+            fn: "initializeV2",
+            args: [mockMessenger.address, mockRelayAddr.address],
+          },
+        }
+      )) as ABDropManager;
+      await anotherblockV2_2.deployed();
+    });
 
-  //     const contractBalanceBefore = await ethers.provider.getBalance(
-  //       dropV2.address
-  //     );
-  //     const treasuryBalanceBefore = await ethers.provider.getBalance(
-  //       anotherblockTreasury
-  //     );
+    it("should be able to update anotherblock address)", async () => {
+      await dropV2.connect(owner).setDropManager(anotherblockV2_2.address);
+      // Check that anotherblock address is updated
+      expect(await dropV2.dropManager()).to.eq(anotherblockV2_2.address);
+    });
 
-  //     await dropV2.connect(owner).withdrawAll();
-
-  //     const contractBalanceAfter = await ethers.provider.getBalance(
-  //       dropV2.address
-  //     );
-  //     const treasuryBalanceAfter = await ethers.provider.getBalance(
-  //       anotherblockTreasury
-  //     );
-
-  //     expect(contractBalanceBefore > contractBalanceAfter).to.equal(true);
-  //     expect(contractBalanceAfter).to.equal(0);
-  //     expect(treasuryBalanceAfter).to.equal(
-  //       treasuryBalanceBefore.add(contractBalanceBefore)
-  //     );
-  //   });
-  // });
-
-  // describe("METHOD : price", async () => {
-  //   it("should return the price of a token", async () => {
-  //     await anotherblockV2.create(
-  //       TEST_DATA.ZERO_ADDRESS,
-  //       rightHolder.address,
-  //       dropV2.address,
-  //       TEST_DATA.PRICE,
-  //       TEST_DATA.SUPPLY,
-  //       TEST_DATA.ROYALTY_SHARE,
-  //       TEST_DATA.RIGHTHOLDER_FEE,
-  //       [
-  //         TEST_DATA.MAX_PRIVATE_SALE,
-  //         TEST_DATA.PRIVATE_SALE_TIME,
-  //         TEST_DATA.MAX_PUBLIC_SALE,
-  //         TEST_DATA.PUBLIC_SALE_TIME,
-  //       ],
-  //       merkle.tree.getRoot()
-  //     );
-
-  //     expect(await dropV2.price(0)).to.equal(TEST_DATA.PRICE);
-  //   });
-  // });
-
-  // describe("METHOD : unclaimedSupply", async () => {
-  //   it("should return the remaining supply for a drop", async () => {
-  //     await anotherblockV2.create(
-  //       TEST_DATA.ZERO_ADDRESS,
-  //       rightHolder.address,
-  //       dropV2.address,
-  //       TEST_DATA.PRICE,
-  //       TEST_DATA.SUPPLY,
-  //       TEST_DATA.ROYALTY_SHARE,
-  //       TEST_DATA.RIGHTHOLDER_FEE,
-  //       [
-  //         TEST_DATA.MAX_PRIVATE_SALE,
-  //         TEST_DATA.PRIVATE_SALE_TIME,
-  //         TEST_DATA.MAX_PUBLIC_SALE,
-  //         TEST_DATA.PUBLIC_SALE_TIME,
-  //       ],
-  //       merkle.tree.getRoot()
-  //     );
-
-  //     expect(await dropV2.unclaimedSupply(0)).to.equal(TEST_DATA.SUPPLY);
-
-  //     const proof = merkle.tree.getHexProof(generateLeaf(user1.address));
-  //     await dropV2
-  //       .connect(user1)
-  //       .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proof, {
-  //         value: TEST_DATA.PRICE,
-  //       });
-
-  //     expect(await dropV2.unclaimedSupply(0)).to.equal(
-  //       TEST_DATA.SUPPLY - TEST_DATA.MINT_QUANTITY
-  //     );
-  //   });
-  // });
-
-  // describe("METHOD : setAnotherblock", async () => {
-  //   before(async () => {
-  //     // Deploy another instance of ABDropManager contract
-  //     const AnotherBlockV1 = await ethers.getContractFactory("ABDropManager");
-  //     anotherblockV1_2 = (await upgrades.deployProxy(
-  //       AnotherBlockV1,
-  //       [treasury.address],
-  //       { initializer: "initialize" }
-  //     )) as ABDropManager;
-  //     await anotherblockV1_2.deployed();
-  //   });
-
-  //   it("should be able to update anotherblock address)", async () => {
-  //     await dropV2.connect(owner).setAnotherblock(anotherblockV1_2.address);
-
-  //     // Check that anotherblock address is updated
-  //     expect(await dropV2.anotherblock()).to.eq(anotherblockV1_2.address);
-  //   });
-
-  //   it("should not be able to update anotherblock address (incorrect interface))", async () => {
-  //     await expect(
-  //       dropV2.connect(owner).setAnotherblock(user2.address)
-  //     ).to.be.revertedWith("IncorrectInterface");
-  //   });
-
-  //   it("should not be able to update anotherblock address (not owner)", async () => {
-  //     // Check that the transaction revert as the user is not granted with ADMIN_ROLE
-  //     await expect(
-  //       dropV2.connect(user2).setAnotherblock(anotherblockV1_2.address)
-  //     ).to.be.revertedWith("Ownable: caller is not the owner");
-  //   });
-  // });
+    it("should not be able to update anotherblock address (not owner)", async () => {
+      // Check that the transaction revert as the user is not granted with ADMIN_ROLE
+      await expect(
+        dropV2.connect(user2).setDropManager(anotherblockV2_2.address)
+      ).to.be.revertedWith("Ownable: caller is not the owner");
+    });
+  });
 
   function generatePhase(currentTimestamp: number): any[] {
     const tree0 = merkle0.tree;
