@@ -7,7 +7,6 @@ import "hardhat-contract-sizer";
 import "hardhat-deploy";
 import "hardhat-gas-reporter";
 import "@openzeppelin/hardhat-upgrades";
-import "solidity-coverage";
 
 import * as dotenv from "dotenv";
 import { HardhatUserConfig, task } from "hardhat/config";
