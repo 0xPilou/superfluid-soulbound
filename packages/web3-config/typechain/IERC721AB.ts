@@ -21,8 +21,7 @@ export interface IERC721ABInterface extends utils.Interface {
   contractName: "IERC721AB";
   functions: {
     "dropIdPerToken(uint256)": FunctionFragment;
-    "setAnotherblock(address)": FunctionFragment;
-    "tokensOfOwner(address)": FunctionFragment;
+    "setDropManager(address)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
   };
 
@@ -31,11 +30,7 @@ export interface IERC721ABInterface extends utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "setAnotherblock",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "tokensOfOwner",
+    functionFragment: "setDropManager",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -48,11 +43,7 @@ export interface IERC721ABInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setAnotherblock",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "tokensOfOwner",
+    functionFragment: "setDropManager",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -101,25 +92,15 @@ export interface IERC721AB extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setAnotherblock(
+    setDropManager(
       _anotherblock: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "setAnotherblock(address)"(
+    "setDropManager(address)"(
       _anotherblock: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    tokensOfOwner(
-      _owner: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber[]]>;
-
-    "tokensOfOwner(address)"(
-      _owner: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber[]]>;
 
     transferFrom(
       _from: string,
@@ -146,25 +127,15 @@ export interface IERC721AB extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setAnotherblock(
+  setDropManager(
     _anotherblock: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "setAnotherblock(address)"(
+  "setDropManager(address)"(
     _anotherblock: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
-
-  tokensOfOwner(
-    _owner: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber[]>;
-
-  "tokensOfOwner(address)"(
-    _owner: string,
-    overrides?: CallOverrides
-  ): Promise<BigNumber[]>;
 
   transferFrom(
     _from: string,
@@ -191,25 +162,15 @@ export interface IERC721AB extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    setAnotherblock(
+    setDropManager(
       _anotherblock: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    "setAnotherblock(address)"(
+    "setDropManager(address)"(
       _anotherblock: string,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    tokensOfOwner(
-      _owner: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber[]>;
-
-    "tokensOfOwner(address)"(
-      _owner: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber[]>;
 
     transferFrom(
       _from: string,
@@ -239,24 +200,14 @@ export interface IERC721AB extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setAnotherblock(
+    setDropManager(
       _anotherblock: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "setAnotherblock(address)"(
+    "setDropManager(address)"(
       _anotherblock: string,
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    tokensOfOwner(
-      _owner: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "tokensOfOwner(address)"(
-      _owner: string,
-      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     transferFrom(
@@ -285,24 +236,14 @@ export interface IERC721AB extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setAnotherblock(
+    setDropManager(
       _anotherblock: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "setAnotherblock(address)"(
+    "setDropManager(address)"(
       _anotherblock: string,
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    tokensOfOwner(
-      _owner: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "tokensOfOwner(address)"(
-      _owner: string,
-      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     transferFrom(
