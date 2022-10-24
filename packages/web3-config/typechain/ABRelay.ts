@@ -21,12 +21,12 @@ export interface ABRelayInterface extends utils.Interface {
   contractName: "ABRelay";
   functions: {
     "createdDrop(int96,uint256,address)": FunctionFragment;
-    "grantAllowance(address)": FunctionFragment;
+    "initialize()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
-    "revokeAllowance(address)": FunctionFragment;
     "setABRegistry(address)": FunctionFragment;
     "setABStream(address)": FunctionFragment;
+    "setAllowance(address,bool)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "transferredNFT(address,address,uint256)": FunctionFragment;
     "updatedDrop()": FunctionFragment;
@@ -37,8 +37,8 @@ export interface ABRelayInterface extends utils.Interface {
     values: [BigNumberish, BigNumberish, string]
   ): string;
   encodeFunctionData(
-    functionFragment: "grantAllowance",
-    values: [string]
+    functionFragment: "initialize",
+    values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -46,14 +46,14 @@ export interface ABRelayInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "revokeAllowance",
-    values: [string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "setABRegistry",
     values: [string]
   ): string;
   encodeFunctionData(functionFragment: "setABStream", values: [string]): string;
+  encodeFunctionData(
+    functionFragment: "setAllowance",
+    values: [string, boolean]
+  ): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
     values: [string]
@@ -71,17 +71,10 @@ export interface ABRelayInterface extends utils.Interface {
     functionFragment: "createdDrop",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "grantAllowance",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "revokeAllowance",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -90,6 +83,10 @@ export interface ABRelayInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setABStream",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setAllowance",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -106,11 +103,17 @@ export interface ABRelayInterface extends utils.Interface {
   ): Result;
 
   events: {
+    "Initialized(uint8)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
+
+export type InitializedEvent = TypedEvent<[number], { version: number }>;
+
+export type InitializedEventFilter = TypedEventFilter<InitializedEvent>;
 
 export type OwnershipTransferredEvent = TypedEvent<
   [string, string],
@@ -162,13 +165,11 @@ export interface ABRelay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    grantAllowance(
-      _sender: string,
+    initialize(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    "grantAllowance(address)"(
-      _sender: string,
+    "initialize()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -181,16 +182,6 @@ export interface ABRelay extends BaseContract {
     ): Promise<ContractTransaction>;
 
     "renounceOwnership()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    revokeAllowance(
-      _sender: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    "revokeAllowance(address)"(
-      _sender: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -211,6 +202,18 @@ export interface ABRelay extends BaseContract {
 
     "setABStream(address)"(
       _abStream: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setAllowance(
+      _sender: string,
+      _authorization: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    "setAllowance(address,bool)"(
+      _sender: string,
+      _authorization: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -261,13 +264,11 @@ export interface ABRelay extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  grantAllowance(
-    _sender: string,
+  initialize(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  "grantAllowance(address)"(
-    _sender: string,
+  "initialize()"(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -280,16 +281,6 @@ export interface ABRelay extends BaseContract {
   ): Promise<ContractTransaction>;
 
   "renounceOwnership()"(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  revokeAllowance(
-    _sender: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  "revokeAllowance(address)"(
-    _sender: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -310,6 +301,18 @@ export interface ABRelay extends BaseContract {
 
   "setABStream(address)"(
     _abStream: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setAllowance(
+    _sender: string,
+    _authorization: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  "setAllowance(address,bool)"(
+    _sender: string,
+    _authorization: boolean,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -360,12 +363,9 @@ export interface ABRelay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    grantAllowance(_sender: string, overrides?: CallOverrides): Promise<void>;
+    initialize(overrides?: CallOverrides): Promise<void>;
 
-    "grantAllowance(address)"(
-      _sender: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    "initialize()"(overrides?: CallOverrides): Promise<void>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -374,13 +374,6 @@ export interface ABRelay extends BaseContract {
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     "renounceOwnership()"(overrides?: CallOverrides): Promise<void>;
-
-    revokeAllowance(_sender: string, overrides?: CallOverrides): Promise<void>;
-
-    "revokeAllowance(address)"(
-      _sender: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     setABRegistry(
       _abRegistry: string,
@@ -396,6 +389,18 @@ export interface ABRelay extends BaseContract {
 
     "setABStream(address)"(
       _abStream: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setAllowance(
+      _sender: string,
+      _authorization: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "setAllowance(address,bool)"(
+      _sender: string,
+      _authorization: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -429,6 +434,9 @@ export interface ABRelay extends BaseContract {
   };
 
   filters: {
+    "Initialized(uint8)"(version?: null): InitializedEventFilter;
+    Initialized(version?: null): InitializedEventFilter;
+
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
@@ -454,13 +462,11 @@ export interface ABRelay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    grantAllowance(
-      _sender: string,
+    initialize(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    "grantAllowance(address)"(
-      _sender: string,
+    "initialize()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -473,16 +479,6 @@ export interface ABRelay extends BaseContract {
     ): Promise<BigNumber>;
 
     "renounceOwnership()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    revokeAllowance(
-      _sender: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    "revokeAllowance(address)"(
-      _sender: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -503,6 +499,18 @@ export interface ABRelay extends BaseContract {
 
     "setABStream(address)"(
       _abStream: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setAllowance(
+      _sender: string,
+      _authorization: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    "setAllowance(address,bool)"(
+      _sender: string,
+      _authorization: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -554,13 +562,11 @@ export interface ABRelay extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    grantAllowance(
-      _sender: string,
+    initialize(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    "grantAllowance(address)"(
-      _sender: string,
+    "initialize()"(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -573,16 +579,6 @@ export interface ABRelay extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     "renounceOwnership()"(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    revokeAllowance(
-      _sender: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "revokeAllowance(address)"(
-      _sender: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -603,6 +599,18 @@ export interface ABRelay extends BaseContract {
 
     "setABStream(address)"(
       _abStream: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setAllowance(
+      _sender: string,
+      _authorization: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "setAllowance(address,bool)"(
+      _sender: string,
+      _authorization: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
