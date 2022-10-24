@@ -101,6 +101,7 @@ abstract contract ERC721ABv2 is ERC721, Ownable {
   //  _/ // / / / /_/  __/ /  / / / / /_/ / /  / __/ / /_/ / / / / /__/ /_/ / /_/ / / / (__  )
   // /___/_/ /_/\__/\___/_/  /_/ /_/\__,_/_/  /_/    \__,_/_/ /_/\___/\__/_/\____/_/ /_/____/
 
+  /// NOTE : research around the gas limit parameter of this fct call (?)
   /**
    * @dev See {ERC721Enumerable-beforeTokenTransfer}.
    */

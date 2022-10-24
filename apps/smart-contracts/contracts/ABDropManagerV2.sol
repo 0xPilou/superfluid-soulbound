@@ -375,8 +375,10 @@ contract ABDropManager is
       )
     );
 
+    /// NOTE : Do not call this line here, will call from the frontend instead
     IAnotherMinter(_nft).setDropPhases(totalDrop, phases);
 
+    /// NOTE : change baseFlow to a parameter of the create drop function.
     int256 baseFlow = (int256(_tokenInfo.price) * 10) / 86400;
     messenger.sendMessage(
       relay,

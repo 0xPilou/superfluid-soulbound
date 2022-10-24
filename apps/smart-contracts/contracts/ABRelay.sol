@@ -44,6 +44,8 @@ import { ICrossDomainMessenger } from "@eth-optimism/contracts/libraries/bridge/
 import { IABStream } from "./interfaces/IABStream.sol";
 import { IABRegistry } from "./interfaces/IABRegistry.sol";
 
+
+/// NOTE : make it upgradeable
 contract ABRelay is Ownable {
   /*
    **************************************************************************
@@ -70,6 +72,7 @@ contract ABRelay is Ownable {
    **************************************************************************
    */
 
+  /// NOTE : one function to set allowance (true / false)
   /**
    * @notice
    *  Grant access to interact with this contract from `_sender` address
