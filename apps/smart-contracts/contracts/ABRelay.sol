@@ -44,7 +44,6 @@ import { ICrossDomainMessenger } from "@eth-optimism/contracts/libraries/bridge/
 import { IABStream } from "./interfaces/IABStream.sol";
 import { IABRegistry } from "./interfaces/IABRegistry.sol";
 
-
 /// NOTE : make it upgradeable
 contract ABRelay is Ownable {
   /*
@@ -79,18 +78,11 @@ contract ABRelay is Ownable {
    *
    * @param _sender : the address to be granted access
    */
-  function grantAllowance(address _sender) external onlyOwner {
-    allowedSenders[_sender] = true;
-  }
-
-  /**
-   * @notice
-   *  Revoke access to interact with this contract from `_sender` address
-   *
-   * @param _sender : the address to be revoked access
-   */
-  function revokeAllowance(address _sender) external onlyOwner {
-    allowedSenders[_sender] = false;
+  function setAllowance(address _sender, bool _authorization)
+    external
+    onlyOwner
+  {
+    allowedSenders[_sender] = _authorization;
   }
 
   /**

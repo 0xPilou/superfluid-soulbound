@@ -22,7 +22,7 @@ const main = async () => {
 
   let tx = await abRelay
     .connect(deployer)
-    .grantAllowance(ABNFTDeployment.address);
+    .setAllowance(ABNFTDeployment.address, true);
   await tx.wait();
 
   console.log(
@@ -31,7 +31,7 @@ const main = async () => {
 
   tx = await abRelay
     .connect(deployer)
-    .grantAllowance(ABDropManagerDeployment.address);
+    .setAllowance(ABDropManagerDeployment.address, true);
   await tx.wait();
 
   console.log(
