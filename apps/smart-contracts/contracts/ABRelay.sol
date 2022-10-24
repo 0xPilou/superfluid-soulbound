@@ -35,7 +35,8 @@
 pragma solidity ^0.8.16;
 
 /* Openzeppelin Contract */
-import { Ownable } from "@openzeppelin/contracts/access/Ownable.sol";
+import { OwnableUpgradeable } from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import { Initializable } from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
 
 /* Optimism Interface */
 import { ICrossDomainMessenger } from "@eth-optimism/contracts/libraries/bridge/ICrossDomainMessenger.sol";
@@ -44,8 +45,7 @@ import { ICrossDomainMessenger } from "@eth-optimism/contracts/libraries/bridge/
 import { IABStream } from "./interfaces/IABStream.sol";
 import { IABRegistry } from "./interfaces/IABRegistry.sol";
 
-/// NOTE : make it upgradeable
-contract ABRelay is Ownable {
+contract ABRelay is Initializable, OwnableUpgradeable {
   /*
    **************************************************************************
    *                                STATES                                  *
@@ -56,8 +56,7 @@ contract ABRelay is Ownable {
   mapping(address => bool) private allowedSenders;
 
   /// @dev Optimism Cross Domain Messenger Interface
-  ICrossDomainMessenger internal MESSENGER =
-    ICrossDomainMessenger(0x4200000000000000000000000000000000000007);
+  ICrossDomainMessenger internal MESSENGER;
 
   /// @dev Anotherblock AB Token Streaming Interface
   IABStream internal AB_STREAM;
@@ -65,13 +64,36 @@ contract ABRelay is Ownable {
   /// @dev Anotherblock Registry Interface
   IABRegistry internal AB_REGISTRY;
 
+  /// @dev Storage gap used for future upgrades (30 * 32 bytes)
+  uint256[30] __gap;
+
+  /*
+   **************************************************************************
+   *                            CONSTRUCTOR                                 *
+   **************************************************************************
+   */
+
+  /// @custom:oz-upgrades-unsafe-allow constructor
+  constructor() {
+    _disableInitializers();
+  }
+
+  /**
+   * Contract Initializer
+   */
+  function initialize() public initializer {
+    MESSENGER = ICrossDomainMessenger(
+      0x4200000000000000000000000000000000000007
+    );
+    __Ownable_init();
+  }
+
   /*
    **************************************************************************
    *                             ONLY OWNER                                 *
    **************************************************************************
    */
 
-  /// NOTE : one function to set allowance (true / false)
   /**
    * @notice
    *  Grant access to interact with this contract from `_sender` address
