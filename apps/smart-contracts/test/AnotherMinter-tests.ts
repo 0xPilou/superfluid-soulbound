@@ -456,42 +456,47 @@ describe("Drop V1 Unit Tests", function () {
       ).to.be.revertedWith("MaxMintPerAddress");
     });
 
-    // it("should not be able to mint an NFT (already minted maximum amount in public sale)", async () => {
-    //   const currentTs = await time.latest();
-    //   const PHASES = generatePhase(currentTs);
+    it("should not be able to mint an NFT (already minted maximum amount in public sale)", async () => {
+      const currentTs = await time.latest();
 
-    //   const proofAddr1 = merkle1.tree.getHexProof(generateLeaf(user1.address));
+      const phase0 = {
+        phaseStart: currentTs - 1000,
+        maxMint: TEST_DATA.PHASE_0_MAX_MINT,
+        merkle:
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+      };
 
-    //   const supply = 3;
+      const PHASES = [phase0];
 
-    //   const publicSale = 1600000000;
+      const proofAddr1 = merkle1.tree.getHexProof(generateLeaf(user1.address));
 
-    //   await anotherblockV2.create(
-    //     TEST_DATA.ZERO_ADDRESS,
-    //     rightHolder.address,
-    //     dropV2.address,
-    //     TEST_DATA.PRICE,
-    //     supply,
-    //     TEST_DATA.ROYALTY_SHARE,
-    //     TEST_DATA.RIGHTHOLDER_FEE,
-    //     PHASES
-    //   );
+      const supply = 3;
 
-    //   await dropV2
-    //     .connect(user1)
-    //     .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proofAddr1, {
-    //       value: TEST_DATA.PRICE,
-    //     });
+      await anotherblockV2.create(
+        TEST_DATA.ZERO_ADDRESS,
+        rightHolder.address,
+        dropV2.address,
+        TEST_DATA.PRICE,
+        supply,
+        TEST_DATA.ROYALTY_SHARE,
+        TEST_DATA.RIGHTHOLDER_FEE,
+        PHASES
+      );
 
-    //   await expect(
-    //     dropV2
-    //       .connect(user1)
-    //       .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proofAddr1, {
-    //         value: TEST_DATA.PRICE,
-    //       })
-    //   ).to.be.revertedWith("MaxMintPerAddress");
+      await dropV2
+        .connect(user1)
+        .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proofAddr1, {
+          value: TEST_DATA.PRICE,
+        });
 
-    // });
+      await expect(
+        dropV2
+          .connect(user1)
+          .mint(user1.address, 0, TEST_DATA.MINT_QUANTITY, proofAddr1, {
+            value: TEST_DATA.PRICE,
+          })
+      ).to.be.revertedWith("MaxMintPerAddress");
+    });
 
     it("should not be able to mint an NFT (not enough token available)", async () => {
       const currentTs = await time.latest();
