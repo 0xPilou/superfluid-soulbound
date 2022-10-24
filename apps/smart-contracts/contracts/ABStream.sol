@@ -127,7 +127,6 @@ contract ABStream is SuperAppBase, Ownable {
     // Ensure the caller is Anotherblock Relay
     if (msg.sender != AB_RELAY) revert FORBIDDEN();
 
-    /// NOTE : Add check (is receiver already allowed ?)
     // Allow the new holder to be streamed AB Tokens
     AB_TOKEN.setAllowedId(_newReceiver);
 
