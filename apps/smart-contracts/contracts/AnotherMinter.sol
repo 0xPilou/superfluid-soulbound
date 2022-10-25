@@ -219,18 +219,15 @@ contract AnotherMinter is ERC721ABv2, ERC721ABErrors {
     }
     mintedPerDropPerPhase[drop.dropId][_to][currentPhase] += _quantity;
 
-    /// NOTE : Have the tokenId as an hash intead of "make sense" number
-    /// Find an encrypting algorithm to define unique token IDs (to mask the regualar tokenID)
-    uint256 currentDropTokenIndex = drop.firstTokenIndex + drop.sold;
+    uint256 tokenIndex;
     for (uint256 i = 0; i < _quantity; ++i) {
-      dropIdPerToken[currentDropTokenIndex + i] = drop.dropId;
-      _safeMint(_to, currentDropTokenIndex + i);
+      tokenIndex = uint256(keccak256(abi.encodePacked(drop.sold + i, _dropId)));
+      dropIdPerToken[tokenIndex] = drop.dropId;
+      _safeMint(_to, tokenIndex);
     }
 
     IABDropManager(dropManager).updateDropCounter(_dropId, _quantity);
 
-    /// NOTE : remove it (since 100% goes to Nilos)
-    /// NOTE : Change it with a new function withdraw to rightholder (that we will call after sell out)
     // Send Right Holder Fee to the owner address
     if (msg.value > 0) {
       uint256 feeToRightHolder = (msg.value * drop.rightHolderFee) /
